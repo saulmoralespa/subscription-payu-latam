@@ -1,0 +1,259 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Payu Latam Subscription\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-04-19 04:04+0000\n"
+"PO-Revision-Date: 2018-04-19 04:30+0000\n"
+"Last-Translator: wpdev <cortuclas@gmail.com>\n"
+"Language-Team: Español\n"
+"Language: es_ES\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/"
+
+#: payu-latam-subscription.php:96 payu-latam-subscription.php:105
+#, php-format
+msgid "%s"
+msgstr ""
+
+#: includes/class-gateway-payu-latam-subscription.php:82
+msgid "account id, you find it in the payu account"
+msgstr "ID de cuenta, lo encuentras en la cuenta payu"
+
+#: includes/class-payu-latam-subscription.php:203
+msgid "An error has occurred while processing the payment, please try again"
+msgstr "Se produjo un error al procesar el pago. Inténtalo de nuevo"
+
+#: includes/class-gateway-payu-latam-subscription.php:87
+msgid "Apikey"
+msgstr ""
+
+#: includes/class-gateway-payu-latam-subscription.php:95
+msgid "Apilogin"
+msgstr ""
+
+#: payu-latam-subscription.php:96 payu-latam-subscription.php:105
+msgid "Click here to configure"
+msgstr "Haga clic aquí para configurar"
+
+#: includes/class-gateway-payu-latam-subscription.php:18
+msgid "Continue to payment"
+msgstr "Continuar con el pago"
+
+#: includes/class-payu-latam-subscription.php:532
+msgid ""
+"Currently Payu Latam Suscription does not support more than one product in "
+"the cart if one of the products is a subscription."
+msgstr ""
+"Actualmente,  Payu Latam  Subscription no admite más de un producto en el "
+"carro si uno de los productos es una suscripción."
+
+#: includes/class-gateway-payu-latam-subscription.php:54
+msgid "Description"
+msgstr "Descripción"
+
+#: includes/class-payu-latam-subscription-plugin.php:92
+msgid "DNI"
+msgstr "Documento Nacional de Identidad"
+
+#: includes/class-payu-latam-subscription-plugin.php:79
+msgid "Documentation"
+msgstr "Documentación"
+
+#: includes/class-gateway-payu-latam-subscription.php:43
+msgid "Enable Payu Latam Suscription"
+msgstr "Activar Payu Latam Subscription"
+
+#: includes/class-gateway-payu-latam-subscription.php:64
+msgid "Enable to run tests"
+msgstr "Activar las pruebas"
+
+#: includes/class-gateway-payu-latam-subscription.php:41
+msgid "Enable/Disable"
+msgstr "Activar/Desactivar"
+
+#: includes/class-gateway-payu-latam-subscription.php:61
+msgid "Environment"
+msgstr "Entorno"
+
+#. Author URI of the plugin
+msgid "https://saulmoralespa.com"
+msgstr ""
+
+#: includes/class-gateway-payu-latam-subscription.php:56
+msgid ""
+"It corresponds to the description that the user will see during the checkout"
+msgstr "Corresponde a la descripción que el usuario verá durante el pago"
+
+#: includes/class-gateway-payu-latam-subscription.php:49
+msgid "It corresponds to the title that the user sees during the checkout"
+msgstr "Corresponde al título que el usuario ve durante el pago"
+
+#: includes/class-gateway-payu-latam-subscription.php:73
+msgid "Merchant id"
+msgstr ""
+
+#: includes/class-gateway-payu-latam-subscription.php:75
+msgid "Merchant id, you find it in the payu account"
+msgstr "Merchant id,  lo encuentras en la cuenta payU"
+
+#: includes/class-payu-latam-subscription-plugin.php:239
+#, php-format
+msgid "Order is related to a subscription (Subscription ID: %s)"
+msgstr "Orden relacionada con una suscripción (suscripción ID: %s)"
+
+#: includes/class-gateway-payu-latam-subscription.php:159
+msgid "Pay"
+msgstr "Pagar"
+
+#: includes/class-payu-latam-subscription.php:232
+msgid "Payment declined"
+msgstr "Pago rechazado"
+
+#: includes/class-payu-latam-subscription.php:235
+#, php-format
+msgid "Payment declined (Transaction ID: %s)"
+msgstr "Pago rechazado (Transacción ID: %s)"
+
+#: includes/class-payu-latam-subscription.php:242
+msgid "Payment expired"
+msgstr "El pago expiró"
+
+#: includes/class-payu-latam-subscription.php:245
+#, php-format
+msgid "Payment expired (Transaction ID: %s)"
+msgstr "El pago expiró (Transacción ID: %s)"
+
+#: includes/class-payu-latam-subscription.php:221
+#, php-format
+msgid "Payment pending (Transaction ID: %s)"
+msgstr "Pago pendiente (Transacción ID: %s)"
+
+#. Name of the plugin
+msgid "Payu Latam Subscription"
+msgstr ""
+
+#. Description of the plugin
+msgid "payU latam subscription use sdk."
+msgstr ""
+
+#: includes/class-gateway-payu-latam-subscription.php:16
+msgid "PayU Latam subscriptions of recurring payments."
+msgstr ""
+
+#: includes/class-gateway-payu-latam-subscription.php:15
+msgid "PayU Latam Suscription"
+msgstr ""
+
+#: includes/class-gateway-payu-latam-subscription.php:50
+#: includes/class-gateway-payu-latam-subscription.php:57
+#: includes/class-gateway-payu-latam-subscription.php:117
+msgid "Payu Latam Suscription"
+msgstr ""
+
+#: includes/class-payu-latam-subscription.php:255
+msgid ""
+"Payu Latam Suscription: Check that you have entered correctly merchant id, "
+"account id, Api Key, Apilogin"
+msgstr ""
+"Payu Latam Suscription: Verifique que haya ingresado correctamente merchant "
+"id, account id, Api Key, Apilogin"
+
+#: payu-latam-subscription.php:105
+msgid ""
+"Payu Latam Suscription: It requires that the country of the store be some of "
+"these countries Brazil, Colombia, Mexico, Panama, Peru "
+msgstr ""
+"Payu Latam Subscription: Requiere que el país de la tienda sea alguno de "
+"estos países Brasil, Colombia, México, Panamá, Perú"
+
+#: payu-latam-subscription.php:96
+msgid ""
+"Payu Latam Suscription: Requires one of these currencies USD, BRL, COP, MXN, "
+"PEN "
+msgstr ""
+"Payu Latam Subscription:Requiere una de estas monedas USD, BRL, COP, MXN, "
+"PEN "
+
+#: payu-latam-subscription.php:60
+msgid "Payu Latam Suscription: Requires php version 5.6.0 or higher."
+msgstr "Payu Latam Subscription:Requiere la versión php 5.6.0 o superior."
+
+#: payu-latam-subscription.php:89
+msgid ""
+"Payu Latam Suscription: Version 3.0 or greater of installed woocommerce is "
+"required."
+msgstr ""
+"Payu Latam Subscription:Se requiere la versión 3.0 o superior de woocommerce "
+"instalado."
+
+#: payu-latam-subscription.php:71
+msgid "Payu Latam Suscription: Woocommerce must be installed and active."
+msgstr "Payu Latam Subscription: Woocommerce debe estar instalado y activo."
+
+#: payu-latam-subscription.php:82
+msgid ""
+"Payu Latam Suscription: Woocommerce Subscriptions must be installed and "
+"active."
+msgstr ""
+"Payu Latam Suscription: Woocommerce subscriptions debe estar instalada y "
+"activo."
+
+#: includes/class-payu-latam-subscription.php:225
+#, php-format
+msgid "Pending approval (Transaction ID: %s)"
+msgstr "Aprobación pendiente (Transacción ID: %s)"
+
+#: includes/class-payu-latam-subscription-plugin.php:93
+msgctxt "placeholder"
+msgid "Your DNI here...."
+msgstr "Su DNI aquí ..."
+
+#: includes/class-payu-latam-subscription-plugin.php:112
+msgid "Please wait..."
+msgstr "Espere por favor..."
+
+#: includes/class-gateway-payu-latam-subscription.php:68
+msgid "Production"
+msgstr "Producción"
+
+#: includes/class-payu-latam-subscription-plugin.php:113
+msgid "Redirecting to verify status..."
+msgstr "Redirigiendo para verificar el estado ..."
+
+#. Author of the plugin
+msgid "Saul Morales Pacheco"
+msgstr ""
+
+#: includes/class-payu-latam-subscription-plugin.php:78
+msgid "Settings"
+msgstr "Configuraciones"
+
+#: includes/class-payu-latam-subscription.php:214
+#, php-format
+msgid "Successful payment (Transaction ID: %s)"
+msgstr "Pago exitoso (Transacción ID: %s)"
+
+#: includes/class-payu-latam-subscription-plugin.php:213
+#, php-format
+msgid "Successful payment (Transaction ID: %s), (subscription ID: %s)"
+msgstr "Pago exitoso (Transacción ID: %s),  (suscripción ID: %s)"
+
+#: includes/class-payu-latam-subscription-plugin.php:243
+#, php-format
+msgid "Successful subscription (subscription ID: %s)"
+msgstr ""
+
+#: includes/class-gateway-payu-latam-subscription.php:69
+msgid "Test"
+msgstr "Prueba"
+
+#: includes/class-payu-latam-subscription-plugin.php:111
+msgid "The type of card is not accepted"
+msgstr "El tipo de tarjeta no es aceptada"
+
+#: includes/class-gateway-payu-latam-subscription.php:47
+msgid "Title"
+msgstr "Título"
