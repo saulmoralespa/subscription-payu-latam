@@ -202,6 +202,10 @@ class Suscription_Payu_Latam_SPL
             PayUParameters::USER_AGENT => $_SERVER['HTTP_USER_AGENT']
         );
 
+        if($country == 'CO')
+            $parameters = array_merge($parameters, array(PayUParameters::TAX_VALUE => "0", PayUParameters::TAX_RETURN_BASE => "0"));
+
+
         try{
             $response = PayUPayments::doAuthorizationAndCapture($parameters);
             if ($this->_debug == 'yes'){
@@ -300,6 +304,9 @@ class Suscription_Payu_Latam_SPL
             PayUParameters::PLAN_CURRENCY => $this->_currency,
             // Ingresa aquí el valor del plan
             PayUParameters::PLAN_VALUE => $params['value'],
+            PayUParameters::PLAN_TAX => "0",
+            //(OPCIONAL) Ingresa aquí la base de devolución sobre el impuesto
+            PayUParameters::PLAN_TAX_RETURN_BASE => "0",
             // Ingresa aquí la cuenta Id del plan
             PayUParameters::ACCOUNT_ID => $this->_account_id,
             // Ingresa aquí el intervalo de reintentos
