@@ -2,7 +2,7 @@
 Contributors: Saul Morales Pacheco
 Donate link: https://saulmoralespa.com/
 Tags: commerce, e-commerce, commerce, wordpress ecommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, payu, latam, subscription, Brasil, Colombia, México, Perú
-Requires at least: 4.9.5
+Requires at least: 4.4
 Tested up to: 4.9.5
 Requires PHP: 5.6.0
 Stable tag: 1.0.1
@@ -67,6 +67,7 @@ You must go to the Woocommerce settings / finalize purchase / Payu Latam Subscri
 
 = 1.0.0 =
 * Initial stable release
+= 1.0.1 =
 * Specif value iva in 0
 
 == Translations ==

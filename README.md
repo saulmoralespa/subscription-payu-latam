@@ -4,7 +4,7 @@
 
 **Author URI:**         https://saulmoralespa.com  
 **Plugin URI:**         https://github.com/saulmoralespa/subscription-payu-latam/  
-**Requires at least:**  4.9.5  
+**Requires at least:**  4.4  
 **Tested up to:**       4.9.5
 
 **Stable tag:**         1.0.1  
