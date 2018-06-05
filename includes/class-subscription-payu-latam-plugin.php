@@ -42,9 +42,14 @@ class Subscription_Payu_Latam_SPL_Plugin
      * @var WC_Logger
      */
     public $logger;
+    /**
+     * @var bool
+     */
+    private $_bootstrapped = false;
 
     public function __construct($file, $version)
     {
+        do_action('notices_subscription_payu_latam_spl', 'Hello day');
         $this->file = $file;
         $this->version = $version;
         // Path.
@@ -56,7 +61,17 @@ class Subscription_Payu_Latam_SPL_Plugin
 
     public function run_payu_latam()
     {
-        $this->_run();
+        try{
+            if ($this->_bootstrapped){
+                throw new Exception( __( 'Subscription Payu Latam can only be called once',  $this->nameClean(true)));
+            }
+            $this->_run();
+            $this->_bootstrapped = true;
+        }catch (Exception $e){
+            if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
+                do_action('notices_subscription_payu_latam_spl', 'Subscription Payu Latam: ' . $e->getMessage());
+            }
+        }
     }
 
     protected function _run()
@@ -65,7 +80,7 @@ class Subscription_Payu_Latam_SPL_Plugin
         require_once ($this->includes_path . 'class-gateway-subscription-payu-latam.php');
         add_filter( 'plugin_action_links_' . plugin_basename( $this->file), array( $this, 'plugin_action_links' ) );
         add_filter( 'woocommerce_payment_gateways', array($this, 'woocommerce_payu_latam_suscription_add_gateway'));
-        add_filter('woocommerce_billing_fields', array($this, 'custom_woocommerce_billing_fields'));
+        add_filter( 'woocommerce_billing_fields', array($this, 'custom_woocommerce_billing_fields'));
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
         add_action('wp_ajax_subscription_payu_latam',array($this,'subscription_payu_latam_spl_ajax'));
         add_action('wp_ajax_nopriv_subscription_payu_latam',array($this,'subscription_payu_latam_spl_ajax'));

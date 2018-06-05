@@ -2,7 +2,7 @@
 /*
 Plugin Name: Subscription Payu Latam
 Description: payU latam subscription use sdk.
-Version: 1.0.1
+Version: 1.0.2
 Author: Saul Morales Pacheco
 Author URI: https://saulmoralespa.com
 License: GNU General Public License v3.0
@@ -14,7 +14,7 @@ Domain Path: /languages/
 if (!defined( 'ABSPATH' )) exit;
 
 if(!defined('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION')){
-    define('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION', '1.0.0');
+    define('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION', '1.0.2');
 }
 
 add_action('plugins_loaded','subscription_payu_latam_spl_init',0);
@@ -27,7 +27,7 @@ function subscription_payu_latam_spl_init(){
         return;
     }
 
-    suscription_payu_latam_pls()->run_payu_latam();
+    suscription_payu_latam_pls();
 }
 
 add_action('notices_subscription_payu_latam_spl', 'subscription_payu_latam_spl_notices', 10, 1);
@@ -40,6 +40,7 @@ function subscription_payu_latam_spl_notices($notice){
 }
 
 function requeriments_subscription_payu_latam_spl(){
+
     if ( version_compare( '5.6.0', PHP_VERSION, '>' ) ) {
         if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
             $php = __( 'Subscription Payu Latam: Requires php version 5.6.0 or higher.', 'subscription-payu-latam' );
@@ -47,6 +48,7 @@ function requeriments_subscription_payu_latam_spl(){
         }
         return false;
     }
+
     if ( !in_array(
         'woocommerce/woocommerce.php',
         apply_filters( 'active_plugins', get_option( 'active_plugins' ) ),
@@ -58,6 +60,7 @@ function requeriments_subscription_payu_latam_spl(){
         }
         return false;
     }
+
     if ( !in_array(
         'woocommerce-subscriptions/woocommerce-subscriptions.php',
         apply_filters( 'active_plugins', get_option( 'active_plugins' ) ),
@@ -65,10 +68,11 @@ function requeriments_subscription_payu_latam_spl(){
     ) ) {
         if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
             $subs = __( 'Subscription Payu Latam: Woocommerce Subscriptions must be installed and active.', 'subscription-payu-latam' );
-            do_action('notices_payu_latam_suscription_pls', $subs);
+            do_action('notices_subscription_payu_latam_spl', $subs);
         }
         return false;
     }
+
     if (version_compare(WC_VERSION, '3.0', '<')) {
         if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
             $wc_version = __( 'Subscription Payu Latam: Version 3.0 or greater of installed woocommerce is required.', 'subscription-payu-latam' );
@@ -76,6 +80,7 @@ function requeriments_subscription_payu_latam_spl(){
         }
         return false;
     }
+
     if (!in_array(get_woocommerce_currency(), array('USD','BRL','COP','MXN','PEN'))){
         if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
             $currency = __('Subscription Payu Latam: Requires one of these currencies USD, BRL, COP, MXN, PEN ', 'subscription-payu-latam' )  . sprintf(__('%s', 'subscription-payu-latam' ), '<a href="' . admin_url() . 'admin.php?page=wc-settings&tab=general#s2id_woocommerce_currency">' . __('Click here to configure', 'subscription-payu-latam') . '</a>' );
@@ -83,6 +88,7 @@ function requeriments_subscription_payu_latam_spl(){
         }
         return false;
     }
+
     $woo_countries = new WC_Countries();
     $default_country = $woo_countries->get_base_country();
     if (!in_array($default_country, array('BR','CO','MX','PE'))){
@@ -99,7 +105,7 @@ function suscription_payu_latam_pls()
 {
     static $plugin;
     if (!isset($plugin)){
-        require_once ('includes/class-subscription-payu-latam-plugin.php');
+        require_once ('includes/class-subscription-payu-latam.php');
         $plugin = new Subscription_Payu_Latam_SPL_Plugin(__FILE__, SUBSCRIPTION_PAYU_LATAM_SPL_VERSION);
     }
     return $plugin;
