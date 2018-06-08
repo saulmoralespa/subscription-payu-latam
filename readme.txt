@@ -3,7 +3,7 @@ Contributors: Saul Morales Pacheco
 Donate link: https://saulmoralespa.com/
 Tags: commerce, e-commerce, commerce, wordpress ecommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, payu, latam, subscription, Brasil, Colombia, México, Perú
 Requires at least: 4.4
-Tested up to: 4.9.5
+Tested up to: 4.9.6
 Requires PHP: 5.6.0
 Stable tag: 1.0.3
 License: GNU General Public License v3.0
