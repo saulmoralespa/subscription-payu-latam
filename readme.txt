@@ -5,7 +5,7 @@ Tags: commerce, e-commerce, commerce, wordpress ecommerce, store, sales, sell, s
 Requires at least: 4.4
 Tested up to: 4.9.5
 Requires PHP: 5.6.0
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -71,6 +71,8 @@ You must go to the Woocommerce settings / finalize purchase / Payu Latam Subscri
 * Specif value iva in 0
 = 1.0.2 =
 * fixed do_action
+= 1.0.3 =
+* refactor javascript
 
 == Translations ==
 * English - default, always included
