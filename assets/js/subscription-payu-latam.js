@@ -30,8 +30,12 @@
                    mjsjwait.text(payu_latam_suscription.msjProcess);
                },
                success: function(r){
-                   mjsjwait.text(payu_latam_suscription.msjReturn);
-                   window.location.replace(r.url);
+                   if(r.status){
+                       mjsjwait.text(payu_latam_suscription.msjReturn);
+                       window.location.replace(r.url);
+                   }else{
+                       mjsjwait.text(r.message);
+                   }
                }
             });
         });
