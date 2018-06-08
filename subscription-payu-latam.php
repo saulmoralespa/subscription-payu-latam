@@ -2,7 +2,7 @@
 /*
 Plugin Name: Subscription Payu Latam
 Description: payU latam subscription use sdk.
-Version: 1.0.0
+Version: 1.0.4
 Author: Saul Morales Pacheco
 Author URI: https://saulmoralespa.com
 License: GNU General Public License v3.0
@@ -14,7 +14,7 @@ Domain Path: /languages/
 if (!defined( 'ABSPATH' )) exit;
 
 if(!defined('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION')){
-    define('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION', '1.0.0');
+    define('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION', '1.0.4');
 }
 
 add_action('plugins_loaded','subscription_payu_latam_spl_init',0);
@@ -65,7 +65,7 @@ function requeriments_subscription_payu_latam_spl(){
     ) ) {
         if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
             $subs = __( 'Subscription Payu Latam: Woocommerce Subscriptions must be installed and active.', 'subscription-payu-latam' );
-            do_action('notices_payu_latam_suscription_pls', $subs);
+            do_action('notices_subscription_payu_latam_spl', $subs);
         }
         return false;
     }

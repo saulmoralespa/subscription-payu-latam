@@ -32,13 +32,6 @@
                success: function(r){
                    mjsjwait.text(payu_latam_suscription.msjReturn);
                    window.location.replace(r.url);
-               },
-               error: function(x, s, e){
-                   $('#card-payu-latam-suscribir').css('cursor', 'default');
-                   $('#card-payu-latam-suscribir .overlay').hide();
-                   $("input[type=submit]").removeAttr('disabled');
-                   $(msjerror).parents( ".msj-error-payu" ).show();
-                   $(msjerror).text(x.responseText);
                }
             });
         });
