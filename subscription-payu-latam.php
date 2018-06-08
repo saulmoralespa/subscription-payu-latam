@@ -27,7 +27,7 @@ function subscription_payu_latam_spl_init(){
         return;
     }
 
-    suscription_payu_latam_pls();
+    suscription_payu_latam_pls()->run_payu_latam();
 }
 
 add_action('notices_subscription_payu_latam_spl', 'subscription_payu_latam_spl_notices', 10, 1);
