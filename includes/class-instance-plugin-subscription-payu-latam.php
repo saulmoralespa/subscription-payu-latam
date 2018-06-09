@@ -49,7 +49,6 @@ class Subscription_Payu_Latam_SPL_Plugin
 
     public function __construct($file, $version)
     {
-        do_action('notices_subscription_payu_latam_spl', 'Hello day');
         $this->file = $file;
         $this->version = $version;
         // Path.
