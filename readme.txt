@@ -71,6 +71,8 @@ You must go to the Woocommerce settings / finalize purchase / Payu Latam Subscri
 * Fixed do_action and refactor
 = 1.0.5 =
 * Translation missing
+= 1.0.6 =
+* fixed domain translation
 
 == Translations ==
 * English - default, always included

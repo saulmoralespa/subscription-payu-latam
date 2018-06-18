@@ -47,10 +47,11 @@ class Subscription_Payu_Latam_SPL_Plugin
      */
     private $_bootstrapped = false;
 
-    public function __construct($file, $version)
+    public function __construct($file, $version, $name)
     {
         $this->file = $file;
         $this->version = $version;
+        $this->name = $name;
         // Path.
         $this->plugin_path   = trailingslashit( plugin_dir_path( $this->file ) );
         $this->plugin_url    = trailingslashit( plugin_dir_url( $this->file ) );
@@ -81,9 +82,9 @@ class Subscription_Payu_Latam_SPL_Plugin
         add_filter( 'woocommerce_payment_gateways', array($this, 'woocommerce_payu_latam_suscription_add_gateway'));
         add_filter( 'woocommerce_billing_fields', array($this, 'custom_woocommerce_billing_fields'));
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-        add_action('wp_ajax_subscription_payu_latam',array($this,'subscription_payu_latam_spl_ajax'));
-        add_action('wp_ajax_nopriv_subscription_payu_latam',array($this,'subscription_payu_latam_spl_ajax'));
-        add_action('suscribir_payu_latam_spl',array($this, 'subscription_payu_latam_spl_transaction_id'));
+        add_action( 'wp_ajax_subscription_payu_latam',array($this,'subscription_payu_latam_spl_ajax'));
+        add_action( 'wp_ajax_nopriv_subscription_payu_latam',array($this,'subscription_payu_latam_spl_ajax'));
+        add_action( 'suscribir_payu_latam_spl',array($this, 'subscription_payu_latam_spl_transaction_id'));
     }
 
     public function plugin_action_links($links)
@@ -295,5 +296,11 @@ class Subscription_Payu_Latam_SPL_Plugin
 
         }
 
+    }
+
+    public function nameClean($domain = false)
+    {
+        $name = ($domain) ? str_replace(' ', '-', $this->name)  : str_replace(' ', '', $this->name);
+        return strtolower($name);
     }
 }
