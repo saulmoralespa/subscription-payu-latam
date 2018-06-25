@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Payu Latam Subscription\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-21 19:15+0000\n"
-"PO-Revision-Date: 2018-06-08 23:36+0000\n"
+"POT-Creation-Date: 2018-06-25 15:10+0000\n"
+"PO-Revision-Date: 2018-06-25 15:15+0000\n"
 "Last-Translator: wpdev <cortuclas@gmail.com>\n"
 "Language-Team: Español\n"
 "Language: es_ES\n"
@@ -13,42 +13,55 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: subscription-payu-latam.php:45
+#: subscription-payu-latam.php:46
 msgid "Subscription Payu Latam: Requires php version 5.6.0 or higher."
-msgstr ""
+msgstr "Subscription Payu Latam: Requiere la versión php 5.6.0 o superior."
 
-#: subscription-payu-latam.php:56
+#: subscription-payu-latam.php:52
+msgid ""
+"Subscription Payu Latam: Requires OpenSSL >= 1.0.1 to be installed on your "
+"server"
+msgstr ""
+"Subscription Payu Latam: Requiere OpenSSL> = 1.0.1 instalado en su servidor"
+
+#: subscription-payu-latam.php:82
 msgid "Subscription Payu Latam: Woocommerce must be installed and active."
-msgstr ""
+msgstr "Subscription Payu Latam:  Woocommerce debe estar instalado y activo."
 
-#: subscription-payu-latam.php:67
+#: subscription-payu-latam.php:90
 msgid ""
 "Subscription Payu Latam: Woocommerce Subscriptions must be installed and "
 "active."
 msgstr ""
+"Subscription Payu Latam: Las suscripciones de Woocommerce deben estar "
+"instaladas y activas."
 
-#: subscription-payu-latam.php:74
+#: subscription-payu-latam.php:99
 msgid ""
 "Subscription Payu Latam: Version 3.0 or greater of installed woocommerce is "
 "required."
 msgstr ""
+"Subscription Payu Latam: Se requiere la versión 3.0 o superior de "
+"woocommerce instalado."
 
-#: subscription-payu-latam.php:81
+#: subscription-payu-latam.php:107
 msgid ""
 "Subscription Payu Latam: Requires one of these currencies USD, BRL, COP, MXN,"
 " PEN "
 msgstr ""
+"Subscription Payu Latam: Requiere una de estas monedas USD, BRL, COP, MXN, "
+"PEN"
 
-#: subscription-payu-latam.php:81 subscription-payu-latam.php:90
+#: subscription-payu-latam.php:107 subscription-payu-latam.php:117
 #, php-format
 msgid "%s"
 msgstr ""
 
-#: subscription-payu-latam.php:81 subscription-payu-latam.php:90
+#: subscription-payu-latam.php:107 subscription-payu-latam.php:117
 msgid "Click here to configure"
 msgstr "Haga clic aquí para configurar"
 
-#: subscription-payu-latam.php:90
+#: subscription-payu-latam.php:117
 msgid ""
 "Subscription Payu Latam: It requires that the country of the store be some "
 "of these countries Brazil, Colombia, Mexico and Peru "
@@ -98,11 +111,11 @@ msgstr "Corresponde a la descripción que el usuario verá durante el pago"
 
 #: includes/class-gateway-subscription-payu-latam.php:61
 msgid "Debug"
-msgstr ""
+msgstr "Depurar"
 
 #: includes/class-gateway-subscription-payu-latam.php:63
 msgid "Debug records, it is saved in payment log"
-msgstr ""
+msgstr "Depurar registros, se guarda en el registro de pagos"
 
 #: includes/class-gateway-subscription-payu-latam.php:67
 msgid "Environment"
@@ -152,50 +165,61 @@ msgstr "Datos de la tarjeta"
 msgid "Pay"
 msgstr "Pagar"
 
+#: includes/class-instance-plugin-subscription-payu-latam.php:93
 #: includes/class-subscription-payu-latam-plugin.php:78
 msgid "Settings"
 msgstr "Configuraciones"
 
+#: includes/class-instance-plugin-subscription-payu-latam.php:94
 #: includes/class-subscription-payu-latam-plugin.php:79
 msgid "Documentation"
 msgstr "Documentación"
 
+#: includes/class-instance-plugin-subscription-payu-latam.php:107
 #: includes/class-subscription-payu-latam-plugin.php:92
 msgid "DNI"
 msgstr "Documento Nacional de Identidad"
 
+#: includes/class-instance-plugin-subscription-payu-latam.php:108
 #: includes/class-subscription-payu-latam-plugin.php:93
 msgctxt "placeholder"
 msgid "Your DNI here...."
 msgstr "Su DNI aquí ..."
 
+#: includes/class-instance-plugin-subscription-payu-latam.php:126
 #: includes/class-subscription-payu-latam-plugin.php:111
 msgid "The type of card is not accepted"
 msgstr "El tipo de tarjeta no es aceptada"
 
+#: includes/class-instance-plugin-subscription-payu-latam.php:127
 #: includes/class-subscription-payu-latam-plugin.php:112
 msgid "Please wait..."
 msgstr "Espere por favor..."
 
+#: includes/class-instance-plugin-subscription-payu-latam.php:128
 #: includes/class-subscription-payu-latam-plugin.php:113
 msgid "Redirecting to verify status..."
 msgstr "Redirigiendo para verificar el estado ..."
 
+#: includes/class-instance-plugin-subscription-payu-latam.php:232
 #: includes/class-subscription-payu-latam-plugin.php:217
 #, php-format
 msgid "Successful payment (Transaction ID: %s), (subscription ID: %s)"
 msgstr "Pago exitoso (Transacción ID: %s),  (suscripción ID: %s)"
 
+#: includes/class-instance-plugin-subscription-payu-latam.php:258
 #: includes/class-subscription-payu-latam-plugin.php:243
 #, php-format
 msgid "Order is related to a subscription (Subscription ID: %s)"
 msgstr "Orden relacionada con una suscripción (suscripción ID: %s)"
 
+#: includes/class-instance-plugin-subscription-payu-latam.php:262
 #: includes/class-subscription-payu-latam-plugin.php:247
 #, php-format
 msgid "Successful subscription (subscription ID: %s)"
-msgstr ""
+msgstr "Suscripción exitosa (suscripción ID: %s)"
 
+#: includes/class-instance-plugin-subscription-payu-latam.php:293
 #: includes/class-subscription-payu-latam-plugin.php:278
 #, php-format
 msgid "Successful payment (Transaction ID: %s)"
