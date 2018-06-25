@@ -76,7 +76,7 @@ You must go to the Woocommerce settings / finalize purchase / Payu Latam Subscri
 = 1.0.7 =
 * Requires OpenSSL version 1.0.1
 = 1.0.8 =
-* Requires OpenSSL version 1.0.1
+* Fixed conflict load instance plugin
 
 == Translations ==
 * English - default, always included
