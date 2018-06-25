@@ -75,6 +75,8 @@ You must go to the Woocommerce settings / finalize purchase / Payu Latam Subscri
 * fixed domain translation
 = 1.0.7 =
 * Requires OpenSSL version 1.0.1
+= 1.0.8 =
+* Requires OpenSSL version 1.0.1
 
 == Translations ==
 * English - default, always included
