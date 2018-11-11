@@ -202,12 +202,15 @@ class Subscription_Payu_Latam_SPL_Plugin
             'interval' => $subscription_interval
         );
 
-        $paramsClient = array(
-            'name' => $order->get_billing_first_name() . " " . $order->get_billing_last_name(),
-            'email' => $order->get_billing_email()
-        );
+        $nameClient = $order->get_billing_first_name() ? $order->get_billing_first_name() : $order->get_shipping_first_name();
+        $lastname = $order->get_billing_last_name() ? $order->get_billing_last_name() : $order->get_shipping_last_name();
+        $emailClient = $order->get_billing_email();
 
-        $response = array();
+
+        $paramsClient = array(
+            'name' => "$nameClient $lastname",
+            'email' => $emailClient
+        );
 
         switch ($trial_days){
             case 0:

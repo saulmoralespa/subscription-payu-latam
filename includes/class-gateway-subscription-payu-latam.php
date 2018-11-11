@@ -124,8 +124,11 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
         <p><?php echo $this->method_description; ?></p>
         <table class="form-table">
             <?php
-            if(!empty($this->get_option('account_id')) && !empty($this->get_option('apilogin')))
-            $this->test_suscription_payu_latam();
+            if(!empty($this->get_option('merchant_id')) && !empty($this->get_option('account_id')) && !empty($this->get_option('apikey')) && !empty($this->get_option('apilogin'))){
+                $this->test_suscription_payu_latam();
+            }else{
+                do_action('notices_subscription_payu_latam_spl', __('Could not perform any tests, because you have not entered all the required fields', 'subscription-payu-latam'));
+            }
             $this->generate_settings_html();
             ?>
         </table>
@@ -189,7 +192,7 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
         $suscription_id = get_post_meta( $parentOrderId, 'subscription_payu_latam_id', true );
         if(!empty($suscription_id)){
             $sucri = new Suscription_Payu_Latam_SPL();
-            $sucri->cancelSuscription($suscription_id);
+            $sucri->cancelSubscription($suscription_id);
         }
 
     }
@@ -197,6 +200,7 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
     public function disable_non_subscription($availableGateways)
     {
         $enable = WC_Subscriptions_Cart::cart_contains_subscription();
+
         if (!$enable)
         {
             if (isset($availableGateways[$this->id]))
@@ -206,5 +210,4 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
         }
         return $availableGateways;
     }
-
 }

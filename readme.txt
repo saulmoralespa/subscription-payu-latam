@@ -3,9 +3,9 @@ Contributors: Saul Morales Pacheco
 Donate link: https://saulmoralespa.com/
 Tags: commerce, e-commerce, commerce, wordpress ecommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, payu, latam, subscription, Brasil, Colombia, México, Perú
 Requires at least: 4.9.5
-Tested up to: 4.9.6
+Tested up to: 4.9.8
 Requires PHP: 5.6.0
-Stable tag: 1.0.9
+Stable tag: 1.0.10
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -19,7 +19,6 @@ Receive recurring payments for the countries Brazil, Colombia, Mexico and Peru
 * Note:! Important you must request payu support to activate payment processing using the SDK
 
 == Installation ==
-
 
 1. Download the plugin
 2. Enter the administrator of your WordPress.
@@ -79,6 +78,8 @@ You must go to the Woocommerce settings / finalize purchase / Payu Latam Subscri
 * Fixed conflict load instance plugin
 = 1.0.9 =
 * Translate portuguese Brazil
+= 1.0.10 =
+* fixed retries for subscription day
 
 == Translations ==
 * English - default, always included

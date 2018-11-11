@@ -2,7 +2,7 @@
 /*
 Plugin Name: Subscription Payu Latam
 Description: payU latam subscription use sdk.
-Version: 1.0.9
+Version: 1.0.10
 Author: Saul Morales Pacheco
 Author URI: https://saulmoralespa.com
 License: GNU General Public License v3.0
@@ -14,7 +14,7 @@ Domain Path: /languages/
 if (!defined( 'ABSPATH' )) exit;
 
 if(!defined('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION')){
-    define('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION', '1.0.9');
+    define('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION', '1.0.10');
 }
 
 add_action('plugins_loaded','subscription_payu_latam_spl_init',0);
@@ -87,7 +87,7 @@ function requeriments_subscription_payu_latam_spl(){
 
     if (!class_exists('WC_Subscriptions')){
         if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
-            $subs = __( 'Subscription Payu Latam: Woocommerce Subscriptions must be installed and active.', 'subscription-payu-latam' );
+            $subs = __( 'Subscription Payu Latam: Woocommerce Subscriptions must be installed and active, ', 'subscription-payu-latam' ) . sprintf(__('%s', 'subscription-payu-latam' ), '<a href="https://wordpress.org/plugins/subscription-payu-latam/#%C2%BF%20what%20else%20should%20i%20keep%20in%20mind%2C%20that%20you%20have%20not%20told%20me%20%3F">' . __('check the documentation for help', 'subscription-payu-latam') . '</a>' );
             do_action('notices_subscription_payu_latam_spl', $subs);
         }
         return false;

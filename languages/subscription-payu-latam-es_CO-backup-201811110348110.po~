@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Payu Latam Subscription\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-11 03:42+0000\n"
-"PO-Revision-Date: 2018-11-11 03:48+0000\n"
+"POT-Creation-Date: 2018-06-25 15:10+0000\n"
+"PO-Revision-Date: 2018-11-11 03:44+0000\n"
 "Last-Translator: wpdev <cortuclas@gmail.com>\n"
 "Language-Team: Español de Colombia\n"
 "Language: es_CO\n"
@@ -31,20 +31,10 @@ msgstr "Subscription Payu Latam:  Woocommerce debe estar instalado y activo."
 #: subscription-payu-latam.php:90
 msgid ""
 "Subscription Payu Latam: Woocommerce Subscriptions must be installed and "
-"active, "
+"active."
 msgstr ""
 "Subscription Payu Latam: Las suscripciones de Woocommerce deben estar "
-"instaladas y activas,"
-
-#: subscription-payu-latam.php:90 subscription-payu-latam.php:107
-#: subscription-payu-latam.php:117
-#, php-format
-msgid "%s"
-msgstr ""
-
-#: subscription-payu-latam.php:90
-msgid "check the documentation for help"
-msgstr "verifique la documentación para ayuda"
+"instaladas y activas."
 
 #: subscription-payu-latam.php:99
 msgid ""
@@ -63,6 +53,11 @@ msgstr ""
 "PEN"
 
 #: subscription-payu-latam.php:107 subscription-payu-latam.php:117
+#, php-format
+msgid "%s"
+msgstr ""
+
+#: subscription-payu-latam.php:107 subscription-payu-latam.php:117
 msgid "Click here to configure"
 msgstr "Haga clic aquí para configurar"
 
@@ -73,55 +68,6 @@ msgid ""
 msgstr ""
 "Subscription Payu Latam: Requiere que el país de la tienda sea algunos de "
 "estos países Brasil, Colombia, México y Perú."
-
-#: includes/class-subscription-payu-latam-plugin.php:93
-msgid "Settings"
-msgstr "Configuraciones"
-
-#: includes/class-subscription-payu-latam-plugin.php:94
-msgid "Documentation"
-msgstr "Documentación"
-
-#: includes/class-subscription-payu-latam-plugin.php:107
-msgid "DNI"
-msgstr "Documento Nacional de Identidad"
-
-#: includes/class-subscription-payu-latam-plugin.php:108
-msgctxt "placeholder"
-msgid "Your DNI here...."
-msgstr "Su DNI aquí ..."
-
-#: includes/class-subscription-payu-latam-plugin.php:126
-msgid "The type of card is not accepted"
-msgstr "El tipo de tarjeta no es aceptada"
-
-#: includes/class-subscription-payu-latam-plugin.php:127
-msgid "Please wait..."
-msgstr "Espere por favor..."
-
-#: includes/class-subscription-payu-latam-plugin.php:128
-msgid "Redirecting to verify status..."
-msgstr "Redirigiendo para verificar el estado ..."
-
-#: includes/class-subscription-payu-latam-plugin.php:235
-#, php-format
-msgid "Successful payment (Transaction ID: %s), (subscription ID: %s)"
-msgstr "Pago exitoso (Transacción ID: %s),  (suscripción ID: %s)"
-
-#: includes/class-subscription-payu-latam-plugin.php:261
-#, php-format
-msgid "Order is related to a subscription (Subscription ID: %s)"
-msgstr "Orden relacionada con una suscripción (suscripción ID: %s)"
-
-#: includes/class-subscription-payu-latam-plugin.php:265
-#, php-format
-msgid "Successful subscription (subscription ID: %s)"
-msgstr "Suscripción exitosa (suscripción ID: %s)"
-
-#: includes/class-subscription-payu-latam-plugin.php:296
-#, php-format
-msgid "Successful payment (Transaction ID: %s)"
-msgstr "Pago exitoso (Transacción ID: %s)"
 
 #: includes/class-gateway-subscription-payu-latam.php:15
 msgid "Suscription PayU Latam"
@@ -213,21 +159,73 @@ msgstr ""
 msgid "Apilogin"
 msgstr ""
 
-#: includes/class-gateway-subscription-payu-latam.php:130
-msgid ""
-"Could not perform any tests, because you have not entered all the required "
-"fields"
-msgstr ""
-"No se pudieron realizar pruebas porque no ha ingresado todos los campos "
-"requeridos"
-
-#: includes/class-gateway-subscription-payu-latam.php:162
+#: includes/class-gateway-subscription-payu-latam.php:159
 msgid "Data of card"
 msgstr "Datos de la tarjeta"
 
-#: includes/class-gateway-subscription-payu-latam.php:169
+#: includes/class-gateway-subscription-payu-latam.php:166
 msgid "Pay"
 msgstr "Pagar"
+
+#: includes/class-instance-plugin-subscription-payu-latam.php:93
+#: includes/class-subscription-payu-latam-plugin.php:78
+msgid "Settings"
+msgstr "Configuraciones"
+
+#: includes/class-instance-plugin-subscription-payu-latam.php:94
+#: includes/class-subscription-payu-latam-plugin.php:79
+msgid "Documentation"
+msgstr "Documentación"
+
+#: includes/class-instance-plugin-subscription-payu-latam.php:107
+#: includes/class-subscription-payu-latam-plugin.php:92
+msgid "DNI"
+msgstr "Documento Nacional de Identidad"
+
+#: includes/class-instance-plugin-subscription-payu-latam.php:108
+#: includes/class-subscription-payu-latam-plugin.php:93
+msgctxt "placeholder"
+msgid "Your DNI here...."
+msgstr "Su DNI aquí ..."
+
+#: includes/class-instance-plugin-subscription-payu-latam.php:126
+#: includes/class-subscription-payu-latam-plugin.php:111
+msgid "The type of card is not accepted"
+msgstr "El tipo de tarjeta no es aceptada"
+
+#: includes/class-instance-plugin-subscription-payu-latam.php:127
+#: includes/class-subscription-payu-latam-plugin.php:112
+msgid "Please wait..."
+msgstr "Espere por favor..."
+
+#: includes/class-instance-plugin-subscription-payu-latam.php:128
+#: includes/class-subscription-payu-latam-plugin.php:113
+msgid "Redirecting to verify status..."
+msgstr "Redirigiendo para verificar el estado ..."
+
+#: includes/class-instance-plugin-subscription-payu-latam.php:232
+#: includes/class-subscription-payu-latam-plugin.php:217
+#, php-format
+msgid "Successful payment (Transaction ID: %s), (subscription ID: %s)"
+msgstr "Pago exitoso (Transacción ID: %s),  (suscripción ID: %s)"
+
+#: includes/class-instance-plugin-subscription-payu-latam.php:258
+#: includes/class-subscription-payu-latam-plugin.php:243
+#, php-format
+msgid "Order is related to a subscription (Subscription ID: %s)"
+msgstr "Orden relacionada con una suscripción (suscripción ID: %s)"
+
+#: includes/class-instance-plugin-subscription-payu-latam.php:262
+#: includes/class-subscription-payu-latam-plugin.php:247
+#, php-format
+msgid "Successful subscription (subscription ID: %s)"
+msgstr "Suscripción exitosa (suscripción ID: %s)"
+
+#: includes/class-instance-plugin-subscription-payu-latam.php:293
+#: includes/class-subscription-payu-latam-plugin.php:278
+#, php-format
+msgid "Successful payment (Transaction ID: %s)"
+msgstr "Pago exitoso (Transacción ID: %s)"
 
 #. Name of the plugin
 msgid "Subscription Payu Latam"

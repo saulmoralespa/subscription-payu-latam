@@ -208,11 +208,6 @@ class Suscription_Payu_Latam_SPL
 
         try{
             $response = PayUPayments::doAuthorizationAndCapture($parameters);
-            if ($this->_debug == 'yes'){
-                $print = print_r($response, true);
-                suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $print);
-
-            }
             if(!$test) {
                 if ($response->code != "SUCCESS") {
                     return json_encode(array('status'  => false,
@@ -220,7 +215,7 @@ class Suscription_Payu_Latam_SPL
                                                  'suscription-payu-latam')
                     ));
                 }
-                $aprovved      = false;
+                $aprovved = false;
                 $transactionId = 0;
                 $redirect_url  = '';
                 if ($response->transactionResponse->state == "APPROVED") {
@@ -270,7 +265,6 @@ class Suscription_Payu_Latam_SPL
                 do_action('notices_subscription_payu_latam_spl', sprintf(__('Subscription Payu Latam: Check that you have entered correctly merchant id, account id, Api Key, Apilogin. To perform tests use the credentials provided by payU %s Message error: %s code error: %s',
                     'suscription-payu-latam'), '<a target="_blank" href="http://developers.payulatam.com/es/sdk/sandbox.html">' . __('Click here to see', 'suscription-payu-latam') . '</a>', $ex->getMessage(), $ex->getCode()));
             }else{
-                $message = $ex->getMessage();
                 suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $ex->getMessage());
                 return json_encode(array('status' => false, 'message' => $ex->getMessage()));
             }
@@ -316,20 +310,15 @@ class Suscription_Payu_Latam_SPL
             // Ingresa aquí la cantidad total de reintentos para cada pago rechazado de la suscripción
             PayUParameters::PLAN_MAX_PAYMENT_ATTEMPTS => "3",
             // Ingresa aquí la cantidad máxima de pagos pendientes que puede tener una suscripción antes de ser cancelada.
-            PayUParameters::PLAN_MAX_PENDING_PAYMENTS => "1",
+            PayUParameters::PLAN_MAX_PENDING_PAYMENTS =>  $params['planinterval'] == 'DAY' ? '0' : '1',
             // Ingresa aquí la cantidad de días de prueba de la suscripción.
-            PayUParameters::TRIAL_DAYS => $params['trial_days'],
+            PayUParameters::TRIAL_DAYS => $params['trial_days']
         );
 
         try{
             $response = PayUSubscriptionPlans::create($parameters);
-            if ($this->_debug == 'yes'){
-                $print = print_r($response, true);
-                suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $print);
-
-            }
         }catch (PayUException $ex){
-            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $ex->getMessage());
+            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'create plan: ' . $ex->getMessage());
         }
     }
 
@@ -353,7 +342,7 @@ class Suscription_Payu_Latam_SPL
                 $this->existPlan = true;
             }
         }catch(Exception $e ){
-            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $e->getMessage());
+            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'get plan: ' . $e->getMessage());
         }
     }
 
@@ -372,13 +361,8 @@ class Suscription_Payu_Latam_SPL
                 PayUParameters::PLAN_CODE => $planCode,
             );
             $response = PayUSubscriptionPlans::delete($parameters);
-            if ($this->_debug == 'yes'){
-                $print = print_r($response, true);
-                suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $print);
-
-            }
         }catch (PayUException $ex){
-            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $ex->getMessage());
+            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'delete plan: ' . $ex->getMessage());
 
         }
 
@@ -402,14 +386,9 @@ class Suscription_Payu_Latam_SPL
 
         try{
             $client = PayUCustomers::create($parameters);
-            if ($this->_debug == 'yes'){
-                $print = print_r($client, true);
-                suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $print);
-
-            }
             return $client->id;
         }catch (PayUException $e){
-            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $e->getMessage());
+            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'create client: ' . $e->getMessage());
         }
     }
 
@@ -470,14 +449,9 @@ class Suscription_Payu_Latam_SPL
 
         try{
             $tokencard = PayUCreditCards::create($cardtoken);
-            if ($this->_debug == 'yes'){
-                $print = print_r($tokencard, true);
-                suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $print);
-
-            }
             return $tokencard->token;
         }catch (PayUException $e){
-            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $e->getMessage());
+            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'create card: ' . $e->getMessage());
         }
     }
 
@@ -508,19 +482,14 @@ class Suscription_Payu_Latam_SPL
 
         try{
             $subscribe = PayUSubscriptions::createSubscription($subscribete);
-            if ($this->_debug == 'yes'){
-                $print = print_r($subscribe, true);
-                suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $print);
-
-            }
             return $subscribe->id;
         }catch(PayUException $e){
-            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $e->getMessage());
+            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'create subscription: ' . $e->getMessage());
 
         }
     }
 
-    public function cancelSuscription($suscription_id)
+    public function cancelSubscription($suscription_id)
     {
 
         PayU::$apiKey = $this->_apikey;
@@ -537,13 +506,8 @@ class Suscription_Payu_Latam_SPL
 
         try{
             $response = PayUSubscriptions::cancel($parameters);
-            if ($this->_debug == 'yes'){
-                $print = print_r($response, true);
-                suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $print);
-
-            }
         }catch (PayUException $e){
-            suscription_payu_latam_pls()->logger->add('suscription-payu-latam',$e->getMessage());
+            suscription_payu_latam_pls()->logger->add('suscription-payu-latam','cancel subscription: ' . $e->getMessage());
         }
 
     }
