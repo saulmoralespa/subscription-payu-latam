@@ -308,7 +308,7 @@ class Suscription_Payu_Latam_SPL
             // Ingresa aquí la cantidad de cobros que componen el plan
             PayUParameters::PLAN_MAX_PAYMENTS => $params['periods'],
             // Ingresa aquí la cantidad total de reintentos para cada pago rechazado de la suscripción
-            PayUParameters::PLAN_MAX_PAYMENT_ATTEMPTS => "3",
+            PayUParameters::PLAN_MAX_PAYMENT_ATTEMPTS => $params['planinterval'] == 'DAY' ? '0' : '3',
             // Ingresa aquí la cantidad máxima de pagos pendientes que puede tener una suscripción antes de ser cancelada.
             PayUParameters::PLAN_MAX_PENDING_PAYMENTS =>  $params['planinterval'] == 'DAY' ? '0' : '1',
             // Ingresa aquí la cantidad de días de prueba de la suscripción.
