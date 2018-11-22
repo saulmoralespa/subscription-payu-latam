@@ -30,10 +30,11 @@
                mjsjwait.text(payu_latam_suscription.msjProcess);
            },
            success: function(r){
-               if(r.status){
+               if(r.url && !r.message){
                    mjsjwait.text(payu_latam_suscription.msjReturn);
                    window.location.replace(r.url);
-               }else{
+               }
+               else{
                    mjsjwait.text(r.message);
                }
            }
