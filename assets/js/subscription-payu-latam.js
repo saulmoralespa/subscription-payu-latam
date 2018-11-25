@@ -12,8 +12,9 @@
         e.preventDefault();
         let msjerror = $('#card-payu-latam-suscribir .msj-error-payu ul strong li');
         let mjsjwait = $('#card-payu-latam-suscribir .overlay').children('div');
+        $(msjerror).empty();
         $(msjerror).parents( ".msj-error-payu" ).hide();
-        $("input[type=submit]").attr('disabled','disabled');
+        $(this).find("input[type=submit]").attr('disabled', true);
         if(!checkCard()){
             $(msjerror).parents( ".msj-error-payu" ).show();
             $(msjerror).text(payu_latam_suscription.msjNoCard);
@@ -24,12 +25,12 @@
            url:  payu_latam_suscription.ajaxurl,
            data: $(this).serialize() + '&action=subscription_payu_latam',
            dataType: "json",
-           beforeSend: function(){
+           beforeSend: () =>{
                $('#card-payu-latam-suscribir').css('cursor', 'wait');
                $('#card-payu-latam-suscribir .overlay').show();
                mjsjwait.text(payu_latam_suscription.msjProcess);
            },
-           success: function(r){
+           success: (r) =>{
                if(r.url && !r.message){
                    mjsjwait.text(payu_latam_suscription.msjReturn);
                    window.location.replace(r.url);
@@ -39,6 +40,7 @@
                    $('#card-payu-latam-suscribir .overlay').hide();
                    $(msjerror).parents( ".msj-error-payu" ).show();
                    $(msjerror).text(r.message);
+                   $(this).find("input[type=submit]").attr('disabled', false);
                }
            }
         });
