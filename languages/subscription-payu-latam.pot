@@ -1,0 +1,241 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Payu Latam Subscription\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-25 17:23+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/"
+
+#: subscription-payu-latam.php:46
+msgid "Subscription Payu Latam: Requires php version 5.6.0 or higher."
+msgstr ""
+
+#: subscription-payu-latam.php:52
+msgid ""
+"Subscription Payu Latam: Requires OpenSSL >= 1.0.1 to be installed on your "
+"server"
+msgstr ""
+
+#: subscription-payu-latam.php:82
+msgid "Subscription Payu Latam: Woocommerce must be installed and active."
+msgstr ""
+
+#: subscription-payu-latam.php:90
+msgid ""
+"Subscription Payu Latam: Woocommerce Subscriptions must be installed and "
+"active, "
+msgstr ""
+
+#: subscription-payu-latam.php:90 subscription-payu-latam.php:107
+#: subscription-payu-latam.php:117
+#, php-format
+msgid "%s"
+msgstr ""
+
+#: subscription-payu-latam.php:90
+msgid "check the documentation for help"
+msgstr ""
+
+#: subscription-payu-latam.php:99
+msgid ""
+"Subscription Payu Latam: Version 3.0 or greater of installed woocommerce is "
+"required."
+msgstr ""
+
+#: subscription-payu-latam.php:107
+msgid ""
+"Subscription Payu Latam: Requires one of these currencies USD, BRL, COP, MXN,"
+" PEN "
+msgstr ""
+
+#: subscription-payu-latam.php:107 subscription-payu-latam.php:117
+msgid "Click here to configure"
+msgstr ""
+
+#: subscription-payu-latam.php:117
+msgid ""
+"Subscription Payu Latam: It requires that the country of the store be some "
+"of these countries Brazil, Colombia, Mexico and Peru "
+msgstr ""
+
+#: includes/class-subscription-payu-latam-plugin.php:93
+msgid "Settings"
+msgstr ""
+
+#: includes/class-subscription-payu-latam-plugin.php:94
+msgid "Documentation"
+msgstr ""
+
+#: includes/class-subscription-payu-latam-plugin.php:107
+msgid "DNI"
+msgstr ""
+
+#: includes/class-subscription-payu-latam-plugin.php:108
+msgctxt "placeholder"
+msgid "Your DNI here...."
+msgstr ""
+
+#: includes/class-subscription-payu-latam-plugin.php:126
+msgid "The type of card is not accepted"
+msgstr ""
+
+#: includes/class-subscription-payu-latam-plugin.php:127
+msgid "Please wait..."
+msgstr ""
+
+#: includes/class-subscription-payu-latam-plugin.php:128
+msgid "Redirecting to verify status..."
+msgstr ""
+
+#: includes/class-subscription-payu-latam-plugin.php:225
+#: includes/class-subscription-payu-latam-plugin.php:256
+msgid "An internal error has arisen, try again"
+msgstr ""
+
+#: includes/class-subscription-payu-latam-plugin.php:238
+#, php-format
+msgid "Successful payment (Transaction ID: %s), (subscription ID: %s)"
+msgstr ""
+
+#: includes/class-subscription-payu-latam-plugin.php:267
+#, php-format
+msgid "Order is related to a subscription (Subscription ID: %s)"
+msgstr ""
+
+#: includes/class-subscription-payu-latam-plugin.php:271
+#, php-format
+msgid "Successful subscription (subscription ID: %s)"
+msgstr ""
+
+#: includes/class-subscription-payu-latam-plugin.php:302
+#, php-format
+msgid "Successful payment (Transaction ID: %s)"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:15
+msgid "Suscription PayU Latam"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:16
+msgid "Subscription Payu Latam of recurring payments."
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:18
+msgid "Continue to payment"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:41
+msgid "Enable/Disable"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:43
+msgid "Enable Payu Latam Suscription"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:47
+msgid "Title"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:49
+msgid "It corresponds to the title that the user sees during the checkout"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:50
+#: includes/class-gateway-subscription-payu-latam.php:57
+msgid "Payu Latam Suscription"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:54
+msgid "Description"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:56
+msgid ""
+"It corresponds to the description that the user will see during the checkout"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:61
+msgid "Debug"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:63
+msgid "Debug records, it is saved in payment log"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:67
+msgid "Environment"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:70
+msgid "Enable to run tests"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:74
+msgid "Production"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:75
+msgid "Test"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:79
+msgid "Merchant id"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:81
+msgid "Merchant id, you find it in the payu account"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:86
+msgid "Account id"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:88
+msgid "account id, you find it in the payu account"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:93
+msgid "Apikey"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:101
+msgid "Apilogin"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:130
+msgid ""
+"Could not perform any tests, because you have not entered all the required "
+"fields"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:162
+msgid "Data of card"
+msgstr ""
+
+#: includes/class-gateway-subscription-payu-latam.php:169
+msgid "Pay"
+msgstr ""
+
+#. Name of the plugin
+msgid "Subscription Payu Latam"
+msgstr ""
+
+#. Description of the plugin
+msgid "payU latam subscription use sdk."
+msgstr ""
+
+#. Author of the plugin
+msgid "Saul Morales Pacheco"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://saulmoralespa.com"
+msgstr ""
