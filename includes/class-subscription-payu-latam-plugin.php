@@ -221,9 +221,11 @@ class Subscription_Payu_Latam_SPL_Plugin
                 $id = $suscription->createClient($paramsClient);
                 $paramsCard = array_merge($paramsPayment, array('clientid' => $id));
                 $tokenCard = $suscription->createCard($paramsCard);
+
                 if (!$tokenCard){
                     die(json_encode(array('status' => false, 'message' => __('An internal error has arisen, try again', 'subscription-payu-latam'))));
                 }
+
                 $paramsSubscribe = array(
                     'clientid' => $id,
                     'plancode' => $planCode,
@@ -252,9 +254,11 @@ class Subscription_Payu_Latam_SPL_Plugin
                 $id = $suscription->createClient($paramsClient);
                 $paramsCard = array_merge($paramsPayment, array('clientid' => $id));
                 $tokenCard = $suscription->createCard($paramsCard);
+
                 if (!$tokenCard){
                     die(json_encode(array('status' => false, 'message' => __('An internal error has arisen, try again', 'subscription-payu-latam'))));
                 }
+
                 $paramsSubscribe = array(
                     'clientid' => $id,
                     'plancode' => $planCode,

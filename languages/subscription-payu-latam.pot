@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Payu Latam Subscription\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-25 17:23+0000\n"
+"POT-Creation-Date: 2018-11-25 18:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -14,53 +14,53 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: subscription-payu-latam.php:46
+#: subscription-payu-latam.php:48
 msgid "Subscription Payu Latam: Requires php version 5.6.0 or higher."
 msgstr ""
 
-#: subscription-payu-latam.php:52
+#: subscription-payu-latam.php:54
 msgid ""
 "Subscription Payu Latam: Requires OpenSSL >= 1.0.1 to be installed on your "
 "server"
 msgstr ""
 
-#: subscription-payu-latam.php:82
+#: subscription-payu-latam.php:84
 msgid "Subscription Payu Latam: Woocommerce must be installed and active."
 msgstr ""
 
-#: subscription-payu-latam.php:90
+#: subscription-payu-latam.php:92
 msgid ""
 "Subscription Payu Latam: Woocommerce Subscriptions must be installed and "
 "active, "
 msgstr ""
 
-#: subscription-payu-latam.php:90 subscription-payu-latam.php:107
-#: subscription-payu-latam.php:117
+#: subscription-payu-latam.php:92 subscription-payu-latam.php:109
+#: subscription-payu-latam.php:119
 #, php-format
 msgid "%s"
 msgstr ""
 
-#: subscription-payu-latam.php:90
+#: subscription-payu-latam.php:92
 msgid "check the documentation for help"
 msgstr ""
 
-#: subscription-payu-latam.php:99
+#: subscription-payu-latam.php:101
 msgid ""
 "Subscription Payu Latam: Version 3.0 or greater of installed woocommerce is "
 "required."
 msgstr ""
 
-#: subscription-payu-latam.php:107
+#: subscription-payu-latam.php:109
 msgid ""
 "Subscription Payu Latam: Requires one of these currencies USD, BRL, COP, MXN,"
 " PEN "
 msgstr ""
 
-#: subscription-payu-latam.php:107 subscription-payu-latam.php:117
+#: subscription-payu-latam.php:109 subscription-payu-latam.php:119
 msgid "Click here to configure"
 msgstr ""
 
-#: subscription-payu-latam.php:117
+#: subscription-payu-latam.php:119
 msgid ""
 "Subscription Payu Latam: It requires that the country of the store be some "
 "of these countries Brazil, Colombia, Mexico and Peru "
@@ -95,27 +95,27 @@ msgstr ""
 msgid "Redirecting to verify status..."
 msgstr ""
 
-#: includes/class-subscription-payu-latam-plugin.php:225
-#: includes/class-subscription-payu-latam-plugin.php:256
+#: includes/class-subscription-payu-latam-plugin.php:226
+#: includes/class-subscription-payu-latam-plugin.php:259
 msgid "An internal error has arisen, try again"
 msgstr ""
 
-#: includes/class-subscription-payu-latam-plugin.php:238
+#: includes/class-subscription-payu-latam-plugin.php:240
 #, php-format
 msgid "Successful payment (Transaction ID: %s), (subscription ID: %s)"
 msgstr ""
 
-#: includes/class-subscription-payu-latam-plugin.php:267
+#: includes/class-subscription-payu-latam-plugin.php:271
 #, php-format
 msgid "Order is related to a subscription (Subscription ID: %s)"
 msgstr ""
 
-#: includes/class-subscription-payu-latam-plugin.php:271
+#: includes/class-subscription-payu-latam-plugin.php:275
 #, php-format
 msgid "Successful subscription (subscription ID: %s)"
 msgstr ""
 
-#: includes/class-subscription-payu-latam-plugin.php:302
+#: includes/class-subscription-payu-latam-plugin.php:306
 #, php-format
 msgid "Successful payment (Transaction ID: %s)"
 msgstr ""

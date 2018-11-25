@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Payu Latam Subscription\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-25 17:23+0000\n"
-"PO-Revision-Date: 2018-11-25 17:27+0000\n"
+"POT-Creation-Date: 2018-11-25 18:42+0000\n"
+"PO-Revision-Date: 2018-11-25 18:44+0000\n"
 "Last-Translator: wpdev <cortuclas@gmail.com>\n"
 "Language-Team: Español de México\n"
 "Language: es_MX\n"
@@ -14,38 +14,38 @@ msgstr ""
 "X-Generator: Loco https://localise.biz/\n"
 "X-Loco-Version: 2.2.0; wp-4.9.8"
 
-#: subscription-payu-latam.php:46
+#: subscription-payu-latam.php:48
 msgid "Subscription Payu Latam: Requires php version 5.6.0 or higher."
 msgstr "Subscription Payu Latam: Requiere la versión php 5.6.0 o superior."
 
-#: subscription-payu-latam.php:52
+#: subscription-payu-latam.php:54
 msgid ""
 "Subscription Payu Latam: Requires OpenSSL >= 1.0.1 to be installed on your "
 "server"
 msgstr ""
 "Subscription Payu Latam: Requiere OpenSSL> = 1.0.1 instalado en su servidor"
 
-#: subscription-payu-latam.php:82
+#: subscription-payu-latam.php:84
 msgid "Subscription Payu Latam: Woocommerce must be installed and active."
 msgstr "Subscription Payu Latam:  Woocommerce debe estar instalado y activo."
 
-#: subscription-payu-latam.php:90
+#: subscription-payu-latam.php:92
 msgid ""
 "Subscription Payu Latam: Woocommerce Subscriptions must be installed and "
 "active, "
 msgstr ""
 
-#: subscription-payu-latam.php:90 subscription-payu-latam.php:107
-#: subscription-payu-latam.php:117
+#: subscription-payu-latam.php:92 subscription-payu-latam.php:109
+#: subscription-payu-latam.php:119
 #, php-format
 msgid "%s"
 msgstr ""
 
-#: subscription-payu-latam.php:90
+#: subscription-payu-latam.php:92
 msgid "check the documentation for help"
 msgstr ""
 
-#: subscription-payu-latam.php:99
+#: subscription-payu-latam.php:101
 msgid ""
 "Subscription Payu Latam: Version 3.0 or greater of installed woocommerce is "
 "required."
@@ -53,7 +53,7 @@ msgstr ""
 "Subscription Payu Latam: Se requiere la versión 3.0 o superior de "
 "woocommerce instalado."
 
-#: subscription-payu-latam.php:107
+#: subscription-payu-latam.php:109
 msgid ""
 "Subscription Payu Latam: Requires one of these currencies USD, BRL, COP, MXN,"
 " PEN "
@@ -61,11 +61,11 @@ msgstr ""
 "Subscription Payu Latam: Requiere una de estas monedas USD, BRL, COP, MXN, "
 "PEN"
 
-#: subscription-payu-latam.php:107 subscription-payu-latam.php:117
+#: subscription-payu-latam.php:109 subscription-payu-latam.php:119
 msgid "Click here to configure"
 msgstr "Haga clic aquí para configurar"
 
-#: subscription-payu-latam.php:117
+#: subscription-payu-latam.php:119
 msgid ""
 "Subscription Payu Latam: It requires that the country of the store be some "
 "of these countries Brazil, Colombia, Mexico and Peru "
@@ -100,27 +100,27 @@ msgstr "Espere por favor..."
 msgid "Redirecting to verify status..."
 msgstr "Redirigiendo para verificar el estado ..."
 
-#: includes/class-subscription-payu-latam-plugin.php:225
-#: includes/class-subscription-payu-latam-plugin.php:256
+#: includes/class-subscription-payu-latam-plugin.php:226
+#: includes/class-subscription-payu-latam-plugin.php:259
 msgid "An internal error has arisen, try again"
 msgstr "Ha surgido un error interno, inténtalo de nuevo"
 
-#: includes/class-subscription-payu-latam-plugin.php:238
+#: includes/class-subscription-payu-latam-plugin.php:240
 #, php-format
 msgid "Successful payment (Transaction ID: %s), (subscription ID: %s)"
 msgstr "Pago exitoso (Transacción ID: %s),  (suscripción ID: %s)"
 
-#: includes/class-subscription-payu-latam-plugin.php:267
+#: includes/class-subscription-payu-latam-plugin.php:271
 #, php-format
 msgid "Order is related to a subscription (Subscription ID: %s)"
 msgstr "Orden relacionada con una suscripción (suscripción ID: %s)"
 
-#: includes/class-subscription-payu-latam-plugin.php:271
+#: includes/class-subscription-payu-latam-plugin.php:275
 #, php-format
 msgid "Successful subscription (subscription ID: %s)"
 msgstr "Suscripción exitosa (suscripción ID: %s)"
 
-#: includes/class-subscription-payu-latam-plugin.php:302
+#: includes/class-subscription-payu-latam-plugin.php:306
 #, php-format
 msgid "Successful payment (Transaction ID: %s)"
 msgstr "Pago exitoso (Transacción ID: %s)"
