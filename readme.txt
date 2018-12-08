@@ -3,9 +3,9 @@ Contributors: Saul Morales Pacheco
 Donate link: https://saulmoralespa.com/
 Tags: commerce, e-commerce, commerce, wordpress ecommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, payu, latam, subscription, Brasil, Colombia, México, Perú
 Requires at least: 4.9.5
-Tested up to: 4.9.8
+Tested up to: 5.0
 Requires PHP: 5.6.0
-Stable tag: 1.0.14
+Stable tag: 1.0.15
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -88,6 +88,8 @@ You must go to the Woocommerce settings / finalize purchase / Payu Latam Subscri
 * fixed for not generate card token
 = 1.0.14 =
 * fixed disable button submit for not generate card token
+= 1.0.15 =
+* compatibility with version 5.0  of wordpress
 
 == Translations ==
 * English - default, always included
