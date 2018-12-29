@@ -45,7 +45,7 @@ Si. But it is advisable that you consider using it since it is revealing for bro
 
 You must go to the Woocommerce settings / finalize purchase / Payu Latam Subscription and change the testing environment
 
-**Remember to try in the testing environment with the credentials offered by payU latam**
+**Remember to try in the testing environment with the credentials offered by payU latam** [see credentials](http://developers.payulatam.com/es/sdk/sandbox.html "test credentials")
 
 = What should I take into account for production? =
 
