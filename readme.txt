@@ -1,11 +1,11 @@
 === Subscription Payu Latam ===
-Contributors: Saul Morales Pacheco
+Contributors: saulmorales
 Donate link: https://saulmoralespa.com/
 Tags: commerce, e-commerce, commerce, wordpress ecommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, payu, latam, subscription, Brasil, Colombia, México, Perú
-Requires at least: 4.9.5
+Requires at least: 5.0
 Tested up to: 5.0
 Requires PHP: 5.6.0
-Stable tag: 1.0.15
+Stable tag: 1.0.16
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -39,11 +39,13 @@ Brazil, Colombia, Mexico and Peru
 
 = Are you required to use a ssl certificate? =
 
-No. But it is advisable that you consider using it since it is revealing for browsers
+Si. But it is advisable that you consider using it since it is revealing for browsers
 
 = How do I prove its operation? =
 
 You must go to the Woocommerce settings / finalize purchase / Payu Latam Subscription and change the testing environment
+
+**Remember to try in the testing environment with the credentials offered by payU latam**
 
 = What should I take into account for production? =
 
@@ -90,6 +92,8 @@ You must go to the Woocommerce settings / finalize purchase / Payu Latam Subscri
 * fixed disable button submit for not generate card token
 = 1.0.15 =
 * compatibility with version 5.0  of wordpress
+= 1.0.16 =
+* update version for static files
 
 == Translations ==
 * English - default, always included

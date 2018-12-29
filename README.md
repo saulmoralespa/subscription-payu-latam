@@ -3,12 +3,12 @@
 **Tags:**               commerce, e-commerce, commerce, wordpress ecommerce, store, sales, sell, shop, shopping, cart, checkout, configurable, payu, latam, subscription, Brasil, Colombia, México, Perú 
 
 **Author URI:**         https://saulmoralespa.com  
-**Plugin URI:**         https://github.com/saulmoralespa/subscription-payu-latam/
+**Plugin URI:**         https://wordpress.org/plugins/subscription-payu-latam/
 
-**Requires at least:**  4.9.5  
+**Requires at least:**  5.0  
 **Tested up to:**       5.0
 
-**Stable tag:**         1.0.15
+**Stable tag:**         1.0.16
 
 **License:**            GPL-3.0+  
 **License URI:**        http://www.gnu.org/licenses/gpl-3.0.html  
@@ -59,6 +59,8 @@ No. But it is advisable that you consider using it since it is revealing for bro
 ### How do I prove its operation? ###
 
 You must go to the Woocommerce settings / finalize purchase / Payu Latam Subscription and change the testing environment.
+
+**Remember to try in the testing environment with the credentials offered by payU latam**
 
 ### What should I take into account for production? ###
 
