@@ -63,7 +63,6 @@ class Suscription_Payu_Latam_SPL
         $country = WC()->countries->get_base_country();
         $lang = $country == 'BR' ?  SupportedLanguages::PT : SupportedLanguages::ES;
         $country = WC()->countries->get_base_country();
-
         $reference = $reference = "payment_test" . time();
         $total = "100";
         $productinfo = "payment test";
@@ -71,7 +70,7 @@ class Suscription_Payu_Latam_SPL
         $card_number = "5529998177229339";
         $card_type  = "MASTERCARD";
         $card_name = "Pedro Perez";
-        $card_expire = "2022/01";
+        $card_expire = date('Y/m', strtotime('+1 years'));
         $cvc = "808";
         $email = "buyer_test@test.com";
         $phone = "7563126";
@@ -102,7 +101,6 @@ class Suscription_Payu_Latam_SPL
             $postalCode = empty($order->get_billing_postcode()) ? '000000' : $order->get_billing_postcode();
             $dni = $this->cleanCharacters(get_post_meta( $order->get_id(), '_billing_dni', true ), true);
         }
-
         $countryName = PayUCountries::CO;
         if ($country == 'AR')
             $countryName = PayUCountries::AR;
@@ -114,18 +112,14 @@ class Suscription_Payu_Latam_SPL
             $countryName = PayUCountries::PA;
         if ($country == 'PE')
             $countryName = PayUCountries::PE;
-
         PayU::$apiKey = $this->_apikey;
         PayU::$apiLogin = $this->_apilogin;
         PayU::$merchantId = $this->_merchant_id;
         PayU::$language = $lang;
         PayU::$isTest = ($test) ? true : $this->_isTest;
-
         Environment::setPaymentsCustomUrl($this->createUrl());
         Environment::setSubscriptionsCustomUrl($this->createUrl(true, true));
         Environment::setReportsCustomUrl($this->createUrl(true));
-
-
         $parameters = array(
             //Ingrese aquí el identificador de la cuenta.
             PayUParameters::ACCOUNT_ID => $this->_account_id,
@@ -133,13 +127,11 @@ class Suscription_Payu_Latam_SPL
             PayUParameters::REFERENCE_CODE => $reference,
             //Ingrese aquí la descripción.
             PayUParameters::DESCRIPTION => $productinfo,
-
             // -- Valores --
             //Ingrese aquí el valor de la transacción.
             PayUParameters::VALUE => $total,
             //Ingrese aquí la moneda.
             PayUParameters::CURRENCY => $currency,
-
             // -- Comprador
             //Ingrese aquí el nombre del comprador.
             PayUParameters::BUYER_NAME => $card_name,
@@ -157,7 +149,6 @@ class Suscription_Payu_Latam_SPL
             PayUParameters::BUYER_COUNTRY => $country,
             PayUParameters::BUYER_POSTAL_CODE => $postalCode,
             PayUParameters::BUYER_PHONE => $phone,
-
             // -- pagador --
             //Ingrese aquí el nombre del pagador.
             PayUParameters::PAYER_NAME => ($test || $this->_isTest) ? "APPROVED" :  $card_name,
@@ -175,7 +166,6 @@ class Suscription_Payu_Latam_SPL
             PayUParameters::PAYER_COUNTRY => $country,
             PayUParameters::PAYER_POSTAL_CODE => $postalCode,
             PayUParameters::PAYER_PHONE => $phone,
-
             // -- Datos de la tarjeta de crédito --
             //Ingrese aquí el número de la tarjeta de crédito
             PayUParameters::CREDIT_CARD_NUMBER => $card_number,
@@ -186,12 +176,10 @@ class Suscription_Payu_Latam_SPL
             //Ingrese aquí el nombre de la tarjeta de crédito
             //VISA||MASTERCARD||AMEX||DINERS
             PayUParameters::PAYMENT_METHOD => $card_type,
-
             //Ingrese aquí el número de cuotas.
             PayUParameters::INSTALLMENTS_NUMBER => "1",
             //Ingrese aquí el nombre del pais.
             PayUParameters::COUNTRY => $countryName,
-
             //Session id del device.
             PayUParameters::DEVICE_SESSION_ID => md5(session_id().microtime()),
             //IP del pagadador
@@ -202,18 +190,18 @@ class Suscription_Payu_Latam_SPL
             PayUParameters::USER_AGENT => $_SERVER['HTTP_USER_AGENT']
         );
 
+
         if($country == 'CO')
             $parameters = array_merge($parameters, array(PayUParameters::TAX_VALUE => "0", PayUParameters::TAX_RETURN_BASE => "0"));
-
-
         try{
             $response = PayUPayments::doAuthorizationAndCapture($parameters);
+
             if(!$test) {
                 if ($response->code != "SUCCESS") {
-                    return json_encode(array('status'  => false,
-                                             'message' => __('An error has occurred while processing the payment, please try again',
-                                                 'suscription-payu-latam')
-                    ));
+                    return array('status'  => false,
+                        'message' => __('An error has occurred while processing the payment, please try again',
+                            'suscription-payu-latam')
+                    );
                 }
                 $aprovved = false;
                 $transactionId = 0;
@@ -256,7 +244,6 @@ class Suscription_Payu_Latam_SPL
                     $redirect_url = add_query_arg(array('msg' => urlencode($message), 'type' => $messageClass),
                         $order->get_checkout_order_received_url());
                 }
-
                 return array('status' => $aprovved, 'transactionid' => $transactionId, 'url' => $redirect_url);
             }
         }catch (PayUException $ex){
@@ -266,11 +253,9 @@ class Suscription_Payu_Latam_SPL
                     'suscription-payu-latam'), '<a target="_blank" href="http://developers.payulatam.com/es/sdk/sandbox.html">' . __('Click here to see', 'suscription-payu-latam') . '</a>', $ex->getMessage(), $ex->getCode()));
             }else{
                 suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $ex->getMessage());
-                return json_encode(array('status' => false, 'message' => $ex->getMessage()));
+                return array('status' => false, 'message' => $ex->getMessage());
             }
-
         }
-
     }
 
     public function createPlan($params)
@@ -324,6 +309,8 @@ class Suscription_Payu_Latam_SPL
 
     public function getPlan($planCode)
     {
+        $existPlan = false;
+
         PayU::$apiKey = $this->_apikey;
         PayU::$apiLogin = $this->_apilogin;
         PayU::$merchantId = $this->_merchant_id;
@@ -339,11 +326,13 @@ class Suscription_Payu_Latam_SPL
         try{
             $response = PayUSubscriptionPlans::find($parameters);
             if (isset($response->id)){
-                $this->existPlan = true;
+                $existPlan = true;
             }
         }catch(Exception $e ){
             suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'get plan: ' . $e->getMessage());
         }
+
+        return $existPlan;
     }
 
     public function deletePlan($planCode)

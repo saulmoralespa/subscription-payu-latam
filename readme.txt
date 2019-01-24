@@ -5,7 +5,7 @@ Tags: commerce, e-commerce, commerce, wordpress ecommerce, store, sales, sell, s
 Requires at least: 5.0
 Tested up to: 5.0
 Requires PHP: 5.6.0
-Stable tag: 1.0.16
+Stable tag: 1.0.17
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -94,6 +94,8 @@ You must go to the Woocommerce settings / finalize purchase / Payu Latam Subscri
 * compatibility with version 5.0  of wordpress
 = 1.0.16 =
 * update version for static files
+= 1.0.17 =
+* add paymnet fields
 
 == Translations ==
 * English - default, always included

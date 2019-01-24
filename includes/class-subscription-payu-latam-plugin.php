@@ -82,8 +82,6 @@ class Subscription_Payu_Latam_SPL_Plugin
         add_filter( 'woocommerce_payment_gateways', array($this, 'woocommerce_payu_latam_suscription_add_gateway'));
         add_filter( 'woocommerce_billing_fields', array($this, 'custom_woocommerce_billing_fields'));
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-        add_action( 'wp_ajax_subscription_payu_latam',array($this,'subscription_payu_latam_spl_ajax'));
-        add_action( 'wp_ajax_nopriv_subscription_payu_latam',array($this,'subscription_payu_latam_spl_ajax'));
         add_action( 'suscribir_payu_latam_spl',array($this, 'subscription_payu_latam_spl_transaction_id'));
     }
 
@@ -124,6 +122,7 @@ class Subscription_Payu_Latam_SPL_Plugin
                 'ajaxurl' => admin_url( 'admin-ajax.php' ),
                 'country' => WC()->countries->get_base_country(),
                 'msjNoCard' => __('The type of card is not accepted','subscription-payu-latam'),
+                'msjEmptyInputs' => __('Enter the card information','subscription-payu-latam'),
                 'msjProcess' => __('Please wait...','subscription-payu-latam'),
                 'msjReturn' => __('Redirecting to verify status...','subscription-payu-latam')
             ) );
@@ -131,16 +130,18 @@ class Subscription_Payu_Latam_SPL_Plugin
         }
     }
 
-    public function subscription_payu_latam_spl_ajax()
+    public function subscription_payu_latam($params)
     {
-        $order_id = $_POST['id_order'];
+
+
+        $order_id = $params['id_order'];
         $order = new WC_Order($order_id);
-        $card_number = $_POST['number'];
+        $card_number = $params['subscriptionpayulatam_number'];
         $card_number = str_replace(' ','', $card_number);
-        $card_name = $_POST['name'];
-        $card_type = $_POST['type'];
-        $card_expire = $_POST['expiry'];
-        $cvc = $_POST['cvc'];
+        $card_name = $params['subscriptionpayulatam_name'];
+        $card_type = $params['subscriptionpayulatam_type'];
+        $card_expire = $params['subscriptionpayulatam_expiry'];
+        $cvc = $params['subscriptionpayulatam_cvc'];
 
         $year = date('Y');
         $lenyear = substr($year, 0,2);
@@ -212,75 +213,74 @@ class Subscription_Payu_Latam_SPL_Plugin
             'email' => $emailClient
         );
 
-        switch ($trial_days){
-            case 0:
-                $response = $suscription->executePayment($paramsPayment, false);
-                $suscription->getPlan($planCode);
-                if (!$suscription->existPlan)
-                    $suscription->createPlan($plan);
-                $id = $suscription->createClient($paramsClient);
-                $paramsCard = array_merge($paramsPayment, array('clientid' => $id));
-                $tokenCard = $suscription->createCard($paramsCard);
 
-                if (!$tokenCard){
-                    die(json_encode(array('status' => false, 'message' => __('An internal error has arisen, try again', 'subscription-payu-latam'))));
-                }
+        if ($trial_days == '0'){
+            $response = $suscription->executePayment($paramsPayment, false);
 
-                $paramsSubscribe = array(
-                    'clientid' => $id,
-                    'plancode' => $planCode,
-                    'tokenid' => $tokenCard,
-                    'trialdays' => $trial_days,
-                );
-                $id = $suscription->createSubscriptionPayu($paramsSubscribe);
-                if (isset($id)){
-                    WC_Subscriptions_Manager::activate_subscriptions_for_order( $order );
-                    update_post_meta($order_id, 'subscription_payu_latam_id',$id);
-                    if(!empty($response) && $response['status']){
-                        $message   = sprintf(__('Successful payment (Transaction ID: %s), (subscription ID: %s)', 'subscription-payu-latam'),
-                            $response['transactionid'], $id);
-                        $messageClass  = 'woocommerce-message';
-                        $redirect_url = add_query_arg( array('msg'=> urlencode($message), 'type'=> $messageClass), $order->get_checkout_order_received_url() );
-                        echo json_encode(array('status' => true, 'url' => $redirect_url));
-                    }else if(!empty($response) && !$response['status']){
-                        echo json_encode($response);
-                    }
-                }
-                break;
-            default:
-                $suscription->getPlan($planCode);
-                if (!$suscription->existPlan)
-                    $suscription->createPlan($plan);
-                $id = $suscription->createClient($paramsClient);
-                $paramsCard = array_merge($paramsPayment, array('clientid' => $id));
-                $tokenCard = $suscription->createCard($paramsCard);
+            if (!$suscription->getPlan($planCode))
+                $suscription->createPlan($plan);
+            $id = $suscription->createClient($paramsClient);
+            $paramsCard = array_merge($paramsPayment, array('clientid' => $id));
+            $tokenCard = $suscription->createCard($paramsCard);
 
-                if (!$tokenCard){
-                    die(json_encode(array('status' => false, 'message' => __('An internal error has arisen, try again', 'subscription-payu-latam'))));
-                }
 
-                $paramsSubscribe = array(
-                    'clientid' => $id,
-                    'plancode' => $planCode,
-                    'tokenid' => $tokenCard,
-                    'trialdays' => $trial_days,
-                );
-                $id = $suscription->createSubscriptionPayu($paramsSubscribe);
-                if (isset($id)){
-                    $order->payment_complete($id);
-                    $order->add_order_note(sprintf(__('Order is related to a subscription (Subscription ID: %s)',
-                        'subscription-payu-latam'), $id));
-                    WC_Subscriptions_Manager::activate_subscriptions_for_order( $order );
-                    update_post_meta($order_id, 'subscription_payu_latam_id',$id);
-                    $message   = sprintf(__('Successful subscription (subscription ID: %s)', 'subscription-payu-latam'),
-                        $id);
+            if (!$tokenCard){
+                return array('status' => false, 'message' => __('An internal error has arisen, try again', 'subscription-payu-latam'));
+            }
+
+            $paramsSubscribe = array(
+                'clientid' => $id,
+                'plancode' => $planCode,
+                'tokenid' => $tokenCard,
+                'trialdays' => $trial_days,
+            );
+
+            $id = $suscription->createSubscriptionPayu($paramsSubscribe);
+            if (isset($id)){
+                WC_Subscriptions_Manager::activate_subscriptions_for_order( $order );
+                update_post_meta($order_id, 'subscription_payu_latam_id',$id);
+                if(!empty($response) && $response['status']){
+                    $message   = sprintf(__('Successful payment (Transaction ID: %s), (subscription ID: %s)', 'subscription-payu-latam'),
+                        $response['transactionid'], $id);
                     $messageClass  = 'woocommerce-message';
                     $redirect_url = add_query_arg( array('msg'=> urlencode($message), 'type'=> $messageClass), $order->get_checkout_order_received_url() );
-                    echo json_encode(array('status' => true, 'url' => $redirect_url));
+                    return array('status' => true, 'url' => $redirect_url);
+                }else if(!empty($response) && !$response['status']){
+                    return $response;
                 }
-        }
+            }
+        }else{
+            $suscription->getPlan($planCode);
+            if (!$suscription->existPlan)
+                $suscription->createPlan($plan);
+            $id = $suscription->createClient($paramsClient);
+            $paramsCard = array_merge($paramsPayment, array('clientid' => $id));
+            $tokenCard = $suscription->createCard($paramsCard);
 
-        die();
+            if (!$tokenCard){
+                return array('status' => false, 'message' => __('An internal error has arisen, try again', 'subscription-payu-latam'));
+            }
+
+            $paramsSubscribe = array(
+                'clientid' => $id,
+                'plancode' => $planCode,
+                'tokenid' => $tokenCard,
+                'trialdays' => $trial_days,
+            );
+            $id = $suscription->createSubscriptionPayu($paramsSubscribe);
+            if (isset($id)){
+                $order->payment_complete($id);
+                $order->add_order_note(sprintf(__('Order is related to a subscription (Subscription ID: %s)',
+                    'subscription-payu-latam'), $id));
+                WC_Subscriptions_Manager::activate_subscriptions_for_order( $order );
+                update_post_meta($order_id, 'subscription_payu_latam_id',$id);
+                $message   = sprintf(__('Successful subscription (subscription ID: %s)', 'subscription-payu-latam'),
+                    $id);
+                $messageClass  = 'woocommerce-message';
+                $redirect_url = add_query_arg( array('msg'=> urlencode($message), 'type'=> $messageClass), $order->get_checkout_order_received_url() );
+                return array('status' => true, 'url' => $redirect_url);
+            }
+        }
 
     }
 
