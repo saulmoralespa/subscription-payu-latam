@@ -17,7 +17,7 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
         $this->description  = $this->get_option( 'description' );
         $this->order_button_text = __('Continue to payment', 'subscription-payu-latam');
         $this->has_fields = true;
-        $this->supports = $this->supports = array(
+        $this->supports = array(
             'products',
             'subscriptions',
             'subscription_cancellation'
@@ -32,7 +32,7 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
         $this->apilogin  = $this->get_option( 'apilogin' );
 
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
-        //add_filter('woocommerce_thankyou_order_received_text', array($this, 'order_received_message') );
+        add_filter('woocommerce_thankyou_order_received_text', array($this, 'order_received_message') );
         add_action('woocommerce_subscription_status_cancelled', array(&$this, 'subscription_cancelled'));
         add_action('woocommerce_available_payment_gateways', array(&$this, 'disable_non_subscription'), 20);
 
@@ -86,8 +86,8 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
             <div class='card-wrapper'></div>
             <div id="form-payu-latam">
                 <label for="number" class="label"><?php echo __('Data of card','subscription-payu-latam'); ?> *</label>
-                <input placeholder="Número de tarjeta" type="tel" name="subscriptionpayulatam_number" id="subscriptionpayulatam_number" required="" class="form-control">
-                <input placeholder="Titular" type="text" name="subscriptionpayulatam_name" id="subscriptionpayulatam_name" required="" class="form-control">
+                <input placeholder="<?php echo __('Número de tarjeta','subscription-payu-latam'); ?>" type="tel" name="subscriptionpayulatam_number" id="subscriptionpayulatam_number" required="" class="form-control">
+                <input placeholder="<?php echo __('Titular','subscription-payu-latam'); ?>" type="text" name="subscriptionpayulatam_name" id="subscriptionpayulatam_name" required="" class="form-control">
                 <input type="hidden" name="subscriptionpayulatam_type" id="subscriptionpayulatam_type">
                 <input placeholder="MM/YY" type="tel" name="subscriptionpayulatam_expiry" id="subscriptionpayulatam_expiry" required="" class="form-control" >
                 <input placeholder="123" type="number" name="subscriptionpayulatam_cvc" id="subscriptionpayulatam_cvc" required="" class="form-control" maxlength="4">
@@ -110,12 +110,11 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
             $data = suscription_payu_latam_pls()->subscription_payu_latam($params);
 
             if($data['status']){
-                $order = wc_get_order( $order_id );
                 wc_reduce_stock_levels($order_id);
                 WC()->cart->empty_cart();
                 return array(
                     'result' => 'success',
-                    'redirect' => $this->get_return_url( $order )
+                    'redirect' => $data['url']
                 );
             }else{
                 wc_add_notice($data['message'], 'error' );
@@ -123,12 +122,16 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
             }
         }
 
+        return parent::process_payment($order_id);
+
     }
 
-    public function order_received_message( $text) {
+    public function order_received_message( $text)
+    {
         if(!empty($_GET['msg'])){
             return $text .' '.$_GET['msg'];
         }
+
         return $text;
     }
 

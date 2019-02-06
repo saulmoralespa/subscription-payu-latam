@@ -116,6 +116,7 @@ class Subscription_Payu_Latam_SPL_Plugin
     public function enqueue_scripts()
     {
         if(is_checkout()){
+            wp_enqueue_script( 'payu-latam-subscription-sweet-alert', $this->plugin_url . 'assets/js/sweetalert2.js', array( 'jquery' ), $this->version, true );
             wp_enqueue_script( 'payu-latam-subscription', $this->plugin_url . 'assets/js/subscription-payu-latam.js', array( 'jquery' ), $this->version, true );
             wp_enqueue_script( 'payu-latam-subscription-card', $this->plugin_url . 'assets/js/card.js', array( 'jquery' ), $this->version, true );
             wp_localize_script( 'payu-latam-subscription', 'payu_latam_suscription', array(
@@ -132,7 +133,6 @@ class Subscription_Payu_Latam_SPL_Plugin
 
     public function subscription_payu_latam($params)
     {
-
 
         $order_id = $params['id_order'];
         $order = new WC_Order($order_id);

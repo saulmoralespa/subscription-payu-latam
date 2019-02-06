@@ -14,6 +14,11 @@
 
     } );
 
+
+    $(document.body).on('checkout_error', function () {
+        swal.close();
+    });
+
     checkout_form.on( 'checkout_place_order', function() {
 
         let number_card = checkout_form.find('#subscriptionpayulatam_number').val();
@@ -41,6 +46,14 @@
         }else if (!checkCard()){
             checkout_form.append(`<input type="hidden" name="subscriptionpayulatam_errorcard" value="${payu_latam_suscription.msjNoCard}">`);
         }
+
+        swal.fire({
+            title: payu_latam_suscription.msjProcess,
+            onOpen: () => {
+                swal.showLoading()
+            },
+            allowOutsideClick: false
+        });
 
     });
 

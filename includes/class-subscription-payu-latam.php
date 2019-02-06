@@ -47,6 +47,7 @@ class Suscription_Payu_Latam_SPL
     public function __construct()
     {
         require_once (suscription_payu_latam_pls()->plugin_path . 'lib/PayU.php');
+
         $WC_Payu_Latam_Suscribir = new WC_Payment_Suscription_Payu_Latam_SPL();
 
         $this->_apikey = $WC_Payu_Latam_Suscribir->get_option('apikey');
@@ -112,14 +113,16 @@ class Suscription_Payu_Latam_SPL
             $countryName = PayUCountries::PA;
         if ($country == 'PE')
             $countryName = PayUCountries::PE;
+
         PayU::$apiKey = $this->_apikey;
         PayU::$apiLogin = $this->_apilogin;
         PayU::$merchantId = $this->_merchant_id;
         PayU::$language = $lang;
         PayU::$isTest = ($test) ? true : $this->_isTest;
         Environment::setPaymentsCustomUrl($this->createUrl());
-        Environment::setSubscriptionsCustomUrl($this->createUrl(true, true));
         Environment::setReportsCustomUrl($this->createUrl(true));
+        Environment::setSubscriptionsCustomUrl($this->createUrl(true, true));
+
         $parameters = array(
             //Ingrese aquí el identificador de la cuenta.
             PayUParameters::ACCOUNT_ID => $this->_account_id,
@@ -200,14 +203,14 @@ class Suscription_Payu_Latam_SPL
                 if ($response->code != "SUCCESS") {
                     return array('status'  => false,
                         'message' => __('An error has occurred while processing the payment, please try again',
-                            'suscription-payu-latam')
+                            'subscription-payu-latam')
                     );
                 }
                 $aprovved = false;
                 $transactionId = 0;
                 $redirect_url  = '';
                 if ($response->transactionResponse->state == "APPROVED") {
-                    $aprovved      = true;
+                    $aprovved   = true;
                     $transactionId = $response->transactionResponse->transactionId;
                     $order->payment_complete($transactionId);
                     $order->add_order_note(sprintf(__('Successful payment (Transaction ID: %s)',
@@ -226,7 +229,7 @@ class Suscription_Payu_Latam_SPL
                 } elseif ($response->transactionResponse->state == "DECLINED") {
                     WC_Subscriptions_Manager::process_subscription_payment_failure_on_order( $order );
                     $transactionId = $response->transactionResponse->transactionId;
-                    $message       = __('Payment declined', 'suscription-payu-latam');
+                    $message   = __('Payment declined', 'suscription-payu-latam');
                     $messageClass  = 'woocommerce-error';
                     $order->update_status('failed');
                     $order->add_order_note(sprintf(__('Payment declined (Transaction ID: %s)',
@@ -252,10 +255,13 @@ class Suscription_Payu_Latam_SPL
                 do_action('notices_subscription_payu_latam_spl', sprintf(__('Subscription Payu Latam: Check that you have entered correctly merchant id, account id, Api Key, Apilogin. To perform tests use the credentials provided by payU %s Message error: %s code error: %s',
                     'suscription-payu-latam'), '<a target="_blank" href="http://developers.payulatam.com/es/sdk/sandbox.html">' . __('Click here to see', 'suscription-payu-latam') . '</a>', $ex->getMessage(), $ex->getCode()));
             }else{
-                suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $ex->getMessage());
+                suscription_payu_latam_pls()->logger->add("suscription-payu-latam", "execuete payment: " . $ex->getMessage());
+                suscription_payu_latam_pls()->logger->add("suscription-payu-latam", "execuete payment parse params: " . print_r($parameters, true));
                 return array('status' => false, 'message' => $ex->getMessage());
             }
         }
+
+        return array('status' => false, 'message' => __('Not processed payment'));
     }
 
     public function createPlan($params)
@@ -266,8 +272,8 @@ class Suscription_Payu_Latam_SPL
         PayU::$language = SupportedLanguages::ES;
         PayU::$isTest = $this->_isTest;
         Environment::setPaymentsCustomUrl($this->createUrl());
-        Environment::setSubscriptionsCustomUrl($this->createUrl(true, true));
         Environment::setReportsCustomUrl($this->createUrl(true));
+        Environment::setSubscriptionsCustomUrl($this->createUrl(true, true));
 
         $parameters = array(
             // Ingresa aquí la descripción del plan
@@ -303,7 +309,7 @@ class Suscription_Payu_Latam_SPL
         try{
             $response = PayUSubscriptionPlans::create($parameters);
         }catch (PayUException $ex){
-            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'create plan: ' . $ex->getMessage());
+            suscription_payu_latam_pls()->logger->add("suscription-payu-latam", "create plan: " . $ex->getMessage());
         }
     }
 
@@ -354,7 +360,6 @@ class Suscription_Payu_Latam_SPL
             suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'delete plan: ' . $ex->getMessage());
 
         }
-
     }
 
     public function createClient($params)
@@ -378,7 +383,10 @@ class Suscription_Payu_Latam_SPL
             return $client->id;
         }catch (PayUException $e){
             suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'create client: ' . $e->getMessage());
+            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'create client parse params: ' . print_r($params, true));
         }
+
+        return false;
     }
 
     public function createCard($params)
@@ -442,6 +450,8 @@ class Suscription_Payu_Latam_SPL
         }catch (PayUException $e){
             suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'create card: ' . $e->getMessage());
         }
+
+        return false;
     }
 
     public function createSubscriptionPayu($params)
@@ -476,6 +486,8 @@ class Suscription_Payu_Latam_SPL
             suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'create subscription: ' . $e->getMessage());
 
         }
+
+        return false;
     }
 
     public function cancelSubscription($suscription_id)
@@ -512,21 +524,49 @@ class Suscription_Payu_Latam_SPL
 
         $parameters = array(PayUParameters::TRANSACTION_ID => $transaction_id);
 
-        $response = PayUReports::getTransactionResponse($parameters);
+        try{
+            $response = PayUReports::getTransactionResponse($parameters);
+        }catch (PayUException $e){
+            suscription_payu_latam_pls()->logger->add('suscription-payu-latam','report: ' . $e->getMessage());
+        }
 
         if (isset($response) && $response->state == 'APPROVED')
             return true;
         return false;
     }
 
+    public function doPingPayu()
+    {
+        PayU::$apiKey = $this->_apikey;
+        PayU::$apiLogin = $this->_apilogin;
+        PayU::$merchantId = $this->_merchant_id;
+        PayU::$language = SupportedLanguages::ES;
+        PayU::$isTest = $this->_isTest;
+        Environment::setReportsCustomUrl($this->createUrl(true));
+
+        $res = false;
+
+        try{
+            $response = PayUReports::doPing();
+            if (isset($response) && $response->code == 'SUCCESS')
+            $res = true;
+        }catch (PayUException $e){
+            suscription_payu_latam_pls()->logger->add('suscription-payu-latam','doping: ' . $e->getMessage());
+        }
+
+        return $res;
+    }
+
     public function getProductFromOrder($order)
     {
         $products = $order->get_items();
+
         $count = $order->get_item_count();
         if ($count > 1)
         {
-            wc_add_notice(__('Currently Payu Latam Suscription does not support more than one product in the cart if one of the products is a subscription.', 'suscription-payu-latam'), 'error');
+            wc_add_notice(__('Currently Subscription Payu Latam does not support more than one product in the cart if one of the products is a subscription.', 'subscription-payu-latam'), 'error');
         }
+
         return array_values($products)[0];
     }
 
