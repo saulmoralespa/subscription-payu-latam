@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Payu Latam Subscription\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-31 23:42+0000\n"
-"PO-Revision-Date: 2019-01-31 23:44+0000\n"
+"POT-Creation-Date: 2019-02-07 00:02+0000\n"
+"PO-Revision-Date: 2019-02-07 00:03+0000\n"
 "Last-Translator: wpdev <cortuclas@gmail.com>\n"
 "Language-Team: Español de Colombia\n"
 "Language: es_CO\n"
@@ -75,6 +75,10 @@ msgstr ""
 "Subscription Payu Latam: Requiere que el país de la tienda sea algunos de "
 "estos países Brasil, Colombia, México y Perú."
 
+#: includes/class-subscription-payu-latam.php:205
+msgid "An error has occurred while processing the payment, please try again"
+msgstr ""
+
 #: includes/class-subscription-payu-latam.php:567
 msgid ""
 "Currently Subscription Payu Latam does not support more than one product in "
@@ -116,33 +120,35 @@ msgstr "Espere por favor..."
 msgid "Redirecting to verify status..."
 msgstr "Redirigiendo para verificar el estado ..."
 
-#: includes/class-subscription-payu-latam-plugin.php:229
-#: includes/class-subscription-payu-latam-plugin.php:262
+#: includes/class-subscription-payu-latam-plugin.php:228
+#: includes/class-subscription-payu-latam-plugin.php:261
 msgid "An internal error has arisen, try again"
 msgstr "Ha surgido un error interno, inténtalo de nuevo"
 
-#: includes/class-subscription-payu-latam-plugin.php:244
+#: includes/class-subscription-payu-latam-plugin.php:243
 #, php-format
 msgid "Successful payment (Transaction ID: %s), (subscription ID: %s)"
 msgstr "Pago exitoso (Transacción ID: %s),  (suscripción ID: %s)"
 
-#: includes/class-subscription-payu-latam-plugin.php:274
+#: includes/class-subscription-payu-latam-plugin.php:273
 #, php-format
 msgid "Order is related to a subscription (Subscription ID: %s)"
 msgstr "Orden relacionada con una suscripción (suscripción ID: %s)"
 
-#: includes/class-subscription-payu-latam-plugin.php:278
+#: includes/class-subscription-payu-latam-plugin.php:277
 #, php-format
 msgid "Successful subscription (subscription ID: %s)"
 msgstr "Suscripción exitosa (suscripción ID: %s)"
 
-#: includes/class-subscription-payu-latam-plugin.php:307
+#: includes/class-subscription-payu-latam-plugin.php:306
 #, php-format
 msgid "Successful payment (Transaction ID: %s)"
 msgstr "Pago exitoso (Transacción ID: %s)"
 
+#. Name of the plugin
 #: includes/class-gateway-subscription-payu-latam.php:15
-msgid "Suscription PayU Latam"
+#: includes/admin/payu-settings.php:20 includes/admin/payu-settings.php:27
+msgid "Subscription Payu Latam"
 msgstr ""
 
 #: includes/class-gateway-subscription-payu-latam.php:16
@@ -150,8 +156,8 @@ msgid "Subscription Payu Latam of recurring payments."
 msgstr ""
 
 #: includes/class-gateway-subscription-payu-latam.php:18
-msgid "Continue to payment"
-msgstr "Continuar con el pago"
+msgid "to subscribe"
+msgstr "Suscribirse"
 
 #: includes/class-gateway-subscription-payu-latam.php:68
 msgid ""
@@ -188,10 +194,6 @@ msgstr "Título"
 #: includes/admin/payu-settings.php:19
 msgid "It corresponds to the title that the user sees during the checkout"
 msgstr "Corresponde al título que el usuario ve durante el pago"
-
-#: includes/admin/payu-settings.php:20 includes/admin/payu-settings.php:27
-msgid "Payu Latam Suscription"
-msgstr ""
 
 #: includes/admin/payu-settings.php:24
 msgid "Description"
@@ -248,10 +250,6 @@ msgstr ""
 
 #: includes/admin/payu-settings.php:71
 msgid "Apilogin"
-msgstr ""
-
-#. Name of the plugin
-msgid "Subscription Payu Latam"
 msgstr ""
 
 #. Description of the plugin

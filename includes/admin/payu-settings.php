@@ -17,14 +17,14 @@ return array(
         'title' => __('Title', 'subscription-payu-latam'),
         'type' => 'text',
         'description' => __('It corresponds to the title that the user sees during the checkout', 'subscription-payu-latam'),
-        'default' => __('Payu Latam Suscription', 'subscription-payu-latam'),
+        'default' => __('Subscription Payu Latam', 'subscription-payu-latam'),
         'desc_tip' => true,
     ),
     'description' => array(
         'title' => __('Description', 'subscription-payu-latam'),
         'type' => 'textarea',
         'description' => __('It corresponds to the description that the user will see during the checkout', 'subscription-payu-latam'),
-        'default' => __('Payu Latam Suscription', 'subscription-payu-latam'),
+        'default' => __('Subscription Payu Latam', 'subscription-payu-latam'),
         'desc_tip' => true,
     ),
     'debug' => array(

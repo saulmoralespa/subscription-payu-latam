@@ -12,10 +12,10 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
     {
         $this->id = 'subscription_payu_latam';
         $this->icon = suscription_payu_latam_pls()->plugin_url . 'assets/img/logoPayU.png';
-        $this->method_title = __('Suscription PayU Latam', 'subscription-payu-latam');
+        $this->method_title = __('Subscription Payu Latam', 'subscription-payu-latam');
         $this->method_description = __('Subscription Payu Latam of recurring payments.', 'subscription-payu-latam');
         $this->description  = $this->get_option( 'description' );
-        $this->order_button_text = __('Continue to payment', 'subscription-payu-latam');
+        $this->order_button_text = __('to subscribe', 'subscription-payu-latam');
         $this->has_fields = true;
         $this->supports = array(
             'products',
