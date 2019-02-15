@@ -140,5 +140,6 @@ function deactivation_subscription_payu_latam_spl(){
     $sql = "DROP TABLE IF EXISTS $table_name";
     $wpdb->query($sql);
     delete_option('subscription_payu_latam_spl_version');
+    wp_clear_scheduled_hook( 'subscription_payu_latam_spl' );
 }
 register_deactivation_hook( __FILE__, 'deactivation_subscription_payu_latam_spl' );
