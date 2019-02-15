@@ -2,7 +2,7 @@
 /*
 Plugin Name: Subscription Payu Latam
 Description: payU latam subscription use sdk.
-Version: 1.0.21
+Version: 1.0.22
 Author: Saul Morales Pacheco
 Author URI: https://saulmoralespa.com
 License: GNU General Public License v3.0
@@ -16,7 +16,7 @@ WC requires at least: 2.6
 if (!defined( 'ABSPATH' )) exit;
 
 if(!defined('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION')){
-    define('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION', '1.0.21');
+    define('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION', '1.0.22');
 }
 
 add_action('plugins_loaded','subscription_payu_latam_spl_init',0);
@@ -134,33 +134,11 @@ function suscription_payu_latam_pls()
     return $plugin;
 }
 
-function activate_subscription_payu_latam_spl(){
-
-    global $wpdb;
-
-    $table_name = $wpdb->prefix . "subscription_payu_latam_spl_transactions";
-    $charset_collate = $wpdb->get_charset_collate();
-
-    $sql = "CREATE TABLE $table_name (
-		id mediumint(9) NOT NULL AUTO_INCREMENT,
-		orderid int NOT NULL,
-		transactionid varchar(60) DEFAULT '' NOT NULL,
-		PRIMARY KEY  (id)
-	) $charset_collate;";
-
-    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-    dbDelta( $sql );
-    update_option('subscription_payu_latam_spl_version',SUBSCRIPTION_PAYU_LATAM_SPL_VERSION);
-    wp_schedule_event( time(), 'hourly', 'subscription_payu_latam_spl' );
-}
-
 function deactivation_subscription_payu_latam_spl(){
     global $wpdb;
     $table_name = $wpdb->prefix . "subscription_payu_latam_spl_transactions";
     $sql = "DROP TABLE IF EXISTS $table_name";
     $wpdb->query($sql);
     delete_option('subscription_payu_latam_spl_version');
-    wp_clear_scheduled_hook( 'subscription_payu_latam_spl' );
 }
-register_activation_hook(__FILE__,'activate_subscription_payu_latam_spl');
 register_deactivation_hook( __FILE__, 'deactivation_subscription_payu_latam_spl' );

@@ -198,57 +198,6 @@ class Suscription_Payu_Latam_SPL
             $parameters = array_merge($parameters, array(PayUParameters::TAX_VALUE => "0", PayUParameters::TAX_RETURN_BASE => "0"));
         try{
             $response = PayUPayments::doAuthorizationAndCapture($parameters);
-
-            if(!$test) {
-                if ($response->code != "SUCCESS") {
-                    return array('status'  => false,
-                        'message' => __('An error has occurred while processing the payment, please try again',
-                            'subscription-payu-latam')
-                    );
-                }
-                $aprovved = false;
-                $transactionId = 0;
-                $redirect_url  = '';
-                if ($response->transactionResponse->state == "APPROVED") {
-                    $aprovved   = true;
-                    $transactionId = $response->transactionResponse->transactionId;
-                    $order->payment_complete($transactionId);
-                    $order->add_order_note(sprintf(__('Successful payment (Transaction ID: %s)',
-                        'suscription-payu-latam'), $transactionId));
-                } elseif ($response->transactionResponse->state == "PENDING") {
-                    $transactionId = $response->transactionResponse->transactionId;
-                    $this->saveTransactionId($order_id, $transactionId);
-                    $message       = sprintf(__('Payment pending (Transaction ID: %s)', 'suscription-payu-latam'),
-                        $transactionId);
-                    $messageClass  = 'woocommerce-info';
-                    $order->update_status('on-hold');
-                    $order->add_order_note(sprintf(__('Pending approval (Transaction ID: %s)',
-                        'suscription-payu-latam'), $transactionId));
-                    $redirect_url = add_query_arg(array('msg' => urlencode($message), 'type' => $messageClass),
-                        $order->get_checkout_order_received_url());
-                } elseif ($response->transactionResponse->state == "DECLINED") {
-                    WC_Subscriptions_Manager::process_subscription_payment_failure_on_order( $order );
-                    $transactionId = $response->transactionResponse->transactionId;
-                    $message   = __('Payment declined', 'suscription-payu-latam');
-                    $messageClass  = 'woocommerce-error';
-                    $order->update_status('failed');
-                    $order->add_order_note(sprintf(__('Payment declined (Transaction ID: %s)',
-                        'suscription-payu-latam'), $transactionId));
-                    $redirect_url = add_query_arg(array('msg' => urlencode($message), 'type' => $messageClass),
-                        $order->get_checkout_order_received_url());
-                } elseif ($response->transactionResponse->state == "EXPIRED") {
-                    WC_Subscriptions_Manager::expire_subscriptions_for_order($order);
-                    $transactionId = $response->transactionResponse->transactionId;
-                    $message       = __('Payment expired', 'suscription-payu-latam');
-                    $messageClass  = 'woocommerce-error';
-                    $order->update_status('failed');
-                    $order->add_order_note(sprintf(__('Payment expired (Transaction ID: %s)', 'suscription-payu-latam'),
-                        $transactionId));
-                    $redirect_url = add_query_arg(array('msg' => urlencode($message), 'type' => $messageClass),
-                        $order->get_checkout_order_received_url());
-                }
-                return array('status' => $aprovved, 'transactionid' => $transactionId, 'url' => $redirect_url);
-            }
         }catch (PayUException $ex){
             if($test){
                 suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $ex->getMessage());
@@ -570,6 +519,11 @@ class Suscription_Payu_Latam_SPL
         return array_values($products)[0];
     }
 
+    /**
+     * @param bool $reports
+     * @param bool $suscriptions
+     * @return string
+     */
     public function createUrl($reports = false, $suscriptions = false)
     {
         if ($this->_isTest){
@@ -598,21 +552,11 @@ class Suscription_Payu_Latam_SPL
                     $_SERVER['REMOTE_ADDR'])) ? '127.0.0.1' : $_SERVER['REMOTE_ADDR'];
     }
 
-    public function saveTransactionId($order_id, $transactionId)
-    {
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'subscription_payu_latam_spl_transactions';
-
-        $wpdb->insert(
-            $table_name,
-            array(
-                'orderid' => $order_id,
-                'transactionid' => $transactionId,
-            )
-        );
-
-    }
-
+    /**
+     * @param $string
+     * @param bool $number
+     * @return string|string[]|null
+     */
     public function cleanCharacters($string, $number = false)
     {
         $string = str_replace(' ', '-', $string);
