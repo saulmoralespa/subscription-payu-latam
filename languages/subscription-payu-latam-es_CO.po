@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Payu Latam Subscription\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-07 00:02+0000\n"
-"PO-Revision-Date: 2019-02-07 00:03+0000\n"
+"POT-Creation-Date: 2019-02-16 00:10+0000\n"
+"PO-Revision-Date: 2019-02-16 00:11+0000\n"
 "Last-Translator: wpdev <cortuclas@gmail.com>\n"
 "Language-Team: Español de Colombia\n"
 "Language: es_CO\n"
@@ -75,11 +75,7 @@ msgstr ""
 "Subscription Payu Latam: Requiere que el país de la tienda sea algunos de "
 "estos países Brasil, Colombia, México y Perú."
 
-#: includes/class-subscription-payu-latam.php:205
-msgid "An error has occurred while processing the payment, please try again"
-msgstr ""
-
-#: includes/class-subscription-payu-latam.php:567
+#: includes/class-subscription-payu-latam.php:516
 msgid ""
 "Currently Subscription Payu Latam does not support more than one product in "
 "the cart if one of the products is a subscription."
@@ -87,63 +83,52 @@ msgstr ""
 "Actualmente, Subscription Payu Latam no admite más de un producto en el "
 "carrito si uno de los productos es una suscripción."
 
-#: includes/class-subscription-payu-latam-plugin.php:91
+#: includes/class-subscription-payu-latam-plugin.php:90
 msgid "Settings"
 msgstr "Configuraciones"
 
-#: includes/class-subscription-payu-latam-plugin.php:92
+#: includes/class-subscription-payu-latam-plugin.php:91
 msgid "Documentation"
 msgstr "Documentación"
 
-#: includes/class-subscription-payu-latam-plugin.php:105
+#: includes/class-subscription-payu-latam-plugin.php:104
 msgid "DNI"
 msgstr "Documento Nacional de Identidad"
 
-#: includes/class-subscription-payu-latam-plugin.php:106
+#: includes/class-subscription-payu-latam-plugin.php:105
 msgctxt "placeholder"
 msgid "Your DNI here...."
 msgstr "Su DNI aquí ..."
 
-#: includes/class-subscription-payu-latam-plugin.php:125
+#: includes/class-subscription-payu-latam-plugin.php:124
 msgid "The type of card is not accepted"
 msgstr "El tipo de tarjeta no es aceptada"
 
-#: includes/class-subscription-payu-latam-plugin.php:126
+#: includes/class-subscription-payu-latam-plugin.php:125
 msgid "Enter the card information"
 msgstr "Ingrese la información de la tarjeta"
 
-#: includes/class-subscription-payu-latam-plugin.php:127
+#: includes/class-subscription-payu-latam-plugin.php:126
 msgid "Please wait..."
 msgstr "Espere por favor..."
 
-#: includes/class-subscription-payu-latam-plugin.php:128
+#: includes/class-subscription-payu-latam-plugin.php:127
 msgid "Redirecting to verify status..."
 msgstr "Redirigiendo para verificar el estado ..."
 
-#: includes/class-subscription-payu-latam-plugin.php:228
-#: includes/class-subscription-payu-latam-plugin.php:261
+#: includes/class-subscription-payu-latam-plugin.php:225
 msgid "An internal error has arisen, try again"
 msgstr "Ha surgido un error interno, inténtalo de nuevo"
 
-#: includes/class-subscription-payu-latam-plugin.php:243
-#, php-format
-msgid "Successful payment (Transaction ID: %s), (subscription ID: %s)"
-msgstr "Pago exitoso (Transacción ID: %s),  (suscripción ID: %s)"
-
-#: includes/class-subscription-payu-latam-plugin.php:273
+#: includes/class-subscription-payu-latam-plugin.php:242
 #, php-format
 msgid "Order is related to a subscription (Subscription ID: %s)"
 msgstr "Orden relacionada con una suscripción (suscripción ID: %s)"
 
-#: includes/class-subscription-payu-latam-plugin.php:277
+#: includes/class-subscription-payu-latam-plugin.php:246
 #, php-format
 msgid "Successful subscription (subscription ID: %s)"
 msgstr "Suscripción exitosa (suscripción ID: %s)"
-
-#: includes/class-subscription-payu-latam-plugin.php:306
-#, php-format
-msgid "Successful payment (Transaction ID: %s)"
-msgstr "Pago exitoso (Transacción ID: %s)"
 
 #. Name of the plugin
 #: includes/class-gateway-subscription-payu-latam.php:15
@@ -172,12 +157,12 @@ msgid "Data of card"
 msgstr "Datos de la tarjeta"
 
 #: includes/class-gateway-subscription-payu-latam.php:89
-msgid "Número de tarjeta"
-msgstr ""
+msgid "Card number"
+msgstr "Número de tarjeta"
 
 #: includes/class-gateway-subscription-payu-latam.php:90
-msgid "Titular"
-msgstr ""
+msgid "Cardholder"
+msgstr "Titular de la tarjeta"
 
 #: includes/admin/payu-settings.php:11
 msgid "Enable/Disable"

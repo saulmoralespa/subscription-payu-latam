@@ -100,14 +100,19 @@ class Subscription_Payu_Latam_SPL_Plugin
 
     public function custom_woocommerce_billing_fields($fields)
     {
-        $fields['billing_dni'] = array(
-            'label' => __('DNI', 'subscription-payu-latam'),
-            'placeholder' => _x('Your DNI here....', 'placeholder', 'subscription-payu-latam'),
-            'required' => true,
-            'clear' => false,
-            'type' => 'text',
-            'class' => array('my-css')
-        );
+        $woo_countries = new WC_Countries();
+        $default_country = $woo_countries->get_base_country();
+
+        if ($default_country !== 'BR') {
+            $fields['billing_dni'] = array(
+                'label' => __('DNI', 'subscription-payu-latam'),
+                'placeholder' => _x('Your DNI here....', 'placeholder', 'subscription-payu-latam'),
+                'required' => true,
+                'clear' => false,
+                'type' => 'number',
+                'class' => array('my-css')
+            );
+        }
 
         return $fields;
     }

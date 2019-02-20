@@ -1,4 +1,4 @@
-<?php
+    <?php
 /**
  * Created by PhpStorm.
  * User: smp
@@ -86,14 +86,24 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
             <div class='card-wrapper'></div>
             <div id="form-payu-latam">
                 <label for="number" class="label"><?php echo __('Data of card','subscription-payu-latam'); ?> *</label>
-                <input placeholder="<?php echo __('Número de tarjeta','subscription-payu-latam'); ?>" type="tel" name="subscriptionpayulatam_number" id="subscriptionpayulatam_number" required="" class="form-control">
-                <input placeholder="<?php echo __('Titular','subscription-payu-latam'); ?>" type="text" name="subscriptionpayulatam_name" id="subscriptionpayulatam_name" required="" class="form-control">
+                <input placeholder="<?php echo __('Card number','subscription-payu-latam'); ?>" type="tel" name="subscriptionpayulatam_number" id="subscriptionpayulatam_number" required="" class="form-control">
+                <input placeholder="<?php echo __('Cardholder','subscription-payu-latam'); ?>" type="text" name="subscriptionpayulatam_name" id="subscriptionpayulatam_name" required="" class="form-control">
                 <input type="hidden" name="subscriptionpayulatam_type" id="subscriptionpayulatam_type">
                 <input placeholder="MM/YY" type="tel" name="subscriptionpayulatam_expiry" id="subscriptionpayulatam_expiry" required="" class="form-control" >
                 <input placeholder="123" type="number" name="subscriptionpayulatam_cvc" id="subscriptionpayulatam_cvc" required="" class="form-control" maxlength="4">
             </div>
         </div>
         <?php
+    }
+
+    public function validate_fields()
+    {
+        if (isset($_POST['subscriptionpayulatam_errorcard'])){
+            wc_add_notice($_POST['subscriptionpayulatam_errorcard'], 'error' );
+            return false;
+        }
+
+        return true;
     }
 
     public function process_payment($order_id)
@@ -103,23 +113,18 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
         $params['id_order'] = $order_id;
 
 
-        if (isset($params['subscriptionpayulatam_errorcard'])){
-            wc_add_notice($params['subscriptionpayulatam_errorcard'], 'error' );
+        $data = suscription_payu_latam_pls()->subscription_payu_latam($params);
+
+        if($data['status']){
+            wc_reduce_stock_levels($order_id);
+            WC()->cart->empty_cart();
+            return array(
+                'result' => 'success',
+                'redirect' => $data['url']
+            );
         }else{
-
-            $data = suscription_payu_latam_pls()->subscription_payu_latam($params);
-
-            if($data['status']){
-                wc_reduce_stock_levels($order_id);
-                WC()->cart->empty_cart();
-                return array(
-                    'result' => 'success',
-                    'redirect' => $data['url']
-                );
-            }else{
-                wc_add_notice($data['message'], 'error' );
-                suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $data['message']);
-            }
+            wc_add_notice($data['message'], 'error' );
+            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $data['message']);
         }
 
         return parent::process_payment($order_id);

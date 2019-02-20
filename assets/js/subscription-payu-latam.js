@@ -53,7 +53,7 @@
                 swal.showLoading()
             },
             allowOutsideClick: false
-        });
+        }); 
 
     });
 
