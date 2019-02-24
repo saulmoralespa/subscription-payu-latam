@@ -1,4 +1,5 @@
-(function( $ ) {
+jQuery( function( $ ) {
+    'use strict';
 
     const checkout_form = $( 'form.woocommerce-checkout' );
 
@@ -13,7 +14,6 @@
         }
 
     } );
-
 
     $(document.body).on('checkout_error', function () {
         swal.close();
@@ -100,4 +100,4 @@
      return typeCard[1].toUpperCase();
  }
 
-})(jQuery);
+});

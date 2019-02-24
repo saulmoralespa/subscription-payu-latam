@@ -2,7 +2,7 @@
 /*
 Plugin Name: Subscription Payu Latam
 Description: payU latam subscription use sdk.
-Version: 1.0.24
+Version: 1.0.25
 Author: Saul Morales Pacheco
 Author URI: https://saulmoralespa.com
 License: GNU General Public License v3.0
@@ -16,7 +16,7 @@ WC requires at least: 2.6
 if (!defined( 'ABSPATH' )) exit;
 
 if(!defined('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION')){
-    define('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION', '1.0.24');
+    define('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION', '1.0.25');
 }
 
 add_action('plugins_loaded','subscription_payu_latam_spl_init',0);
@@ -142,4 +142,5 @@ function deactivation_subscription_payu_latam_spl(){
     delete_option('subscription_payu_latam_spl_version');
     wp_clear_scheduled_hook( 'subscription_payu_latam_spl' );
 }
+
 register_deactivation_hook( __FILE__, 'deactivation_subscription_payu_latam_spl' );
