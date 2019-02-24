@@ -2,7 +2,7 @@
 
     const checkout_form = $( 'form.woocommerce-checkout' );
 
-    $( document ).on( 'updated_checkout', function() {
+    $( 'body' ).on( 'updated_checkout', function() {
 
         if (checkout_form.find('#form-payu-latam').is(":visible"))
         {
@@ -21,39 +21,42 @@
 
     checkout_form.on( 'checkout_place_order', function() {
 
-        let number_card = checkout_form.find('#subscriptionpayulatam_number').val();
-        let card_holder = checkout_form.find('#subscriptionpayulatam_name').val();
-        let card_type = checkout_form.find('#subscriptionpayulatam_type').val();
-        let card_expire = checkout_form.find('#subscriptionpayulatam_expiry').val();
-        let card_cvv = checkout_form.find('#subscriptionpayulatam_cvc').val();
+        if($('form[name="checkout"] input[name="payment_method"]:checked').val() === 'subscription_payu_latam'){
 
-        checkout_form.append($('<input name="subscriptionpayulatam_number" type="hidden" />' ).val( number_card ));
-        checkout_form.append($('<input name="subscriptionpayulatam_name" type="hidden" />' ).val( card_holder ));
-        checkout_form.append($('<input name="subscriptionpayulatam_type" type="hidden" />' ).val( getTypeCard() ));
-        checkout_form.append($('<input name="subscriptionpayulatam_expiry" type="hidden" />' ).val( card_expire ));
-        checkout_form.append($('<input name="subscriptionpayulatam_cvc" type="hidden" />' ).val( card_cvv ));
+            let number_card = checkout_form.find('#subscriptionpayulatam_number').val();
+            let card_holder = checkout_form.find('#subscriptionpayulatam_name').val();
+            let card_type = checkout_form.find('#subscriptionpayulatam_type').val();
+            let card_expire = checkout_form.find('#subscriptionpayulatam_expiry').val();
+            let card_cvv = checkout_form.find('#subscriptionpayulatam_cvc').val();
 
-        let inputError = checkout_form.find("input[name=subscriptionpayulatam_errorcard]");
+            checkout_form.append($('<input name="subscriptionpayulatam_number" type="hidden" />' ).val( number_card ));
+            checkout_form.append($('<input name="subscriptionpayulatam_name" type="hidden" />' ).val( card_holder ));
+            checkout_form.append($('<input name="subscriptionpayulatam_type" type="hidden" />' ).val( getTypeCard() ));
+            checkout_form.append($('<input name="subscriptionpayulatam_expiry" type="hidden" />' ).val( card_expire ));
+            checkout_form.append($('<input name="subscriptionpayulatam_cvc" type="hidden" />' ).val( card_cvv ));
 
-        if( inputError.length )
-        {
-            inputError.remove();
+            let inputError = checkout_form.find("input[name=subscriptionpayulatam_errorcard]");
+
+            if( inputError.length )
+            {
+                inputError.remove();
+            }
+
+
+            if (!number_card || !card_holder || getTypeCard(checkout_form) === null || !card_expire || !card_cvv){
+                checkout_form.append(`<input type="hidden" name="subscriptionpayulatam_errorcard" value="${payu_latam_suscription.msjEmptyInputs}">`);
+            }else if (!checkCard()){
+                checkout_form.append(`<input type="hidden" name="subscriptionpayulatam_errorcard" value="${payu_latam_suscription.msjNoCard}">`);
+            }
+
+            swal.fire({
+                title: payu_latam_suscription.msjProcess,
+                onOpen: () => {
+                    swal.showLoading()
+                },
+                allowOutsideClick: false
+            });
         }
-
-
-        if (!number_card || !card_holder || getTypeCard(checkout_form) === null || !card_expire || !card_cvv){
-            checkout_form.append(`<input type="hidden" name="subscriptionpayulatam_errorcard" value="${payu_latam_suscription.msjEmptyInputs}">`);
-        }else if (!checkCard()){
-            checkout_form.append(`<input type="hidden" name="subscriptionpayulatam_errorcard" value="${payu_latam_suscription.msjNoCard}">`);
-        }
-
-        swal.fire({
-            title: payu_latam_suscription.msjProcess,
-            onOpen: () => {
-                swal.showLoading()
-            },
-            allowOutsideClick: false
-        }); 
 
     });
 

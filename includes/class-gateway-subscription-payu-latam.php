@@ -18,7 +18,6 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
         $this->order_button_text = __('to subscribe', 'subscription-payu-latam');
         $this->has_fields = true;
         $this->supports = array(
-            'products',
             'subscriptions',
             'subscription_cancellation'
         );
@@ -30,9 +29,11 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
         $this->account_id  = $this->get_option( 'account_id' );
         $this->apikey  = $this->get_option( 'apikey' );
         $this->apilogin  = $this->get_option( 'apilogin' );
+        $this->isTest = $this->get_option( 'environment' );
+        $this->debug = $this->get_option( 'debug' );
+        $this->currency = get_woocommerce_currency();
 
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
-        add_filter('woocommerce_thankyou_order_received_text', array($this, 'order_received_message') );
         add_action('woocommerce_subscription_status_cancelled', array(&$this, 'subscription_cancelled'));
         add_action('woocommerce_available_payment_gateways', array(&$this, 'disable_non_subscription'), 20);
 
@@ -112,8 +113,9 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
         $params = $_POST;
         $params['id_order'] = $order_id;
 
+        $suscription = new Suscription_Payu_Latam_SPL();
 
-        $data = suscription_payu_latam_pls()->subscription_payu_latam($params);
+        $data = $suscription->subscription_payu_latam($params);
 
         if($data['status']){
             wc_reduce_stock_levels($order_id);
@@ -124,20 +126,10 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
             );
         }else{
             wc_add_notice($data['message'], 'error' );
-            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $data['message']);
         }
 
         return parent::process_payment($order_id);
 
-    }
-
-    public function order_received_message( $text)
-    {
-        if(!empty($_GET['msg'])){
-            return $text .' '.$_GET['msg'];
-        }
-
-        return $text;
     }
 
     public function test_suscription_payu_latam()

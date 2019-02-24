@@ -6,68 +6,22 @@
  * Time: 10:04 AM
  */
 
-class Suscription_Payu_Latam_SPL
+class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
 {
-    /**
-     * @var string
-     */
-    protected $_apikey;
-    /**
-     * @var string
-     */
-    protected $_apilogin;
-    /**
-     * @var string
-     */
-    protected $_merchant_id;
-    /**
-     * @var string
-     */
-    protected $_account_id;
-    /**
-     * @var bool
-     */
-    protected $_isTest;
-
-    /**
-     * @var string
-     */
-    protected $_currency;
-
-    /**
-     * @var bool
-     */
-    public $existPlan = false;
-
-    /**
-     * @var string
-     */
-    protected $_debug;
 
     public function __construct()
     {
-        require_once (suscription_payu_latam_pls()->plugin_path . 'lib/PayU.php');
 
-        $WC_Payu_Latam_Suscribir = new WC_Payment_Suscription_Payu_Latam_SPL();
-
-        $this->_apikey = $WC_Payu_Latam_Suscribir->get_option('apikey');
-        $this->_apilogin = $WC_Payu_Latam_Suscribir->get_option('apilogin');
-        $this->_merchant_id = $WC_Payu_Latam_Suscribir->get_option('merchant_id');
-        $this->_account_id = $WC_Payu_Latam_Suscribir->get_option('account_id');
-        $this->_isTest = (boolean)$WC_Payu_Latam_Suscribir->get_option('environment');
-        $this->_currency = get_woocommerce_currency();
-        $this->_debug = $WC_Payu_Latam_Suscribir->get_option('debug');
+        parent::__construct();
     }
 
-    public function executePayment($params = null, $test = true)
+    public function executePayment($test = true)
     {
-        $country = WC()->countries->get_base_country();
-        $lang = $country == 'BR' ?  SupportedLanguages::PT : SupportedLanguages::ES;
         $country = WC()->countries->get_base_country();
         $reference = $reference = "payment_test" . time();
         $total = "100";
         $productinfo = "payment test";
-        $currency = ($country == 'CO' && $test) ? 'USD' : $this->_currency;
+        $currency = ($country == 'CO' && $test) ? 'USD' : $this->currency;
         $card_number = "5529998177229339";
         $card_type  = "MASTERCARD";
         $card_name = "Pedro Perez";
@@ -82,50 +36,18 @@ class Suscription_Payu_Latam_SPL
         $postalCode = "000000";
         $dni = "5415668464654";
 
-        if (isset($params)) {
-            $order_id    = $params['order_id'];
-            $order       = new WC_Order($order_id);
-            $card_number = $params['card_number'];
-            $card_name   = $params['card_name'];
-            $card_type   = $params['card_type'];
-            $card_expire = $params['card_expire'];
-            $cvc         = $params['cvc'];
-            $reference = $order->get_order_key() . '-' . time();
-            $total = $order->get_total();
-            $productinfo = "Order $order_id";
-            $email = $order->get_billing_email();
-            $phone = $order->get_billing_phone();
-            $city = $order->get_billing_city();
-            $state = $order->get_billing_state();
-            $street = $order->get_billing_address_1();
-            $street2 = empty($order->get_billing_address_2()) ? $order->get_billing_address_1() : $order->get_billing_address_2();
-            $postalCode = empty($order->get_billing_postcode()) ? '000000' : $order->get_billing_postcode();
-            $dni = $this->cleanCharacters(get_post_meta( $order->get_id(), '_billing_dni', true ), true);
-        }
-        $countryName = PayUCountries::CO;
-        if ($country == 'AR')
-            $countryName = PayUCountries::AR;
-        if ($country == 'BR')
-            $countryName = PayUCountries::BR;
-        if ($country == 'MX')
-            $countryName = PayUCountries::MX;
-        if ($country == 'PA')
-            $countryName = PayUCountries::PA;
-        if ($country == 'PE')
-            $countryName = PayUCountries::PE;
-
-        PayU::$apiKey = $this->_apikey;
-        PayU::$apiLogin = $this->_apilogin;
-        PayU::$merchantId = $this->_merchant_id;
-        PayU::$language = $lang;
-        PayU::$isTest = ($test) ? true : $this->_isTest;
+        PayU::$apiKey = $this->apikey;
+        PayU::$apiLogin = $this->apilogin;
+        PayU::$merchantId = $this->merchant_id;
+        PayU::$language = $this->getLanguagePayu();
+        PayU::$isTest = ($test) ? true : $this->isTest;
         Environment::setPaymentsCustomUrl($this->createUrl());
         Environment::setReportsCustomUrl($this->createUrl(true));
         Environment::setSubscriptionsCustomUrl($this->createUrl(true, true));
 
         $parameters = array(
             //Ingrese aquí el identificador de la cuenta.
-            PayUParameters::ACCOUNT_ID => $this->_account_id,
+            PayUParameters::ACCOUNT_ID => $this->account_id,
             //Ingrese aquí el código de referencia.
             PayUParameters::REFERENCE_CODE => $reference,
             //Ingrese aquí la descripción.
@@ -154,7 +76,7 @@ class Suscription_Payu_Latam_SPL
             PayUParameters::BUYER_PHONE => $phone,
             // -- pagador --
             //Ingrese aquí el nombre del pagador.
-            PayUParameters::PAYER_NAME => ($test || $this->_isTest) ? "APPROVED" :  $card_name,
+            PayUParameters::PAYER_NAME => ($test || $this->isTest) ? "APPROVED" :  $card_name,
             //Ingrese aquí el email del pagador.
             PayUParameters::PAYER_EMAIL => $email,
             //Ingrese aquí el teléfono de contacto del pagador.
@@ -182,7 +104,7 @@ class Suscription_Payu_Latam_SPL
             //Ingrese aquí el número de cuotas.
             PayUParameters::INSTALLMENTS_NUMBER => "1",
             //Ingrese aquí el nombre del pais.
-            PayUParameters::COUNTRY => $countryName,
+            PayUParameters::COUNTRY => $this->getCountryPayu(),
             //Session id del device.
             PayUParameters::DEVICE_SESSION_ID => md5(session_id().microtime()),
             //IP del pagadador
@@ -213,13 +135,141 @@ class Suscription_Payu_Latam_SPL
         return array('status' => false, 'message' => __('Not processed payment'));
     }
 
+    public function subscription_payu_latam($params)
+    {
+
+        $order_id = $params['id_order'];
+        $order = new WC_Order($order_id);
+        $card_number = $params['subscriptionpayulatam_number'];
+        $card_number = str_replace(' ','', $card_number);
+        $card_name = $params['subscriptionpayulatam_name'];
+        $card_type = $params['subscriptionpayulatam_type'];
+        $card_expire = $params['subscriptionpayulatam_expiry'];
+        $cvc = $params['subscriptionpayulatam_cvc'];
+
+        $year = date('Y');
+        $lenyear = substr($year, 0,2);
+        $expires = str_replace(' ', '', $card_expire);
+        $expire = explode('/', $expires);
+        $mes = $expire[0];
+        if (strlen($mes) == 1) $mes = '0' . $mes;
+
+        $yearFinal =  strlen($expire[1]) == 4 ? $expire[1] :  $lenyear . substr($expire[1], -2);
+        $datecaduce = $yearFinal . "/" . $mes;
+
+        $paramsPayment = array(
+            'order_id' => $order_id,
+            'card_number' => $card_number,
+            'card_name' => $card_name,
+            'card_type' => $card_type,
+            'card_expire' => $datecaduce,
+            'cvc' => $cvc
+        );
+
+
+        $sub = $this->getWooCommerceSubscriptionFromOrderId($order->get_id());
+        $trial_start = $sub->get_date('start');
+        $trial_end = $sub->get_date('trial_end');
+        $planinterval =  $sub->billing_period;
+        $trial_days = 0;
+
+        if ($trial_end > 0 ){
+            $trial_days = (string)(strtotime($trial_end) - strtotime($trial_start)) / (60 * 60 * 24);
+        }
+
+        if ( WC_Subscriptions_Synchroniser::subscription_contains_synced_product( $sub->id ) ) {
+            $length_from_timestamp = $sub->get_time( 'next_payment' );
+        } elseif ( $trial_end > 0 ) {
+            $length_from_timestamp = $sub->get_time( 'trial_end' );
+        } else {
+            $length_from_timestamp = $sub->get_time( 'start' );
+        }
+
+        $periods = wcs_estimate_periods_between( $length_from_timestamp, $sub->get_time( 'end' ), $sub->billing_period );
+        $periods = (!$periods > 0) ? 20000 : $periods;
+
+        $price_per_period = WC_Subscriptions_Order::get_recurring_total( $order );
+        $subscription_interval = WC_Subscriptions_Order::get_subscription_interval( $order );
+
+        $product = $this->getProductFromOrder($order);
+        $productName = $product['name'];
+        $produtName = $this->cleanCharacters($productName);
+
+        $planCode = $produtName . '-' . $product['product_id'];
+        $productName = $product['name'];
+
+
+        $plan = array(
+            'planinterval' => strtoupper($planinterval),
+            'value' => $price_per_period,
+            'productname' => $productName,
+            'plancode' => $planCode,
+            'periods' => $periods,
+            'trial_days' => $trial_days,
+            'interval' => $subscription_interval
+        );
+
+        $nameClient = $order->get_billing_first_name() ? $order->get_billing_first_name() : $order->get_shipping_first_name();
+        $lastname = $order->get_billing_last_name() ? $order->get_billing_last_name() : $order->get_shipping_last_name();
+        $emailClient = $order->get_billing_email();
+
+
+        $paramsClient = array(
+            'name' => "$nameClient $lastname",
+            'email' => $emailClient
+        );
+
+        $existPlan = $this->getPlan($planCode);
+
+        if (!$existPlan)
+            $this->createPlan($plan);
+        $id = $this->createClient($paramsClient);
+        $paramsCard = array_merge($paramsPayment, array('clientid' => $id));
+        $tokenCard = $this->createCard($paramsCard);
+
+
+        $responseStatus = array('status' => false, 'message' => __('An internal error has arisen, try again', 'subscription-payu-latam'));
+
+        if (!$tokenCard){
+            return $responseStatus;
+        }
+
+        $paramsSubscribe = array(
+            'clientid' => $id,
+            'plancode' => $planCode,
+            'tokenid' => $tokenCard,
+            'trialdays' => $trial_days,
+        );
+
+        $id = $this->createSubscriptionPayu($paramsSubscribe);
+
+        if (isset($id)){
+            $order->payment_complete($id);
+            $order->add_order_note(sprintf(__('Order is related to a subscription (Subscription ID: %s)',
+                'subscription-payu-latam'), $id));
+            WC_Subscriptions_Manager::activate_subscriptions_for_order( $order );
+            update_post_meta($order_id, 'subscription_payu_latam_id',$id);
+            $message   = sprintf(__('Successful subscription (subscription ID: %s)', 'subscription-payu-latam'),
+                $id);
+            $messageClass  = 'woocommerce-message';
+            $redirect_url = add_query_arg( array('msg'=> urlencode($message), 'type'=> $messageClass), $order->get_checkout_order_received_url() );
+            $responseStatus = array('status' => true, 'url' => $redirect_url);
+        }
+
+        return $responseStatus;
+
+    }
+
+    private function getWooCommerceSubscriptionFromOrderId($orderId)
+    {
+        $subscriptions = wcs_get_subscriptions_for_order($orderId);
+        return end($subscriptions);
+    }
+
     public function createPlan($params)
     {
-        PayU::$apiKey = $this->_apikey;
-        PayU::$apiLogin = $this->_apilogin;
-        PayU::$merchantId = $this->_merchant_id;
-        PayU::$language = SupportedLanguages::ES;
-        PayU::$isTest = $this->_isTest;
+        $this->initParamsPayu();
+
         Environment::setPaymentsCustomUrl($this->createUrl());
         Environment::setReportsCustomUrl($this->createUrl(true));
         Environment::setSubscriptionsCustomUrl($this->createUrl(true, true));
@@ -235,14 +285,14 @@ class Suscription_Payu_Latam_SPL
             // Ingresa aquí la cantidad de intervalos
             PayUParameters::PLAN_INTERVAL_COUNT => $params['interval'],
             // Ingresa aquí la moneda para el plan
-            PayUParameters::PLAN_CURRENCY => $this->_currency,
+            PayUParameters::PLAN_CURRENCY => $this->currency,
             // Ingresa aquí el valor del plan
             PayUParameters::PLAN_VALUE => $params['value'],
             PayUParameters::PLAN_TAX => "0",
             //(OPCIONAL) Ingresa aquí la base de devolución sobre el impuesto
             PayUParameters::PLAN_TAX_RETURN_BASE => "0",
             // Ingresa aquí la cuenta Id del plan
-            PayUParameters::ACCOUNT_ID => $this->_account_id,
+            PayUParameters::ACCOUNT_ID => $this->account_id,
             // Ingresa aquí el intervalo de reintentos
             PayUParameters::PLAN_ATTEMPTS_DELAY => "1",
             // Ingresa aquí la cantidad de cobros que componen el plan
@@ -256,7 +306,7 @@ class Suscription_Payu_Latam_SPL
         );
 
         try{
-            $response = PayUSubscriptionPlans::create($parameters);
+            PayUSubscriptionPlans::create($parameters);
         }catch (PayUException $ex){
             suscription_payu_latam_pls()->logger->add("suscription-payu-latam", "create plan: " . $ex->getMessage());
         }
@@ -266,11 +316,7 @@ class Suscription_Payu_Latam_SPL
     {
         $existPlan = false;
 
-        PayU::$apiKey = $this->_apikey;
-        PayU::$apiLogin = $this->_apilogin;
-        PayU::$merchantId = $this->_merchant_id;
-        PayU::$language = SupportedLanguages::ES;
-        PayU::$isTest = $this->_isTest;
+        $this->initParamsPayu();
         Environment::setPaymentsCustomUrl($this->createUrl());
         Environment::setSubscriptionsCustomUrl($this->createUrl(true, true));
         Environment::setReportsCustomUrl($this->createUrl(true));
@@ -292,11 +338,7 @@ class Suscription_Payu_Latam_SPL
 
     public function deletePlan($planCode)
     {
-        PayU::$apiKey = $this->_apikey;
-        PayU::$apiLogin = $this->_apilogin;
-        PayU::$merchantId = $this->_merchant_id;
-        PayU::$language = SupportedLanguages::ES;
-        PayU::$isTest = $this->_isTest;
+        $this->initParamsPayu();
         Environment::setPaymentsCustomUrl($this->createUrl());
         Environment::setSubscriptionsCustomUrl($this->createUrl(true, true));
         Environment::setReportsCustomUrl($this->createUrl(true));
@@ -304,7 +346,7 @@ class Suscription_Payu_Latam_SPL
             $parameters = array(
                 PayUParameters::PLAN_CODE => $planCode,
             );
-            $response = PayUSubscriptionPlans::delete($parameters);
+            PayUSubscriptionPlans::delete($parameters);
         }catch (PayUException $ex){
             suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'delete plan: ' . $ex->getMessage());
 
@@ -313,11 +355,7 @@ class Suscription_Payu_Latam_SPL
 
     public function createClient($params)
     {
-        PayU::$apiKey = $this->_apikey;
-        PayU::$apiLogin = $this->_apilogin;
-        PayU::$merchantId = $this->_merchant_id;
-        PayU::$language = SupportedLanguages::ES;
-        PayU::$isTest = $this->_isTest;
+        $this->initParamsPayu();
         Environment::setPaymentsCustomUrl($this->createUrl());
         Environment::setSubscriptionsCustomUrl($this->createUrl(true, true));
         Environment::setReportsCustomUrl($this->createUrl(true));
@@ -332,7 +370,6 @@ class Suscription_Payu_Latam_SPL
             return $client->id;
         }catch (PayUException $e){
             suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'create client: ' . $e->getMessage());
-            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'create client parse params: ' . print_r($params, true));
         }
 
         return false;
@@ -340,12 +377,7 @@ class Suscription_Payu_Latam_SPL
 
     public function createCard($params)
     {
-        PayU::$apiKey = $this->_apikey;
-        PayU::$apiLogin = $this->_apilogin;
-        PayU::$merchantId = $this->_merchant_id;
-        PayU::$language = SupportedLanguages::ES;
-        PayU::$isTest = $this->_isTest;
-
+        $this->initParamsPayu();
         Environment::setPaymentsCustomUrl($this->createUrl());
         Environment::setReportsCustomUrl($this->createUrl(true));
         Environment::setSubscriptionsCustomUrl($this->createUrl(true, true));
@@ -405,12 +437,7 @@ class Suscription_Payu_Latam_SPL
 
     public function createSubscriptionPayu($params)
     {
-        PayU::$apiKey = $this->_apikey;
-        PayU::$apiLogin = $this->_apilogin;
-        PayU::$merchantId = $this->_merchant_id;
-        PayU::$language = SupportedLanguages::ES;
-        PayU::$isTest = $this->_isTest;
-
+        $this->initParamsPayu();
         Environment::setPaymentsCustomUrl($this->createUrl());
         Environment::setReportsCustomUrl($this->createUrl(true));
         Environment::setSubscriptionsCustomUrl($this->createUrl(true, true));
@@ -441,12 +468,7 @@ class Suscription_Payu_Latam_SPL
 
     public function cancelSubscription($suscription_id)
     {
-
-        PayU::$apiKey = $this->_apikey;
-        PayU::$apiLogin = $this->_apilogin;
-        PayU::$merchantId = $this->_merchant_id;
-        PayU::$language = SupportedLanguages::ES;
-        PayU::$isTest = $this->_isTest;
+        $this->initParamsPayu();
         Environment::setPaymentsCustomUrl($this->createUrl());
         Environment::setSubscriptionsCustomUrl($this->createUrl(true, true));
         Environment::setReportsCustomUrl($this->createUrl(true));
@@ -455,42 +477,16 @@ class Suscription_Payu_Latam_SPL
         );
 
         try{
-            $response = PayUSubscriptions::cancel($parameters);
+            PayUSubscriptions::cancel($parameters);
         }catch (PayUException $e){
             suscription_payu_latam_pls()->logger->add('suscription-payu-latam','cancel subscription: ' . $e->getMessage());
         }
 
     }
 
-    public function getStatusTransaction($transaction_id)
-    {
-        PayU::$apiKey = $this->_apikey;
-        PayU::$apiLogin = $this->_apilogin;
-        PayU::$merchantId = $this->_merchant_id;
-        PayU::$language = SupportedLanguages::ES;
-        PayU::$isTest = $this->_isTest;
-        Environment::setReportsCustomUrl($this->createUrl(true));
-
-        $parameters = array(PayUParameters::TRANSACTION_ID => $transaction_id);
-
-        try{
-            $response = PayUReports::getTransactionResponse($parameters);
-        }catch (PayUException $e){
-            suscription_payu_latam_pls()->logger->add('suscription-payu-latam','report: ' . $e->getMessage());
-        }
-
-        if (isset($response) && $response->state == 'APPROVED')
-            return true;
-        return false;
-    }
-
     public function doPingPayu()
     {
-        PayU::$apiKey = $this->_apikey;
-        PayU::$apiLogin = $this->_apilogin;
-        PayU::$merchantId = $this->_merchant_id;
-        PayU::$language = SupportedLanguages::ES;
-        PayU::$isTest = $this->_isTest;
+        $this->initParamsPayu();
         Environment::setReportsCustomUrl($this->createUrl(true));
 
         $res = false;
@@ -526,7 +522,7 @@ class Suscription_Payu_Latam_SPL
      */
     public function createUrl($reports = false, $suscriptions = false)
     {
-        if ($this->_isTest){
+        if ($this->isTest){
             $url = "https://sandbox.api.payulatam.com/";
         }else{
             $url = "https://api.payulatam.com/";
@@ -563,5 +559,40 @@ class Suscription_Payu_Latam_SPL
         $patern = ($number)  ? '/[^0-9\-]/' :  '/[^A-Za-z0-9\-]/';
 
         return preg_replace($patern, '', $string);
+    }
+
+    public function getLanguagePayu()
+    {
+        $country = suscription_payu_latam_pls()->getDefaultCountry();
+        $lang = $country === 'BR' ?  SupportedLanguages::PT : SupportedLanguages::ES;
+        return $lang;
+    }
+
+    public function initParamsPayu()
+    {
+        PayU::$apiKey = $this->apikey;
+        PayU::$apiLogin = $this->apilogin;
+        PayU::$merchantId = $this->merchant_id;
+        PayU::$language = $this->getLanguagePayu();
+        PayU::$isTest = $this->isTest;
+    }
+
+    public function getCountryPayu()
+    {
+        $countryShop = suscription_payu_latam_pls()->getDefaultCountry();
+        $countryName = PayUCountries::CO;
+
+        if ($countryShop === 'AR')
+            $countryName = PayUCountries::AR;
+        if ($countryShop === 'BR')
+            $countryName = PayUCountries::BR;
+        if ($countryShop === 'MX')
+            $countryName = PayUCountries::MX;
+        if ($countryShop === 'PA')
+            $countryName = PayUCountries::PA;
+        if ($countryShop === 'PE')
+            $countryName = PayUCountries::PE;
+
+        return $countryName;
     }
 }

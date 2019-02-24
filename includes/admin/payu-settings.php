@@ -6,6 +6,8 @@
  * Time: 05:44 AM
  */
 
+$credentials = '<a target="_blank" href="' . esc_url('http://developers.payulatam.com/es/sdk/sandbox.html') . '">' . __( 'For tests use the credentials provided by payU latam', 'subscription-payu-latam' ) . '</a>';
+
 return array(
     'enabled' => array(
         'title' => __('Enable/Disable', 'subscription-payu-latam'),
@@ -32,6 +34,11 @@ return array(
         'type' => 'checkbox',
         'label' => __('Debug records, it is saved in payment log', 'subscription-payu-latam'),
         'default' => 'no'
+    ),
+    'api'          => array(
+        'title'       => __( 'Credentials', 'subscription-payu-latam'),
+        'type'        => 'title',
+        'description' => $credentials,
     ),
     'environment' => array(
         'title' => __('Environment', 'subscription-payu-latam'),

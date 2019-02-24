@@ -56,6 +56,7 @@ class Subscription_Payu_Latam_SPL_Plugin
         $this->plugin_path   = trailingslashit( plugin_dir_path( $this->file ) );
         $this->plugin_url    = trailingslashit( plugin_dir_url( $this->file ) );
         $this->includes_path = $this->plugin_path . trailingslashit( 'includes' );
+        $this->lib_path = $this->plugin_path . trailingslashit( 'lib' );
         $this->logger = new WC_Logger();
     }
 
@@ -76,8 +77,10 @@ class Subscription_Payu_Latam_SPL_Plugin
 
     protected function _run()
     {
-        require_once ($this->includes_path . 'class-subscription-payu-latam.php');
         require_once ($this->includes_path . 'class-gateway-subscription-payu-latam.php');
+        require_once ($this->includes_path . 'class-subscription-payu-latam.php');
+        if (!class_exists('PayU'))
+            require_once ($this->lib_path . 'PayU.php');
         add_filter( 'plugin_action_links_' . plugin_basename( $this->file), array( $this, 'plugin_action_links' ) );
         add_filter( 'woocommerce_payment_gateways', array($this, 'woocommerce_payu_latam_suscription_add_gateway'));
         add_filter( 'woocommerce_billing_fields', array($this, 'custom_woocommerce_billing_fields'));
@@ -135,139 +138,23 @@ class Subscription_Payu_Latam_SPL_Plugin
         }
     }
 
-    public function subscription_payu_latam($params)
-    {
-
-        $order_id = $params['id_order'];
-        $order = new WC_Order($order_id);
-        $card_number = $params['subscriptionpayulatam_number'];
-        $card_number = str_replace(' ','', $card_number);
-        $card_name = $params['subscriptionpayulatam_name'];
-        $card_type = $params['subscriptionpayulatam_type'];
-        $card_expire = $params['subscriptionpayulatam_expiry'];
-        $cvc = $params['subscriptionpayulatam_cvc'];
-
-        $year = date('Y');
-        $lenyear = substr($year, 0,2);
-        $expires = str_replace(' ', '', $card_expire);
-        $expire = explode('/', $expires);
-        $mes = $expire[0];
-        if (strlen($mes) == 1) $mes = '0' . $mes;
-
-        $yearFinal =  strlen($expire[1]) == 4 ? $expire[1] :  $lenyear . substr($expire[1], -2);
-        $datecaduce = $yearFinal . "/" . $mes;
-
-        $paramsPayment = array(
-            'order_id' => $order_id,
-            'card_number' => $card_number,
-            'card_name' => $card_name,
-            'card_type' => $card_type,
-            'card_expire' => $datecaduce,
-            'cvc' => $cvc
-        );
-
-
-        $sub = $this->getWooCommerceSubscriptionFromOrderId($order->get_id());
-        $trial_start = $sub->get_date('start');
-        $trial_end = $sub->get_date('trial_end');
-        $planinterval =  $sub->billing_period;
-        $trial_days = 0;
-
-        if ($trial_end > 0 ){
-            $trial_days = (string)(strtotime($trial_end) - strtotime($trial_start)) / (60 * 60 * 24);
-        }
-
-        if ( WC_Subscriptions_Synchroniser::subscription_contains_synced_product( $sub->id ) ) {
-            $length_from_timestamp = $sub->get_time( 'next_payment' );
-        } elseif ( $trial_end > 0 ) {
-            $length_from_timestamp = $sub->get_time( 'trial_end' );
-        } else {
-            $length_from_timestamp = $sub->get_time( 'start' );
-        }
-
-        $periods = wcs_estimate_periods_between( $length_from_timestamp, $sub->get_time( 'end' ), $sub->billing_period );
-        $periods = (!$periods > 0) ? 20000 : $periods;
-
-        $price_per_period = WC_Subscriptions_Order::get_recurring_total( $order );
-        $subscription_interval = WC_Subscriptions_Order::get_subscription_interval( $order );
-
-        $suscription = new Suscription_Payu_Latam_SPL();
-        $product = $suscription->getProductFromOrder($order);
-        $productName = $product['name'];
-        $produtName = $suscription->cleanCharacters($productName);
-        $planCode = $produtName . '-' .$product['product_id'];
-        $productName = $product['name'];
-
-
-        $plan = array(
-            'planinterval' => strtoupper($planinterval),
-            'value' => $price_per_period,
-            'productname' => $productName,
-            'plancode' => $planCode,
-            'periods' => $periods,
-            'trial_days' => $trial_days,
-            'interval' => $subscription_interval
-        );
-
-        $nameClient = $order->get_billing_first_name() ? $order->get_billing_first_name() : $order->get_shipping_first_name();
-        $lastname = $order->get_billing_last_name() ? $order->get_billing_last_name() : $order->get_shipping_last_name();
-        $emailClient = $order->get_billing_email();
-
-
-        $paramsClient = array(
-            'name' => "$nameClient $lastname",
-            'email' => $emailClient
-        );
-
-        $suscription->getPlan($planCode);
-        if (!$suscription->existPlan)
-            $suscription->createPlan($plan);
-        $id = $suscription->createClient($paramsClient);
-        $paramsCard = array_merge($paramsPayment, array('clientid' => $id));
-        $tokenCard = $suscription->createCard($paramsCard);
-
-
-        $responseStatus = array('status' => false, 'message' => __('An internal error has arisen, try again', 'subscription-payu-latam'));
-
-        if (!$tokenCard){
-            return $responseStatus;
-        }
-
-        $paramsSubscribe = array(
-            'clientid' => $id,
-            'plancode' => $planCode,
-            'tokenid' => $tokenCard,
-            'trialdays' => $trial_days,
-        );
-
-        $id = $suscription->createSubscriptionPayu($paramsSubscribe);
-
-        if (isset($id)){
-            $order->payment_complete($id);
-            $order->add_order_note(sprintf(__('Order is related to a subscription (Subscription ID: %s)',
-                'subscription-payu-latam'), $id));
-            WC_Subscriptions_Manager::activate_subscriptions_for_order( $order );
-            update_post_meta($order_id, 'subscription_payu_latam_id',$id);
-            $message   = sprintf(__('Successful subscription (subscription ID: %s)', 'subscription-payu-latam'),
-                $id);
-            $messageClass  = 'woocommerce-message';
-            $redirect_url = add_query_arg( array('msg'=> urlencode($message), 'type'=> $messageClass), $order->get_checkout_order_received_url() );
-            $responseStatus = array('status' => true, 'url' => $redirect_url);
-        }
-
-        return $responseStatus;
-
-    }
-
-    private function getWooCommerceSubscriptionFromOrderId($orderId)
-    {
-        $subscriptions = wcs_get_subscriptions_for_order($orderId);
-        return end($subscriptions);
-    }
-
     public function nameClean($domain = false)
     {
         $name = ($domain) ? str_replace(' ', '-', $this->name)  : str_replace(' ', '', $this->name);
         return strtolower($name);
+    }
+
+    public function log($message = '')
+    {
+        if (is_array($message) || is_object($message))
+            $message = print_r($message, true);
+        $this->logger->add('subscription-payu-latam', $message);
+    }
+
+    public function getDefaultCountry()
+    {
+        $woo_countries = new WC_Countries();
+        $default_country = $woo_countries->get_base_country();
+        return $default_country;
     }
 }
