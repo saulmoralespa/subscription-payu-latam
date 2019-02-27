@@ -38,7 +38,10 @@ class PayUSubscriptionsRequestUtil extends CommonRequestUtil{
 			$subscription->trialDays = CommonRequestUtil::getParameter($parameters, PayUParameters::TRIAL_DAYS);
 			$subscription->quantity = CommonRequestUtil::getParameter($parameters, PayUParameters::QUANTITY);
 			$subscription->installments = CommonRequestUtil::getParameter($parameters, PayUParameters::INSTALLMENTS_NUMBER);
-			
+			$subscription->extra1 = CommonRequestUtil::getParameter($parameters, PayUParameters::EXTRA1);
+			$subscription->notifyUrl = CommonRequestUtil::getParameter($parameters, PayUParameters::NOTIFY_URL);
+            $subscription->immediatePayment = CommonRequestUtil::getParameter($parameters, PayUParameters::IMMEDIATE_PAYMENT);
+
 			$customer = PayUSubscriptionsRequestUtil::buildCustomer($parameters);
 			
 			//creates the credit card object and associate to the customer

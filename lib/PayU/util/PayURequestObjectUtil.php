@@ -132,7 +132,7 @@ class PayURequestObjectUtil{
 				$data[$k] =  PayURequestObjectUtil::formatDates($data[$k]);
 			}
 		}
-		
+
 		return $data;
 	}
 	
@@ -144,7 +144,7 @@ class PayURequestObjectUtil{
 	private static function isKeyDateField($key){
 		$dateFields = array('EXPIRATION_DATE', 
 							'operationDate',
-							'currentPeriodStart', 
+							'currentPeriodStart',
 							'currentPeriodEnd',
 							'dateCharge');
 

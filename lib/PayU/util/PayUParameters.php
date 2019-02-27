@@ -188,6 +188,12 @@ class PayUParameters {
 	const TRIAL_DAYS = 'trialDays';
 	/** The quantity to purchase. */
 	const QUANTITY = 'quantity';
+
+
+    /**
+     * Execute the subscription immediately as a transaction
+     */
+	const IMMEDIATE_PAYMENT = 'immediatePayment';
 	
 	/** If the client accepted the terms and conditions document. */
 	const TERMS_AND_CONDITIONS_ACEPTED = "termsAndConditionsAcepted";
@@ -276,6 +282,16 @@ class PayUParameters {
 	 * The response page URL 
 	 */
 	const RESPONSE_URL = "responseUrl";
+
+    /**
+     *  Parameter extra1
+     */
+	const EXTRA1 = 'extra1';
+
+    /**
+     * Parameter extra2
+     */
+    const EXTRA2 = 'extra2';
 
 }
 

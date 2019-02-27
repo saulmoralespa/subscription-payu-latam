@@ -1,4 +1,4 @@
-    <?php
+<?php
 /**
  * Created by PhpStorm.
  * User: smp
@@ -34,9 +34,9 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
         $this->currency = get_woocommerce_currency();
 
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
-        add_action('woocommerce_subscription_status_cancelled', array(&$this, 'subscription_cancelled'));
-        add_action('woocommerce_available_payment_gateways', array(&$this, 'disable_non_subscription'), 20);
-
+        add_action('woocommerce_subscription_status_cancelled', array($this, 'subscription_cancelled'));
+        add_action('woocommerce_available_payment_gateways', array($this, 'disable_non_subscription'), 20);
+        add_action('woocommerce_api_'.strtolower(get_class($this)), array($this, 'confirmation_ipn'));
     }
 
 
@@ -140,13 +140,12 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
 
     public function subscription_cancelled($subscription)
     {
-        $orderIds = array_keys($subscription->get_related_orders());
-        $parentOrderId = $orderIds[0];
-        $suscription_id = get_post_meta( $parentOrderId, 'subscription_payu_latam_id', true );
-        if(!empty($suscription_id)){
-            $sucri = new Suscription_Payu_Latam_SPL();
-            $sucri->cancelSubscription($suscription_id);
-        }
+
+        $id = $subscription->get_id();
+        $suscription_id = get_post_meta( $id, 'subscription_payu_latam_id', true );
+
+        $sucri = new Suscription_Payu_Latam_SPL();
+        $sucri->cancelSubscription($suscription_id);
 
     }
 
@@ -162,5 +161,16 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
             }
         }
         return $availableGateways;
+    }
+
+    public function confirmation_ipn()
+    {
+        $body = file_get_contents('php://input');
+
+        parse_str($body, $data);
+
+        suscription_payu_latam_pls()->log($data);
+
+        header("HTTP/1.1 200 OK");
     }
 }
