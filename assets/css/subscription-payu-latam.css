@@ -1,27 +1,5 @@
-#card-payu-latam-suscribir{
-    z-index: 1;
-    position: relative;
-}
-#card-payu-latam-suscribir .overlay {
-    display: none;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    z-index: 2;
-    left: 0;
-    top: 0;
-    background-color: rgba(255,255,255, 0.9);
-    overflow-x: hidden;
-    transition: 0.5s;
-}
-
-#card-payu-latam-suscribir .overlay .overlay-text {
-    position: absolute;
-    top: 25%;
-    left: 50%;
-    font-size: 20px;
-}
-
-#card-payu-latam-suscribir .msj-error-payu{
-    display: none;
+@media (min-width: 320px) and (max-width: 480px) {
+    .jp-card {
+        min-width: 270px!important;
+    }
 }
