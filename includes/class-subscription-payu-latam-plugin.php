@@ -85,6 +85,7 @@ class Subscription_Payu_Latam_SPL_Plugin
         add_filter( 'woocommerce_payment_gateways', array($this, 'woocommerce_payu_latam_suscription_add_gateway'));
         add_filter( 'woocommerce_billing_fields', array($this, 'custom_woocommerce_billing_fields'));
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+        add_action( 'subscription_payu_latam_spl',array($this, 'update_status_subscriptions'));
     }
 
     public function plugin_action_links($links)
@@ -156,5 +157,59 @@ class Subscription_Payu_Latam_SPL_Plugin
         $woo_countries = new WC_Countries();
         $default_country = $woo_countries->get_base_country();
         return $default_country;
+    }
+
+    public function update_status_subscriptions()
+    {
+        $subscription_payU = new Suscription_Payu_Latam_SPL();
+
+        $subscriptions = wcs_get_subscriptions(array(
+            'subscriptions_per_page'    => -1,
+            'subscription_status'   => 'wc-pending'
+        ));
+
+        if (empty($subscriptions))
+            return;
+
+        foreach ($subscriptions as $subscription_get){
+            $id = $subscription_get->ID;
+            $subscription_id = get_post_meta($id,'subscription_payu_latam_id', true);
+            $data = $subscription_payU->statusSubscriptionPayu($subscription_id);
+
+            $subscription = new WC_Subscription($id);
+
+            $period_current = $this->first($data);
+
+
+            if ($period_current->state === 'PAID'){
+                $subscription->payment_complete();
+                $subscription->add_order_note(sprintf(__('(Reference of sale: %s)',
+                    'subscription-payu-latam'), $period_current->id));
+                continue;
+            }elseif ($period_current->state === 'NOT_PAID'){
+                $subscription->cancel_order(sprintf(__('(Canceled due to non-payment, sales reference: %s)',
+                    'subscription-payu-latam'), $period_current->id));
+                continue;
+            }
+        }
+
+    }
+
+    public function first($array)
+    {
+        if (!is_array($array)) return $array;
+        if (!count($array)) return null;
+        reset($array);
+        return $array[key($array)];
+    }
+
+
+    public function last($array)
+    {
+        if (!is_array($array)) return $array;
+        if (!count($array)) return null;
+        end($array);
+        return $array[key($array)];
+
     }
 }

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Payu Latam Subscription\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-16 00:10+0000\n"
-"PO-Revision-Date: 2019-02-16 00:22+0000\n"
+"POT-Creation-Date: 2019-02-27 17:17+0000\n"
+"PO-Revision-Date: 2019-02-27 17:21+0000\n"
 "Last-Translator: wpdev <cortuclas@gmail.com>\n"
 "Language-Team: Español de México\n"
 "Language: es_MX\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.2.0; wp-5.0.3"
+"X-Loco-Version: 2.2.0; wp-5.1"
 
 #: subscription-payu-latam.php:48
 msgid "Subscription Payu Latam: Requires php version 5.6.0 or higher."
@@ -71,7 +71,21 @@ msgid ""
 "of these countries Brazil, Colombia, Mexico and Peru "
 msgstr ""
 
-#: includes/class-subscription-payu-latam.php:516
+#: includes/class-subscription-payu-latam.php:169
+msgid "An internal error has arisen, try again"
+msgstr "Ha surgido un error interno, inténtalo de nuevo"
+
+#: includes/class-subscription-payu-latam.php:186
+#, php-format
+msgid "(Subscription ID: %s)"
+msgstr ""
+
+#: includes/class-subscription-payu-latam.php:189
+#, php-format
+msgid "Successful subscription (subscription ID: %s)"
+msgstr "Suscripción exitosa (suscripción ID: %s)"
+
+#: includes/class-subscription-payu-latam.php:438
 msgid ""
 "Currently Subscription Payu Latam does not support more than one product in "
 "the cart if one of the products is a subscription."
@@ -79,56 +93,52 @@ msgstr ""
 "Actualmente, Subscription Payu Latam no admite más de un producto en el "
 "carrito si uno de los productos es una suscripción."
 
-#: includes/class-subscription-payu-latam-plugin.php:90
+#: includes/class-subscription-payu-latam-plugin.php:94
 msgid "Settings"
 msgstr "Configuraciones"
 
-#: includes/class-subscription-payu-latam-plugin.php:91
+#: includes/class-subscription-payu-latam-plugin.php:95
 msgid "Documentation"
 msgstr "Documentación"
 
-#: includes/class-subscription-payu-latam-plugin.php:104
+#: includes/class-subscription-payu-latam-plugin.php:112
 msgid "DNI"
 msgstr "Documento Nacional de Identidad"
 
-#: includes/class-subscription-payu-latam-plugin.php:105
+#: includes/class-subscription-payu-latam-plugin.php:113
 msgctxt "placeholder"
 msgid "Your DNI here...."
 msgstr "Su DNI aquí ..."
 
-#: includes/class-subscription-payu-latam-plugin.php:124
+#: includes/class-subscription-payu-latam-plugin.php:133
 msgid "The type of card is not accepted"
 msgstr "El tipo de tarjeta no es aceptada"
 
-#: includes/class-subscription-payu-latam-plugin.php:125
+#: includes/class-subscription-payu-latam-plugin.php:134
 msgid "Enter the card information"
 msgstr "Ingrese la información de la tarjeta"
 
-#: includes/class-subscription-payu-latam-plugin.php:126
+#: includes/class-subscription-payu-latam-plugin.php:135
 msgid "Please wait..."
 msgstr "Espere por favor..."
 
-#: includes/class-subscription-payu-latam-plugin.php:127
+#: includes/class-subscription-payu-latam-plugin.php:136
 msgid "Redirecting to verify status..."
 msgstr "Redirigiendo para verificar el estado ..."
 
-#: includes/class-subscription-payu-latam-plugin.php:225
-msgid "An internal error has arisen, try again"
-msgstr "Ha surgido un error interno, inténtalo de nuevo"
-
-#: includes/class-subscription-payu-latam-plugin.php:242
+#: includes/class-subscription-payu-latam-plugin.php:186
 #, php-format
-msgid "Order is related to a subscription (Subscription ID: %s)"
-msgstr "Orden relacionada con una suscripción (suscripción ID: %s)"
+msgid "(Reference of sale: %s)"
+msgstr ""
 
-#: includes/class-subscription-payu-latam-plugin.php:246
+#: includes/class-subscription-payu-latam-plugin.php:190
 #, php-format
-msgid "Successful subscription (subscription ID: %s)"
-msgstr "Suscripción exitosa (suscripción ID: %s)"
+msgid "(Canceled due to non-payment, sales reference: %s)"
+msgstr ""
 
 #. Name of the plugin
 #: includes/class-gateway-subscription-payu-latam.php:15
-#: includes/admin/payu-settings.php:20 includes/admin/payu-settings.php:27
+#: includes/admin/payu-settings.php:22 includes/admin/payu-settings.php:29
 msgid "Subscription Payu Latam"
 msgstr ""
 
@@ -140,94 +150,102 @@ msgstr ""
 msgid "to subscribe"
 msgstr "Suscribirse"
 
-#: includes/class-gateway-subscription-payu-latam.php:68
+#: includes/class-gateway-subscription-payu-latam.php:69
 msgid ""
 "Could not perform any tests, because you have not entered all the required "
 "fields"
 msgstr ""
 
-#: includes/class-gateway-subscription-payu-latam.php:88
+#: includes/class-gateway-subscription-payu-latam.php:89
 msgid "Data of card"
 msgstr "Datos de la tarjeta"
 
-#: includes/class-gateway-subscription-payu-latam.php:89
+#: includes/class-gateway-subscription-payu-latam.php:90
 msgid "Card number"
 msgstr ""
 
-#: includes/class-gateway-subscription-payu-latam.php:90
+#: includes/class-gateway-subscription-payu-latam.php:91
 msgid "Cardholder"
 msgstr ""
 
-#: includes/admin/payu-settings.php:11
+#: includes/admin/payu-settings.php:9
+msgid "For tests use the credentials provided by payU latam"
+msgstr ""
+
+#: includes/admin/payu-settings.php:13
 msgid "Enable/Disable"
 msgstr "Activar/Desactivar"
 
-#: includes/admin/payu-settings.php:13
+#: includes/admin/payu-settings.php:15
 msgid "Enable Payu Latam Suscription"
 msgstr "Activar Payu Latam Subscription"
 
-#: includes/admin/payu-settings.php:17
+#: includes/admin/payu-settings.php:19
 msgid "Title"
 msgstr "Título"
 
-#: includes/admin/payu-settings.php:19
+#: includes/admin/payu-settings.php:21
 msgid "It corresponds to the title that the user sees during the checkout"
 msgstr "Corresponde al título que el usuario ve durante el pago"
 
-#: includes/admin/payu-settings.php:24
+#: includes/admin/payu-settings.php:26
 msgid "Description"
 msgstr "Descripción"
 
-#: includes/admin/payu-settings.php:26
+#: includes/admin/payu-settings.php:28
 msgid ""
 "It corresponds to the description that the user will see during the checkout"
 msgstr "Corresponde a la descripción que el usuario verá durante el pago"
 
-#: includes/admin/payu-settings.php:31
+#: includes/admin/payu-settings.php:33
 msgid "Debug"
 msgstr "Depurar"
 
-#: includes/admin/payu-settings.php:33
+#: includes/admin/payu-settings.php:35
 msgid "Debug records, it is saved in payment log"
 msgstr "Depurar registros, se guarda en el registro de pagos"
 
-#: includes/admin/payu-settings.php:37
+#: includes/admin/payu-settings.php:39
+msgid "Credentials"
+msgstr ""
+
+#: includes/admin/payu-settings.php:44
 msgid "Environment"
 msgstr "Entorno"
 
-#: includes/admin/payu-settings.php:40
+#: includes/admin/payu-settings.php:47
 msgid "Enable to run tests"
 msgstr "Activar las pruebas"
 
-#: includes/admin/payu-settings.php:44
+#: includes/admin/payu-settings.php:51
 msgid "Production"
 msgstr "Producción"
 
-#: includes/admin/payu-settings.php:45
+#: includes/admin/payu-settings.php:52
 msgid "Test"
 msgstr "Prueba"
 
-#: includes/admin/payu-settings.php:49
+#: includes/admin/payu-settings.php:56
 msgid "Merchant id"
 msgstr ""
 
-#: includes/admin/payu-settings.php:51
+#: includes/admin/payu-settings.php:58
 msgid "Merchant id, you find it in the payu account"
 msgstr "Merchant id,  lo encuentras en la cuenta payU"
 
-#: includes/admin/payu-settings.php:56
+#: includes/admin/payu-settings.php:63
 msgid "Account id"
 msgstr ""
 
-#: includes/admin/payu-settings.php:58
+#: includes/admin/payu-settings.php:65
 msgid "account id, you find it in the payu account"
 msgstr "ID de cuenta, lo encuentras en la cuenta payu"
 
-#: includes/admin/payu-settings.php:63
+#: includes/admin/payu-settings.php:70
 msgid "Apikey"
 msgstr ""
 
-#: includes/admin/payu-settings.php:71
+#: includes/admin/payu-settings.php:78
 msgid "Apilogin"
 msgstr ""
 

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Subscription Payu Latam\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-24 00:13+0000\n"
+"POT-Creation-Date: 2019-02-27 17:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -67,57 +67,67 @@ msgid ""
 "of these countries Brazil, Colombia, Mexico and Peru "
 msgstr ""
 
-#: includes/class-subscription-payu-latam.php:231
+#: includes/class-subscription-payu-latam.php:169
 msgid "An internal error has arisen, try again"
 msgstr ""
 
-#: includes/class-subscription-payu-latam.php:248
+#: includes/class-subscription-payu-latam.php:186
 #, php-format
-msgid "Order is related to a subscription (Subscription ID: %s)"
+msgid "(Subscription ID: %s)"
 msgstr ""
 
-#: includes/class-subscription-payu-latam.php:252
+#: includes/class-subscription-payu-latam.php:189
 #, php-format
 msgid "Successful subscription (subscription ID: %s)"
 msgstr ""
 
-#: includes/class-subscription-payu-latam.php:512
+#: includes/class-subscription-payu-latam.php:438
 msgid ""
 "Currently Subscription Payu Latam does not support more than one product in "
 "the cart if one of the products is a subscription."
 msgstr ""
 
-#: includes/class-subscription-payu-latam-plugin.php:93
+#: includes/class-subscription-payu-latam-plugin.php:94
 msgid "Settings"
 msgstr ""
 
-#: includes/class-subscription-payu-latam-plugin.php:94
+#: includes/class-subscription-payu-latam-plugin.php:95
 msgid "Documentation"
 msgstr ""
 
-#: includes/class-subscription-payu-latam-plugin.php:111
+#: includes/class-subscription-payu-latam-plugin.php:112
 msgid "DNI"
 msgstr ""
 
-#: includes/class-subscription-payu-latam-plugin.php:112
+#: includes/class-subscription-payu-latam-plugin.php:113
 msgctxt "placeholder"
 msgid "Your DNI here...."
 msgstr ""
 
-#: includes/class-subscription-payu-latam-plugin.php:132
+#: includes/class-subscription-payu-latam-plugin.php:133
 msgid "The type of card is not accepted"
 msgstr ""
 
-#: includes/class-subscription-payu-latam-plugin.php:133
+#: includes/class-subscription-payu-latam-plugin.php:134
 msgid "Enter the card information"
 msgstr ""
 
-#: includes/class-subscription-payu-latam-plugin.php:134
+#: includes/class-subscription-payu-latam-plugin.php:135
 msgid "Please wait..."
 msgstr ""
 
-#: includes/class-subscription-payu-latam-plugin.php:135
+#: includes/class-subscription-payu-latam-plugin.php:136
 msgid "Redirecting to verify status..."
+msgstr ""
+
+#: includes/class-subscription-payu-latam-plugin.php:186
+#, php-format
+msgid "(Reference of sale: %s)"
+msgstr ""
+
+#: includes/class-subscription-payu-latam-plugin.php:190
+#, php-format
+msgid "(Canceled due to non-payment, sales reference: %s)"
 msgstr ""
 
 #. Name of the plugin
