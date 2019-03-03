@@ -6,7 +6,7 @@
 **Plugin URI:**         https://wordpress.org/plugins/subscription-payu-latam/
 
 **Requires at least:**  5.0  
-**Tested up to:**       5.0
+**Tested up to:**       5.1
 
 **Stable tag:**         1.0.30
 
@@ -61,6 +61,10 @@ No. But it is advisable that you consider using it since it is revealing for bro
 You must go to the Woocommerce settings / finalize purchase / Payu Latam Subscription and change the testing environment.
 
 **Remember to try in the testing environment with the credentials offered by payU latam** [see credentials](http://developers.payulatam.com/es/sdk/sandbox.html "test credentials")
+
+### Why is not charging in the indicated interval ? ###
+
+**You can not change the price, interval and period of the subscription product once you have created it and you would have made at least the first subscription by a user**
 
 ### What should I take into account for production? ###
 
