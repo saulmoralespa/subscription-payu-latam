@@ -116,8 +116,8 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
         }catch (PayUException $ex){
             if($test){
                 suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $ex->getMessage());
-                do_action('notices_subscription_payu_latam_spl', sprintf(__('Subscription Payu Latam: Check that you have entered correctly merchant id, account id, Api Key, Apilogin. To perform tests use the credentials provided by payU %s Message error: %s code error: %s',
-                    'suscription-payu-latam'), '<a target="_blank" href="http://developers.payulatam.com/es/sdk/sandbox.html">' . __('Click here to see', 'suscription-payu-latam') . '</a>', $ex->getMessage(), $ex->getCode()));
+                $credentials = __('Subscription Payu Latam: Check that you have entered correctly merchant id, account id, Api Key, Apilogin. To perform tests use the credentials provided by payU ', 'subscription-payu-latam' )  . sprintf(__('%s Message error: %s code error: %s', 'subscription-payu-latam' ), '<a target="_blank" href="http://developers.payulatam.com/es/sdk/sandbox.html">' . __('Click here to configure', 'subscription-payu-latam') . '</a>', $ex->getMessage(), $ex->getCode() );
+                do_action('notices_subscription_payu_latam_spl', $credentials);
             }else{
                 suscription_payu_latam_pls()->logger->add("suscription-payu-latam", "execuete payment: " . $ex->getMessage());
                 suscription_payu_latam_pls()->logger->add("suscription-payu-latam", "execuete payment parse params: " . print_r($parameters, true));
@@ -136,17 +136,15 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
 
         $params_payment_card = $this->prepareDataCard($params);
 
-
-        $subscription = $this->getWooCommerceSubscriptionFromOrderId($order->get_id());
+        $subscription = $this->getWooCommerceSubscriptionFromOrderId($order_id);
 
         $billing = $this->paramsBilling($subscription);
 
-
         $product = $this->getProductFromOrder($order);
 
-        $plan_code_description = $this->getPlanByProduct($product);
+        $order_currency = $order->get_currency();
 
-        $plan_code = $plan_code_description['plan_code'];
+        $plan_code_description = $this->getPlanByProduct($product, $order_currency);
 
         $plan = array_merge($plan_code_description, $this->getTrialDays($subscription), $this->getPeriods($subscription), array(
             'plan_interval' => strtoupper($subscription->billing_period),
@@ -154,9 +152,9 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
             'interval' => WC_Subscriptions_Order::get_subscription_interval( $order )
         ));
 
-        $exist_plan = $this->getPlan($plan_code);
+        $plan_code = $plan_code_description['plan_code'];
 
-        if (!$exist_plan)
+        if (!$this->getPlan($plan_code))
             $this->createPlan($plan);
 
         $id = $this->createClient($billing);
@@ -171,7 +169,6 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
         if (!$token_card || !$id){
             return $response_status;
         }
-
 
         $paramsSubscribe = array_merge($params_card, $plan, array(
             'id_subscription'=>  $subscription->get_id(),
@@ -213,6 +210,7 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
 
         try{
             $response = PayUSubscriptionPlans::find($parameters);
+            suscription_payu_latam_pls()->log($response);
             if (isset($response->id)){
                 $existPlan = true;
             }
@@ -236,7 +234,7 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
             // Ingresa aquí la cantidad de intervalos
             PayUParameters::PLAN_INTERVAL_COUNT => $params['interval'],
             // Ingresa aquí la moneda para el plan
-            PayUParameters::PLAN_CURRENCY => $this->currency,
+            PayUParameters::PLAN_CURRENCY => $params['currency'],
             // Ingresa aquí el valor del plan
             PayUParameters::PLAN_VALUE => $params['value'],
             PayUParameters::PLAN_TAX => "0",
@@ -258,6 +256,7 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
 
         try{
             PayUSubscriptionPlans::create($parameters);
+            suscription_payu_latam_pls()->log($parameters);
         }catch (PayUException $ex){
             suscription_payu_latam_pls()->logger->add("suscription-payu-latam", "create plan: " . $ex->getMessage());
         }
@@ -482,6 +481,7 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
     public function cleanCharacters($string, $number = false)
     {
         $string = str_replace(' ', '-', $string);
+
         $patern = ($number)  ? '/[^0-9\-]/' :  '/[^A-Za-z0-9\-]/';
 
         return preg_replace($patern, '', $string);
@@ -560,18 +560,21 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
     }
 
 
-    public function getPlanByProduct($product)
+    public function getPlanByProduct($product, $order_currency)
     {
-        $productName = $product['name'];
-        $produtName = $this->cleanCharacters($productName);
+        $product_name = $product['name'];
+        $produt_name = $this->cleanCharacters($product_name);
         $product_id = $product['product_id'];
         $quantity =  $product['quantity'];
-        $planCode = $quantity > 1 ? "$produtName-$product_id-$quantity" : "$produtName-$product_id";
+        $planCode = "$produt_name-$product_id";
+        $planCode = $this->currency !== $order_currency ? "$planCode-$order_currency" : $planCode;
+        $planCode = $quantity > 1 ? "$planCode-$quantity" : "$planCode";
 
 
         return array(
             "plan_description" => "Plan $planCode",
-            "plan_code" => $planCode
+            "plan_code" => $planCode,
+            "currency" => $order_currency
         );
     }
 

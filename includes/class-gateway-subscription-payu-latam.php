@@ -169,8 +169,84 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
 
         parse_str($body, $data);
 
-        suscription_payu_latam_pls()->log($data);
+        $reference_sale = $data['reference_sale'];
+        $state_pol = $data['state_pol'];
+        $sign =  $data['sign'];
+        $value = $data['value'];
+
+        if (!empty($data['extra1'])){
+            $order_id = $data['extra1'];
+
+            $value = $this->formattedAmount($value, 1);
+
+            $subscription = new WC_Subscription($order_id);
+
+            $dataSign = [
+                'referenceSale' =>  $reference_sale,
+                'amount' =>  $value,
+                'currency' => $subscription->get_currency(),
+                'state_pol' => $state_pol
+            ];
+
+            $signatureOrder = $this->getSignCreate($dataSign);
+
+            $next_payment = $subscription->get_time( 'next_payment' );
+            $next_payment = $this->convertDate($next_payment);
+            $date_next_payment_payu = strtotime($data['date_next_payment']);
+            $date_next_payment_payu = $this->convertDate($date_next_payment_payu);
+            $period = $subscription->billing_period;
+
+            $days_passed = $this->differenceDays($next_payment, $date_next_payment_payu);
+
+            $note_reference_sale = sprintf(__('(Reference of sale: %s)',
+                'subscription-payu-latam'), $reference_sale);
+
+            if ($sign === $signatureOrder){
+
+                if ($subscription->get_status() === 'pending' && $state_pol === '4'){
+                    $subscription->payment_complete();
+                    $subscription->add_order_note($note_reference_sale);
+                }elseif ($subscription->get_status() === 'active' && ($state_pol !== '4' && $state_pol !== '7') && ($period === 'day' || $days_passed === 2)){
+                    $subscription->cancel_order($note_reference_sale);
+                }
+            }
+
+        }
 
         header("HTTP/1.1 200 OK");
+    }
+
+
+    public function formattedAmount($amount, $decimals = 2)
+    {
+        $amount = number_format($amount, $decimals,'.','');
+        return $amount;
+    }
+
+    public function getSignCreate(array $data = [])
+    {
+        return md5(
+        $this->apikey . "~" .
+            $this->merchant_id . "~" .
+            $data['referenceSale'] . "~".
+            $data['amount'] . "~".
+            $data['currency'] . "~".
+            $data['state_pol']
+        );
+    }
+
+    public function convertDate($time)
+    {
+        $date = date('Y/m/d', $time);
+        return $date;
+    }
+
+    public function differenceDays($date, $date1)
+    {
+        $dStart = new DateTime($date);
+        $dEnd  = new DateTime($date1);
+
+        $dDiff = $dStart->diff($dEnd);
+        return $dDiff->days;
     }
 }

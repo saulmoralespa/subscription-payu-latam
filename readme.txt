@@ -5,7 +5,7 @@ Tags: commerce, e-commerce, commerce, wordpress ecommerce, store, sales, sell, s
 Requires at least: 5.0
 Tested up to: 5.1
 Requires PHP: 5.6.0
-Stable tag: 1.0.29
+Stable tag: 1.0.30
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -33,25 +33,29 @@ Receive recurring payments for the countries Brazil, Colombia, Mexico and Peru
 
 == Frequently Asked Questions ==
 
-= Countries in which its use is available? =
+= Countries in which its use is available ? =
 
 Brazil, Colombia, Mexico and Peru
 
-= Are you required to use a ssl certificate? =
+= Are you required to use a ssl certificate ? =
 
 Si. But it is advisable that you consider using it since it is revealing for browsers
 
-= How do I prove its operation? =
+= How do I prove its operation ? =
 
 You must go to the Woocommerce settings / finalize purchase / Payu Latam Subscription and change the testing environment
 
 **Remember to try in the testing environment with the credentials offered by payU latam** [see credentials](http://developers.payulatam.com/es/sdk/sandbox.html "test credentials")
 
-= What should I take into account for production? =
+= What should I take into account for production ? =
 
 **Have the activation of the SDK**
 
-= ¿ What else should I keep in mind, that you have not told me ? =
+= Why is not charging in the indicated interval ? =
+
+**You can not change the price, interval and period of the subscription product once you have created it and you would have made at least the first subscription by a user**
+
+= What else should I keep in mind, that you have not told me ? =
 
 1. You need to use the [Woocommerce subscriptions](https://github.com/wp-premium/woocommerce-subscriptions "plugin")
 2. You must set the number of decimals to zero, see screenshots.
@@ -120,6 +124,8 @@ You must go to the Woocommerce settings / finalize purchase / Payu Latam Subscri
 * Verify status subscription pending for payment
 = 1.0.29 =
 * Added media query css for mobile
+= 1.0.30 =
+* Added subscription status change by confirmation page
 
 == Translations ==
 * English - default, always included
