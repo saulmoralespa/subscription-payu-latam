@@ -2,7 +2,7 @@
 /*
 Plugin Name: Subscription Payu Latam
 Description: payU latam subscription use sdk.
-Version: 1.0.30
+Version: 1.0.31
 Author: Saul Morales Pacheco
 Author URI: https://saulmoralespa.com
 License: GNU General Public License v3.0
@@ -16,7 +16,7 @@ WC requires at least: 2.6
 if (!defined( 'ABSPATH' )) exit;
 
 if(!defined('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION')){
-    define('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION', '1.0.30');
+    define('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION', '1.0.31');
 }
 
 add_action('plugins_loaded','subscription_payu_latam_spl_init',0);
@@ -104,7 +104,9 @@ function requeriments_subscription_payu_latam_spl(){
         return false;
     }
 
-    if (!in_array(get_woocommerce_currency(), array('USD','BRL','COP','MXN','PEN'))){
+    $shop_currency = get_option('woocommerce_currency');
+
+    if (!in_array($shop_currency, array('USD','BRL','COP','MXN','PEN'))){
         if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
             $currency = __('Subscription Payu Latam: Requires one of these currencies USD, BRL, COP, MXN, PEN ', 'subscription-payu-latam' )  . sprintf(__('%s', 'subscription-payu-latam' ), '<a href="' . admin_url() . 'admin.php?page=wc-settings&tab=general#s2id_woocommerce_currency">' . __('Click here to configure', 'subscription-payu-latam') . '</a>' );
             do_action('notices_subscription_payu_latam_spl', $currency);

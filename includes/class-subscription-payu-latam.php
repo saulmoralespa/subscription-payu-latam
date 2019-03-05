@@ -163,7 +163,6 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
 
         $token_card = $this->createCard($params_card);
 
-
         $response_status = array('status' => false, 'message' => __('An internal error has arisen, try again', 'subscription-payu-latam'));
 
         if (!$token_card || !$id){
@@ -210,7 +209,6 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
 
         try{
             $response = PayUSubscriptionPlans::find($parameters);
-            suscription_payu_latam_pls()->log($response);
             if (isset($response->id)){
                 $existPlan = true;
             }
@@ -256,7 +254,6 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
 
         try{
             PayUSubscriptionPlans::create($parameters);
-            suscription_payu_latam_pls()->log($parameters);
         }catch (PayUException $ex){
             suscription_payu_latam_pls()->logger->add("suscription-payu-latam", "create plan: " . $ex->getMessage());
         }
@@ -353,7 +350,6 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
 
         try{
             $subscribe = PayUSubscriptions::createSubscription($subscribete);
-            suscription_payu_latam_pls()->log($subscribe);
             return $subscribe->id;
         }catch(PayUException $e){
             suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'create subscription: ' . $e->getMessage());
@@ -569,7 +565,6 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
         $planCode = "$produt_name-$product_id";
         $planCode = $this->currency !== $order_currency ? "$planCode-$order_currency" : $planCode;
         $planCode = $quantity > 1 ? "$planCode-$quantity" : "$planCode";
-
 
         return array(
             "plan_description" => "Plan $planCode",
