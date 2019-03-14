@@ -133,7 +133,8 @@ class Subscription_Payu_Latam_SPL_Plugin
                 'msjNoCard' => __('The type of card is not accepted','subscription-payu-latam'),
                 'msjEmptyInputs' => __('Enter the card information','subscription-payu-latam'),
                 'msjProcess' => __('Please wait...','subscription-payu-latam'),
-                'msjReturn' => __('Redirecting to verify status...','subscription-payu-latam')
+                'msjReturn' => __('Redirecting to verify status...','subscription-payu-latam'),
+                'msjNoCardValidate' => __('Card number, invalid','subscription-payu-latam')
             ) );
             wp_enqueue_style('frontend-payu-latam-suscription', $this->plugin_url . 'assets/css/subscription-payu-latam.css', array(), $this->version, null);
         }

@@ -6,7 +6,35 @@
  * Time: 05:44 AM
  */
 
-$credentials = '<a target="_blank" href="' . esc_url('http://developers.payulatam.com/es/sdk/sandbox.html') . '">' . __( 'For tests use the credentials provided by payU latam', 'subscription-payu-latam' ) . '</a>';
+wc_enqueue_js( "
+    jQuery( function( $ ) {
+	
+	let subscription_payu_latam_live = '#woocommerce_subscription_payu_latam_merchant_id, #woocommerce_subscription_payu_latam_account_id, #woocommerce_subscription_payu_latam_apikey, #woocommerce_subscription_payu_latam_apilogin';
+	
+	let subscription_payu_latam_sandbox = '#woocommerce_subscription_payu_latam_sandbox_merchant_id, #woocommerce_subscription_payu_latam_sandbox_account_id, #woocommerce_subscription_payu_latam_sandbox_apikey, #woocommerce_subscription_payu_latam_sandbox_apilogin';
+	
+	
+	$( '#woocommerce_subscription_payu_latam_environment' ).change(function(){
+		
+		$( subscription_payu_latam_sandbox + ',' + subscription_payu_latam_live ).closest( 'tr' ).hide();	
+	
+		
+		if ( '0' === $( this ).val() ) {
+		    $( '#woocommerce_subscription_payu_latam_api, #woocommerce_subscription_payu_latam_api + p' ).show();
+			$( '#woocommerce_subscription_payu_latam_sandbox_api, #woocommerce_subscription_payu_latam_sandbox_api + p' ).hide();
+			$( subscription_payu_latam_live ).closest( 'tr' ).show();
+			
+		}else{
+		   $( '#woocommerce_subscription_payu_latam_api, #woocommerce_subscription_payu_latam_api + p' ).hide();
+		   $( '#woocommerce_subscription_payu_latam_sandbox_api, #woocommerce_subscription_payu_latam_sandbox_api + p' ).show();
+	   	   $( subscription_payu_latam_sandbox ).closest( 'tr' ).show();
+	
+		}
+	}).change();
+});	
+");
+
+$sandbox_credentials = '<a target="_blank" href="' . esc_url('http://developers.payulatam.com/es/sdk/sandbox.html') . '">' . __( 'For tests use the credentials provided by payU latam', 'subscription-payu-latam' ) . '</a>';
 
 return array(
     'enabled' => array(
@@ -35,11 +63,6 @@ return array(
         'label' => __('Debug records, it is saved in payment log', 'subscription-payu-latam'),
         'default' => 'no'
     ),
-    'api'          => array(
-        'title'       => __( 'Credentials', 'subscription-payu-latam'),
-        'type'        => 'title',
-        'description' => $credentials,
-    ),
     'environment' => array(
         'title' => __('Environment', 'subscription-payu-latam'),
         'type'        => 'select',
@@ -51,6 +74,11 @@ return array(
             false    => __( 'Production', 'subscription-payu-latam' ),
             true => __( 'Test', 'subscription-payu-latam' ),
         ),
+    ),
+    'api'          => array(
+        'title'       => __( 'Production credentials', 'subscription-payu-latam'),
+        'type'        => 'title',
+        'description' => __( 'Use the credentials of the payU account   ', 'subscription-payu-latam' ),
     ),
     'merchant_id' => array(
         'title' => __('Merchant id', 'subscription-payu-latam'),
@@ -82,4 +110,39 @@ return array(
         'desc_tip' => true,
         'placeholder' => ''
     ),
+    'sandbox_api'          => array(
+        'title'       => __( 'Sandbox credentials', 'subscription-payu-latam'),
+        'type'        => 'title',
+        'description' => $sandbox_credentials,
+    ),
+    'sandbox_merchant_id' => array(
+        'title' => __('Merchant id', 'subscription-payu-latam'),
+        'type'        => 'text',
+        'description' => __('Merchant id, you find it in the payu account', 'subscription-payu-latam'),
+        'desc_tip' => true,
+        'default' => '',
+    ),
+    'sandbox_account_id' => array(
+        'title' => __('Account id', 'subscription-payu-latam'),
+        'type'        => 'text',
+        'description' => __('account id, you find it in the payu account', 'subscription-payu-latam'),
+        'desc_tip' => true,
+        'default' => '',
+    ),
+    'sandbox_apikey' => array(
+        'title' => __('Apikey', 'subscription-payu-latam'),
+        'type' => 'text',
+        'description' => __('', 'subscription-payu-latam'),
+        'default' => '',
+        'desc_tip' => true,
+        'placeholder' => ''
+    ),
+    'sandbox_apilogin' => array(
+        'title' => __('Apilogin', 'subscription-payu-latam'),
+        'type' => 'text',
+        'description' => __('', 'subscription-payu-latam'),
+        'default' => '',
+        'desc_tip' => true,
+        'placeholder' => ''
+    )
 );

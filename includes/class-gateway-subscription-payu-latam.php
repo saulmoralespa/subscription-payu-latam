@@ -25,13 +25,21 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
         $this->init_settings();
         $this->title = $this->get_option('title');
 
-        $this->merchant_id  = $this->get_option( 'merchant_id' );
-        $this->account_id  = $this->get_option( 'account_id' );
-        $this->apikey  = $this->get_option( 'apikey' );
-        $this->apilogin  = $this->get_option( 'apilogin' );
         $this->isTest = $this->get_option( 'environment' );
         $this->debug = $this->get_option( 'debug' );
         $this->currency = get_option('woocommerce_currency');
+
+        if ($this->isTest){
+            $this->merchant_id  = $this->get_option( 'sandbox_merchant_id' );
+            $this->account_id  = $this->get_option( 'sandbox_account_id' );
+            $this->apikey  = $this->get_option( 'sandbox_apikey' );
+            $this->apilogin  = $this->get_option( 'sandbox_apilogin' );
+        }else{
+            $this->merchant_id  = $this->get_option( 'merchant_id' );
+            $this->account_id  = $this->get_option( 'account_id' );
+            $this->apikey  = $this->get_option( 'apikey' );
+            $this->apilogin  = $this->get_option( 'apilogin' );
+        }
 
         add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'process_admin_options'));
         add_action('woocommerce_subscription_status_cancelled', array($this, 'subscription_cancelled'));
