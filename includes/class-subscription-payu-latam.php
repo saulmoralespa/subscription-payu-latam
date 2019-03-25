@@ -157,15 +157,15 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
         if (!$this->getPlan($plan_code))
             $this->createPlan($plan);
 
-        $id = $this->createClient($billing);
+        $idCliente = $this->createClient($billing);
 
-        $params_card = array_merge($params_payment_card, $billing, array('client_id' => $id));
+        $params_card = array_merge($params_payment_card, $billing, array('client_id' => $idCliente ));
 
         $token_card = $this->createCard($params_card);
 
         $response_status = array('status' => false, 'message' => __('An internal error has arisen, try again', 'subscription-payu-latam'));
 
-        if (!$token_card || !$id){
+        if (!$token_card || !$idCliente){
             return $response_status;
         }
 
@@ -181,7 +181,8 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
             $order->update_status('pending');
             $subscription->add_order_note(sprintf(__('(Subscription ID: %s)',
                 'subscription-payu-latam'), $id));
-            update_post_meta($subscription->get_id(), 'subscription_payu_latam_id',$id);
+            update_post_meta($subscription->get_id(), 'subscription_payu_latam_id', $id);
+            update_post_meta($subscription->get_id(), 'subscription_payu_latam_id_client', $idCliente);
             $message   = sprintf(__('Successful subscription (subscription ID: %s)', 'subscription-payu-latam'),
                 $id);
             $messageClass  = 'woocommerce-message';
@@ -267,7 +268,7 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
             );
             PayUSubscriptionPlans::delete($parameters);
         }catch (PayUException $ex){
-            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'delete plan: ' . $ex->getMessage());
+            suscription_payu_latam_pls()->log('delete plan: ' . $ex->getMessage());
 
         }
     }
@@ -287,6 +288,19 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
         }
 
         return false;
+    }
+
+    public function deleteClient($id)
+    {
+        $parameters = array(
+            PayUParameters::CUSTOMER_ID => $id
+        );
+
+        try{
+            $response = PayUCustomers::delete($parameters);
+        }catch (PayUException $e){
+            suscription_payu_latam_pls()->logger->add('suscription-payu-latam', 'delete client: ' . $e->getMessage());
+        }
     }
 
     public function createCard($params)

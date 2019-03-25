@@ -25,7 +25,6 @@ jQuery( function( $ ) {
 
             let number_card = checkout_form.find('#subscriptionpayulatam_number').val();
             let card_holder = checkout_form.find('#subscriptionpayulatam_name').val();
-            let card_type = checkout_form.find('#subscriptionpayulatam_type').val();
             let card_expire = checkout_form.find('#subscriptionpayulatam_expiry').val();
             let card_cvv = checkout_form.find('#subscriptionpayulatam_cvc').val();
 

@@ -151,9 +151,11 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
 
         $id = $subscription->get_id();
         $suscription_id = get_post_meta( $id, 'subscription_payu_latam_id', true );
+        $idClient = get_post_meta($id, 'subscription_payu_latam_id_client', true);
 
         $sucri = new Suscription_Payu_Latam_SPL();
         $sucri->cancelSubscription($suscription_id);
+        $sucri->deleteClient($idClient);
 
     }
 
