@@ -77,8 +77,10 @@ class Subscription_Payu_Latam_SPL_Plugin
 
     protected function _run()
     {
+        require_once($this->includes_path . 'class-subscription-payu-latam-admin.php');
         require_once ($this->includes_path . 'class-gateway-subscription-payu-latam.php');
         require_once ($this->includes_path . 'class-subscription-payu-latam.php');
+        $this->admin = new Subscription_Payu_Latam_SPL_Admin();
         if (!class_exists('PayU'))
             require_once ($this->lib_path . 'PayU.php');
         add_filter( 'plugin_action_links_' . plugin_basename( $this->file), array( $this, 'plugin_action_links' ) );
@@ -136,7 +138,7 @@ class Subscription_Payu_Latam_SPL_Plugin
                 'msjReturn' => __('Redirecting to verify status...','subscription-payu-latam'),
                 'msjNoCardValidate' => __('Card number, invalid','subscription-payu-latam')
             ) );
-            wp_enqueue_style('frontend-payu-latam-suscription', $this->plugin_url . 'assets/css/subscription-payu-latam.css', array(), $this->version, null);
+            wp_enqueue_style('frontend-payu-latam-suscription', $this->plugin_url . 'assets/css/subscription-epayco.css', array(), $this->version, null);
         }
     }
 

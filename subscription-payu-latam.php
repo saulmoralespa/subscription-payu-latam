@@ -2,21 +2,21 @@
 /*
 Plugin Name: Subscription Payu Latam
 Description: payU latam subscription use sdk.
-Version: 1.0.33
+Version: 1.0.35
 Author: Saul Morales Pacheco
 Author URI: https://saulmoralespa.com
 License: GNU General Public License v3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Text Domain: subscription-payu-latam
 Domain Path: /languages/
-WC tested up to: 3.5
+WC tested up to: 3.6
 WC requires at least: 2.6
 */
 
 if (!defined( 'ABSPATH' )) exit;
 
 if(!defined('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION')){
-    define('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION', '1.0.33');
+    define('SUBSCRIPTION_PAYU_LATAM_SPL_VERSION', '1.0.35');
 }
 
 add_action('plugins_loaded','subscription_payu_latam_spl_init',0);
@@ -25,11 +25,14 @@ function subscription_payu_latam_spl_init(){
 
     load_plugin_textdomain('subscription-payu-latam', FALSE, dirname(plugin_basename(__FILE__)) . '/languages');
 
-    if (!requeriments_subscription_payu_latam_spl()){
-        return;
-    }
+    if (!requeriments_subscription_payu_latam_spl()) return;
 
     suscription_payu_latam_pls()->run_payu_latam();
+
+    if ( get_option( 'subscription_payu_latam_spl_redirect', false ) ) {
+        delete_option( 'subscription_payu_latam_spl_redirect' );
+        wp_redirect( admin_url( 'admin.php?page=subscription-payu-latam-install-setp' ) );
+    }
 }
 
 add_action('notices_subscription_payu_latam_spl', 'subscription_payu_latam_spl_notices', 10, 1);
@@ -46,7 +49,12 @@ function requeriments_subscription_payu_latam_spl(){
     if ( version_compare( '5.6.0', PHP_VERSION, '>' ) ) {
         if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
             $php = __( 'Subscription Payu Latam: Requires php version 5.6.0 or higher.', 'subscription-payu-latam' );
-            do_action('notices_subscription_payu_latam_spl', $php);
+            add_action(
+                'admin_notices',
+                function() use($php) {
+                    subscription_payu_latam_spl_notices($php);
+                }
+            );
         }
         return false;
     }
@@ -55,7 +63,12 @@ function requeriments_subscription_payu_latam_spl(){
 
     if ( ! defined( 'OPENSSL_VERSION_TEXT' ) ) {
         if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
-            do_action('notices_subscription_payu_latam_spl', $openssl_warning);
+            add_action(
+                'admin_notices',
+                function() use($openssl_warning) {
+                    subscription_payu_latam_spl_notices($openssl_warning);
+                }
+            );
         }
         return false;
     }
@@ -63,14 +76,24 @@ function requeriments_subscription_payu_latam_spl(){
     preg_match( '/^(?:Libre|Open)SSL ([\d.]+)/', OPENSSL_VERSION_TEXT, $matches );
     if ( empty( $matches[1] ) ) {
         if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
-            do_action('notices_subscription_payu_latam_spl', $openssl_warning);
+            add_action(
+                'admin_notices',
+                function() use($openssl_warning) {
+                    subscription_payu_latam_spl_notices($openssl_warning);
+                }
+            );
         }
         return false;
     }
 
     if ( ! version_compare( $matches[1], '1.0.1', '>=' ) ) {
         if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
-            do_action('notices_subscription_payu_latam_spl', $openssl_warning);
+            add_action(
+                'admin_notices',
+                function() use($openssl_warning) {
+                    subscription_payu_latam_spl_notices($openssl_warning);
+                }
+            );
         }
         return false;
     }
@@ -82,24 +105,38 @@ function requeriments_subscription_payu_latam_spl(){
     ) ) {
         if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
             $woo = __( 'Subscription Payu Latam: Woocommerce must be installed and active.', 'subscription-payu-latam' );
-            do_action('notices_subscription_payu_latam_spl', $woo);
+            add_action(
+                'admin_notices',
+                function() use($woo) {
+                    subscription_payu_latam_spl_notices($woo);
+                }
+            );
         }
         return false;
     }
 
     if (!class_exists('WC_Subscriptions')){
         if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
-            $subs = __( 'Subscription Payu Latam: Woocommerce Subscriptions must be installed and active, ', 'subscription-payu-latam' ) . sprintf(__('%s', 'subscription-payu-latam' ), '<a href="https://wordpress.org/plugins/subscription-payu-latam/#%C2%BF%20what%20else%20should%20i%20keep%20in%20mind%2C%20that%20you%20have%20not%20told%20me%20%3F">' . __('check the documentation for help', 'subscription-payu-latam') . '</a>' );
-            do_action('notices_subscription_payu_latam_spl', $subs);
+            $subs = __( 'Subscription Payu Latam: Woocommerce Subscriptions must be installed and active, ', 'subscription-payu-latam' ) . sprintf(__('%s', 'subscription-payu-latam' ), '<a href="https://wordpress.org/plugins/subscription-payu-latam/#what%20else%20should%20i%20keep%20in%20mind%2C%20that%20you%20have%20not%20told%20me%20%3F">' . __('check the documentation for help', 'subscription-payu-latam') . '</a>' );
+            add_action(
+                'admin_notices',
+                function() use($subs) {
+                    subscription_payu_latam_spl_notices($subs);
+                }
+            );
         }
-        return false;
     }
 
 
     if (version_compare(WC_VERSION, '3.0', '<')) {
         if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
             $wc_version = __( 'Subscription Payu Latam: Version 3.0 or greater of installed woocommerce is required.', 'subscription-payu-latam' );
-            do_action('notices_subscription_payu_latam_spl', $wc_version);
+            add_action(
+                'admin_notices',
+                function() use($wc_version) {
+                    subscription_payu_latam_spl_notices($wc_version);
+                }
+            );
         }
         return false;
     }
@@ -109,7 +146,12 @@ function requeriments_subscription_payu_latam_spl(){
     if (!in_array($shop_currency, array('USD','BRL','COP','MXN','PEN'))){
         if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
             $currency = __('Subscription Payu Latam: Requires one of these currencies USD, BRL, COP, MXN, PEN ', 'subscription-payu-latam' )  . sprintf(__('%s', 'subscription-payu-latam' ), '<a href="' . admin_url() . 'admin.php?page=wc-settings&tab=general#s2id_woocommerce_currency">' . __('Click here to configure', 'subscription-payu-latam') . '</a>' );
-            do_action('notices_subscription_payu_latam_spl', $currency);
+            add_action(
+                'admin_notices',
+                function() use($currency) {
+                    subscription_payu_latam_spl_notices($currency);
+                }
+            );
         }
         return false;
     }
@@ -119,7 +161,12 @@ function requeriments_subscription_payu_latam_spl(){
     if (!in_array($default_country, array('BR','CO','MX','PE'))){
         if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
             $country = __('Subscription Payu Latam: It requires that the country of the store be some of these countries Brazil, Colombia, Mexico and Peru ', 'subscription-payu-latam' )  . sprintf(__('%s', 'subscription-payu-latam' ), '<a href="' . admin_url() . 'admin.php?page=wc-settings&tab=general#s2id_woocommerce_currency">' . __('Click here to configure', 'subscription-payu-latam') . '</a>' );
-            do_action('notices_subscription_payu_latam_spl', $country);
+            add_action(
+                'admin_notices',
+                function() use($country) {
+                    subscription_payu_latam_spl_notices($country);
+                }
+            );
         }
         return false;
     }
@@ -138,6 +185,7 @@ function suscription_payu_latam_pls()
 
 function activation_subscription_payu_latam_spl(){
     wp_schedule_event( time(), 'hourly', 'subscription_payu_latam_spl' );
+    add_option( 'subscription_payu_latam_spl_redirect', true );
 }
 
 function deactivation_subscription_payu_latam_spl(){
