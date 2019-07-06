@@ -62,7 +62,7 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
             PayUParameters::BUYER_STREET => $billing['street'],
             PayUParameters::BUYER_STREET_2 => $billing['street2'],
             PayUParameters::BUYER_CITY => $billing['city'],
-            PayUParameters::BUYER_STATE => $billing['state'],
+              PayUParameters::BUYER_STATE => $billing['state'],
             PayUParameters::BUYER_COUNTRY => $country,
             PayUParameters::BUYER_POSTAL_CODE => $billing['postal_code'],
             PayUParameters::BUYER_PHONE => $billing['phone'],
@@ -112,15 +112,19 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
         if($country == 'CO')
             $parameters = array_merge($parameters, array(PayUParameters::TAX_VALUE => "0", PayUParameters::TAX_RETURN_BASE => "0"));
         try{
-            $response = PayUPayments::doAuthorizationAndCapture($parameters);
+            PayUPayments::doAuthorizationAndCapture($parameters);
         }catch (PayUException $ex){
             if($test){
                 suscription_payu_latam_pls()->logger->add('suscription-payu-latam', $ex->getMessage());
-                $credentials = __('Subscription Payu Latam: Check that you have entered correctly merchant id, account id, Api Key, Apilogin. To perform tests use the credentials provided by payU ', 'subscription-payu-latam' )  . sprintf(__('%s Message error: %s code error: %s', 'subscription-payu-latam' ), '<a target="_blank" href="http://developers.payulatam.com/es/sdk/sandbox.html">' . __('Click here to configure', 'subscription-payu-latam') . '</a>', $ex->getMessage(), $ex->getCode() );
+                $credentials = __('Subscription Payu Latam: Check that you have entered correctly merchant id, account id, Api Key, Apilogin. To perform tests use the credentials provided by payU ', 'subscription-payu-latam' )  .
+                    sprintf(__('%s Message error: %s code error: %s', 'subscription-payu-latam' ),
+                        '<a target="_blank" href="http://developers.payulatam.com/es/sdk/sandbox.html">' .
+                        __('Click here to configure', 'subscription-payu-latam') . '</a>', $ex->getMessage(), $ex->getCode() );
                 do_action('notices_subscription_payu_latam_spl', $credentials);
             }else{
                 suscription_payu_latam_pls()->logger->add("suscription-payu-latam", "execuete payment: " . $ex->getMessage());
-                suscription_payu_latam_pls()->logger->add("suscription-payu-latam", "execuete payment parse params: " . print_r($parameters, true));
+                suscription_payu_latam_pls()->logger->add("suscription-payu-latam", "execuete payment parse params: " .
+                    print_r($parameters, true));
                 return array('status' => false, 'message' => $ex->getMessage());
             }
         }
@@ -165,9 +169,8 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
 
         $response_status = array('status' => false, 'message' => __('An internal error has arisen, try again', 'subscription-payu-latam'));
 
-        if (!$token_card || !$idCliente){
+        if (!$token_card || !$idCliente)
             return $response_status;
-        }
 
         $paramsSubscribe = array_merge($params_card, $plan, array(
             'id_subscription'=>  $subscription->get_id(),
@@ -444,7 +447,8 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
         $count = $order->get_item_count();
         if ($count > 1)
         {
-            wc_add_notice(__('Currently Subscription Payu Latam does not support more than one product in the cart if one of the products is a subscription.', 'subscription-payu-latam'), 'error');
+            wc_add_notice(__('Currently Subscription Payu Latam does not support more than one product in the cart if one of the products is a subscription.',
+                'subscription-payu-latam'), 'error');
         }
 
         return array_values($products)[0];
@@ -561,7 +565,7 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
             $data['dni'] = get_post_meta( $subscription->get_id(), '_billing_dni', true );
             $name = $subscription->get_billing_first_name() ? $subscription->get_billing_first_name() : $subscription->get_shipping_first_name();
             $lastname = $subscription->get_billing_last_name() ? $subscription->get_billing_last_name() : $subscription->get_shipping_last_name();
-            $data['nameClient'] = "$name $lastname";
+            $data['name'] = "$name $lastname";
             $data['email'] = $subscription->get_billing_email();
         }
 

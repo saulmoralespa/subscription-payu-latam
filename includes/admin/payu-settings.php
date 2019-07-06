@@ -34,7 +34,8 @@ wc_enqueue_js( "
 });	
 ");
 
-$sandbox_credentials = '<a target="_blank" href="' . esc_url('http://developers.payulatam.com/es/sdk/sandbox.html') . '">' . __( 'For tests use the credentials provided by payU latam', 'subscription-payu-latam' ) . '</a>';
+$sandbox_credentials = '<a target="_blank" href="' . esc_url('http://developers.payulatam.com/es/sdk/sandbox.html') . '">' .
+    __( 'For tests use the credentials provided by payU latam', 'subscription-payu-latam' ) . '</a>';
 
 return array(
     'enabled' => array(
@@ -134,7 +135,7 @@ return array(
         'type' => 'text',
         'description' => __('', 'subscription-payu-latam'),
         'default' => '',
-        'desc_tip' => true,
+        'desc_tip' => true,     
         'placeholder' => ''
     ),
     'sandbox_apilogin' => array(

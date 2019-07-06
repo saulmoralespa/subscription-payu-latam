@@ -71,10 +71,15 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
         <p><?php echo $this->method_description; ?></p>
         <table class="form-table">
             <?php
-            if(!empty($this->get_option('merchant_id')) && !empty($this->get_option('account_id')) && !empty($this->get_option('apikey')) && !empty($this->get_option('apilogin'))){
+            if(!empty($this->get_option('merchant_id')) &&
+                !empty($this->get_option('account_id')) &&
+                !empty($this->get_option('apikey')) &&
+                !empty($this->get_option('apilogin'))){
                 $this->test_suscription_payu_latam();
             }else{
-                do_action('notices_subscription_payu_latam_spl', __('Could not perform any tests, because you have not entered all the required fields', 'subscription-payu-latam'));
+                do_action('notices_subscription_payu_latam_spl',
+                    __('Could not perform any tests, because you have not entered all the required fields',
+                        'subscription-payu-latam'));
             }
             $this->generate_settings_html();
             ?>
@@ -117,6 +122,8 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
 
     public function process_payment($order_id)
     {
+
+        suscription_payu_latam_pls()->log(print_r($_POST, true));
 
         $params = $_POST;
         $params['id_order'] = $order_id;
@@ -216,7 +223,9 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
                 if ($subscription->get_status() === 'pending' && $state_pol === '4'){
                     $subscription->payment_complete();
                     $subscription->add_order_note($note_reference_sale);
-                }elseif ($subscription->get_status() === 'active' && ($state_pol !== '4' && $state_pol !== '7') && ($period === 'day' || $days_passed === 2)){
+                }elseif ($subscription->get_status() === 'active' &&
+                    ($state_pol !== '4' && $state_pol !== '7') &&
+                    ($period === 'day' || $days_passed === 2)){
                     $subscription->cancel_order($note_reference_sale);
                 }
             }
