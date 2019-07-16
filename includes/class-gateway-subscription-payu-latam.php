@@ -6,7 +6,7 @@
  * Time: 12:09 PM
  */
 
-class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
+class WC_Payment_Subscription_Payu_Latam_SPL extends WC_Payment_Gateway
 {
     public function __construct()
     {
@@ -71,10 +71,10 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
         <p><?php echo $this->method_description; ?></p>
         <table class="form-table">
             <?php
-            if(!empty($this->get_option('merchant_id')) &&
-                !empty($this->get_option('account_id')) &&
-                !empty($this->get_option('apikey')) &&
-                !empty($this->get_option('apilogin'))){
+            if(!empty($this->merchant_id) &&
+                !empty($this->account_id) &&
+                !empty($this->apikey) &&
+                !empty($this->apilogin)){
                 $this->test_suscription_payu_latam();
             }else{
                 do_action('notices_subscription_payu_latam_spl',
@@ -91,9 +91,8 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
     public function payment_fields()
     {
 
-        if ( $description = $this->get_description() ) {
+        if ( $description = $this->get_description() )
             echo wp_kses_post( wpautop( wptexturize( $description ) ) );
-        }
 
         ?>
         <div id="card-payu-latam-suscribir">
@@ -128,7 +127,7 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
         $params = $_POST;
         $params['id_order'] = $order_id;
 
-        $suscription = new Suscription_Payu_Latam_SPL();
+        $suscription = new Subscription_Payu_Latam_SPL();
 
         $data = $suscription->subscription_payu_latam($params);
 
@@ -149,7 +148,7 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
 
     public function test_suscription_payu_latam()
     {
-        $sucri = new Suscription_Payu_Latam_SPL();
+        $sucri = new Subscription_Payu_Latam_SPL();
         $sucri->executePayment();
     }
 
@@ -160,7 +159,7 @@ class WC_Payment_Suscription_Payu_Latam_SPL extends WC_Payment_Gateway
         $suscription_id = get_post_meta( $id, 'subscription_payu_latam_id', true );
         $idClient = get_post_meta($id, 'subscription_payu_latam_id_client', true);
 
-        $sucri = new Suscription_Payu_Latam_SPL();
+        $sucri = new Subscription_Payu_Latam_SPL();
         $sucri->cancelSubscription($suscription_id);
         $sucri->deleteClient($idClient);
 

@@ -6,7 +6,7 @@ class Subscription_Payu_Latam_SPL_Admin
     public function __construct()
     {
         add_action( 'admin_menu', array($this, 'subscription_payu_latam_spl_menu'));
-        add_action( 'wp_ajax_subscription_payu_latam_spl',array($this,'subscription_payu_latam_spl_ajax'));
+        add_action( 'wp_ajax_subscription_payu_latam_spl', array($this,'subscription_payu_latam_spl_ajax'));
 
     }
 

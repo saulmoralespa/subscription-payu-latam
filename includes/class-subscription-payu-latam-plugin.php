@@ -63,14 +63,15 @@ class Subscription_Payu_Latam_SPL_Plugin
     public function run_payu_latam()
     {
         try{
-            if ($this->_bootstrapped){
-                throw new Exception( __( 'Subscription Payu Latam can only be called once',  $this->nameClean(true)));
-            }
+            if ($this->_bootstrapped)
+                throw new Exception( __( 'Subscription Payu Latam can only be called once',
+                    $this->nameClean(true)));
             $this->_run();
             $this->_bootstrapped = true;
         }catch (Exception $e){
             if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
-                do_action('notices_subscription_payu_latam_spl', 'Subscription Payu Latam: ' . $e->getMessage());
+                do_action('notices_subscription_payu_latam_spl', 'Subscription Payu Latam: ' .
+                    $e->getMessage());
             }
         }
     }
@@ -93,14 +94,16 @@ class Subscription_Payu_Latam_SPL_Plugin
     public function plugin_action_links($links)
     {
         $plugin_links = array();
-        $plugin_links[] = '<a href="'.admin_url( 'admin.php?page=wc-settings&tab=checkout&section=subscription_payu_latam').'">' . esc_html__( 'Settings', 'subscription-payu-latam' ) . '</a>';
-        $plugin_links[] = '<a href="https://saulmoralespa.github.io/subscription-payu-latam/">' . esc_html__( 'Documentation', 'subscription-payu-latam' ) . '</a>';
+        $plugin_links[] = '<a href="'.admin_url( 'admin.php?page=wc-settings&tab=checkout&section=subscription_payu_latam').'">' .
+            esc_html__( 'Settings', 'subscription-payu-latam' ) . '</a>';
+        $plugin_links[] = '<a href="https://saulmoralespa.github.io/subscription-payu-latam/">' .
+            esc_html__( 'Documentation', 'subscription-payu-latam' ) . '</a>';
         return array_merge( $plugin_links, $links );
     }
 
     public function woocommerce_payu_latam_suscription_add_gateway($methods)
     {
-        $methods[] = 'WC_Payment_Suscription_Payu_Latam_SPL';
+        $methods[] = 'WC_Payment_Subscription_Payu_Latam_SPL';
         return $methods;
     }
 
@@ -144,7 +147,8 @@ class Subscription_Payu_Latam_SPL_Plugin
 
     public function nameClean($domain = false)
     {
-        $name = ($domain) ? str_replace(' ', '-', $this->name)  : str_replace(' ', '', $this->name);
+        $name = ($domain) ? str_replace(' ', '-', $this->name)  :
+            str_replace(' ', '', $this->name);
         return strtolower($name);
     }
 
@@ -164,7 +168,7 @@ class Subscription_Payu_Latam_SPL_Plugin
 
     public function update_status_subscriptions()
     {
-        $subscription_payU = new Suscription_Payu_Latam_SPL();
+        $subscription_payU = new Subscription_Payu_Latam_SPL();
 
         $subscriptions = wcs_get_subscriptions(array(
             'subscriptions_per_page'    => -1,

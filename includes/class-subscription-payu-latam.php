@@ -6,7 +6,7 @@
  * Time: 10:04 AM
  */
 
-class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
+class Subscription_Payu_Latam_SPL extends  WC_Payment_Subscription_Payu_Latam_SPL
 {
 
     public function __construct()
@@ -150,7 +150,8 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
 
         $plan_code_description = $this->getPlanByProduct($product, $order_currency);
 
-        $plan = array_merge($plan_code_description, $this->getTrialDays($subscription), $this->getPeriods($subscription), array(
+        $plan = array_merge($plan_code_description, $this->getTrialDays($subscription),
+            $this->getPeriods($subscription), array(
             'plan_interval' => strtoupper($subscription->billing_period),
             'value' => WC_Subscriptions_Order::get_recurring_total( $order ),
             'interval' => WC_Subscriptions_Order::get_subscription_interval( $order )
@@ -446,10 +447,8 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
 
         $count = $order->get_item_count();
         if ($count > 1)
-        {
             wc_add_notice(__('Currently Subscription Payu Latam does not support more than one product in the cart if one of the products is a subscription.',
                 'subscription-payu-latam'), 'error');
-        }
 
         return array_values($products)[0];
     }
@@ -483,7 +482,7 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
     public function getIP()
     {
         return ($_SERVER['REMOTE_ADDR'] == '::1' || $_SERVER['REMOTE_ADDR'] == '::' ||
-                !preg_match('/^((?:25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9]).){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])$/m',
+                   !preg_match('/^((?:25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9]).){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])$/m',
                     $_SERVER['REMOTE_ADDR'])) ? '127.0.0.1' : $_SERVER['REMOTE_ADDR'];
     }
 
@@ -597,9 +596,8 @@ class Suscription_Payu_Latam_SPL extends  WC_Payment_Suscription_Payu_Latam_SPL
         $trial_end = $subscription->get_date('trial_end');
         $trial_days = "0";
 
-        if ($trial_end > 0 ){
+        if ($trial_end > 0 )
             $trial_days = (string)(strtotime($trial_end) - strtotime($trial_start)) / (60 * 60 * 24);
-        }
 
         return array(
             'trial_days' => $trial_days
